@@ -2,6 +2,7 @@
 
 import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Users, Sparkles, TrendingUp, Award } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -18,7 +19,7 @@ const features = [
     title: "Sejarah Rupiah",
     description: "Telusuri perjalanan sejarah mata uang Rupiah dari masa ke masa hingga bentuknya yang kita kenal saat ini.",
     icon: History,
-    href: "/sejarah",
+    href: "/edukasi?tab=sejarah",
   },
   {
     title: "Lomba & Kompetisi",
@@ -96,7 +97,7 @@ export default function HomePage() {
                     className="border-white/30 bg-white/5 text-white backdrop-blur-sm hover:bg-white/10 hover:border-white/40 transition-all duration-300"
                     asChild
                   >
-                    <Link href="/sejarah">
+                    <Link href="/edukasi?tab=sejarah">
                       Jelajahi Sejarah
                     </Link>
                   </Button>
@@ -117,24 +118,20 @@ export default function HomePage() {
                     <Sparkles className="h-5 w-5 text-white/60" />
                   </div>
                   
-                  {/* Main visual card */}
-                  <div className="relative mx-auto flex h-full w-full max-w-sm flex-col items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-10 shadow-2xl backdrop-blur-md">
-                    <div className="mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-primary/30 to-primary/10 ring-4 ring-primary/20">
-                      <Banknote className="h-12 w-12 text-white" />
-                    </div>
-                    <h3 className="mb-3 text-2xl font-bold text-white">Rupiah Indonesia</h3>
-                    <p className="text-center text-sm text-white/60 leading-relaxed">
-                      Mata uang resmi Republik Indonesia sejak
-                    </p>
-                    <div className="mt-8 flex gap-3">
-                      <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/70 backdrop-blur-sm">
-                        <Shield className="h-3.5 w-3.5 text-primary" />
-                        <span>Aman</span>
-                      </div>
-                      <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/70 backdrop-blur-sm">
-                        <Users className="h-3.5 w-3.5 text-primary" />
-                        <span>275M+</span>
-                      </div>
+                  {/* Main visual image */}
+                  <div className="relative mx-auto flex h-full w-full max-w-sm flex-col overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-2xl backdrop-blur-md group">
+                    <Image 
+                      src="/kantorbi.jpg" 
+                      alt="Kantor Bank Indonesia Lhokseumawe" 
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                      <h3 className="text-lg font-bold text-white mb-1">KPw Bank Indonesia Lhokseumawe</h3>
+                      <p className="text-xs text-white/75 leading-relaxed">
+                        Kantor Perwakilan Bank Indonesia Lhokseumawe
+                      </p>
                     </div>
                   </div>
                 </div>

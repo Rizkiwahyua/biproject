@@ -11,9 +11,8 @@ import Image from "next/image";
 const navLinks = [
   { href: "/", label: "Beranda" },
   { href: "/edukasi", label: "Edukasi" },
-  { href: "/sejarah", label: "Sejarah" },
+  { href: "/berita", label: "Berita" },
   { href: "/lomba", label: "Lomba" },
-
 ];
 
 export function Navbar() {
