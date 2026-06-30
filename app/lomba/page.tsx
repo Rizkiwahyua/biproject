@@ -1,69 +1,42 @@
-"use client"
+"use client";
+import { useEffect, useState } from "react";
+import { getLombas } from "@/lib/lomba";
+import { Lomba } from "@/types/lomba";
+import { formatTanggal } from "@/lib/date";
 
-import { Trophy, Users, Award, Calendar, ArrowRight, Sparkles } from "lucide-react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { EventCard } from "@/components/event-card"
-
-const events = [
-  {
-    title: "Lomba Video Kreatif Cinta Rupiah",
-    description: "Buat video kreatif tentang pentingnya mencintai dan menjaga keaslian Rupiah. Durasi video maksimal 3 menit dengan format MP4.",
-    date: "15 April - 30 Mei 2026",
-    location: "Online (Seluruh Indonesia)",
-    status: "ongoing" as const,
-  },
-  {
-    title: "Quiz Literasi Keuangan Nasional",
-    description: "Uji pengetahuan Anda tentang literasi keuangan dan mata uang Rupiah. Tersedia hadiah menarik untuk 100 peserta terbaik.",
-    date: "1 Juni - 15 Juni 2026",
-    location: "Online",
-    status: "upcoming" as const,
-  },
-  {
-    title: "Lomba Poster Digital",
-    description: "Desain poster digital dengan tema 'Rupiah Kebanggaanku'. Terbuka untuk pelajar SMA/SMK sederajat di seluruh Indonesia.",
-    date: "1 Juli - 31 Juli 2026",
-    location: "Online (Khusus Pelajar)",
-    status: "upcoming" as const,
-  },
-  {
-    title: "Kompetisi Essay Ekonomi",
-    description: "Tulis essay tentang peran mata uang dalam pembangunan ekonomi Indonesia. Panjang essay 2.000-3.000 kata.",
-    date: "1 Maret - 31 Maret 2026",
-    location: "Online",
-    status: "closed" as const,
-  },
-  {
-    title: "Hackathon Fintech Edukasi",
-    description: "Kembangkan aplikasi atau solusi teknologi untuk meningkatkan literasi keuangan masyarakat Indonesia.",
-    date: "10 Februari - 20 Februari 2026",
-    location: "Jakarta Convention Center",
-    status: "closed" as const,
-  },
-  {
-    title: "Lomba Karya Tulis Ilmiah",
-    description: "Kompetisi karya tulis ilmiah tentang kebijakan moneter dan dampaknya terhadap ekonomi mikro.",
-    date: "15 Januari - 28 Februari 2026",
-    location: "Online (Mahasiswa)",
-    status: "closed" as const,
-  },
-]
+import { Trophy, Users, Award, Calendar, ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import { EventCard } from "@/components/event-card";
 
 const stats = [
   { icon: Trophy, value: "50+", label: "Kompetisi Per Tahun" },
   { icon: Users, value: "100K+", label: "Total Peserta" },
   { icon: Award, value: "500+", label: "Pemenang" },
   { icon: Calendar, value: "12", label: "Bulan Aktif" },
-]
+];
 
 export default function LombaPage() {
+  const [events, setEvents] = useState<Lomba[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getLombas();
+        setEvents(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, []);
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      
+
       <main className="flex-1">
         {/* Header with Gradient */}
         <section className="relative overflow-hidden bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364]">
@@ -72,10 +45,10 @@ export default function LombaPage() {
             <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
             <div className="absolute -right-20 top-10 h-72 w-72 rounded-full bg-accent/15 blur-3xl animate-pulse-glow animation-delay-200" />
           </div>
-          
+
           {/* Grid pattern */}
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40" />
-          
+
           <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
             <div className="text-center animate-fade-in">
               <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
@@ -86,16 +59,15 @@ export default function LombaPage() {
                 Lomba & <span className="bg-gradient-to-r from-[#4ecdc4] via-[#44a8a1] to-[#2d8f8f] bg-clip-text text-transparent">Kompetisi</span>
               </h1>
               <p className="mx-auto max-w-2xl text-lg text-white/70 leading-relaxed">
-                Ikuti berbagai kompetisi menarik seputar literasi keuangan dan uang Rupiah. 
-                Tunjukkan kreativitas dan pengetahuan Anda untuk memenangkan hadiah menarik!
+                Ikuti berbagai kompetisi menarik seputar literasi keuangan dan uang Rupiah. Tunjukkan kreativitas dan pengetahuan Anda untuk memenangkan hadiah menarik!
               </p>
             </div>
           </div>
-          
+
           {/* Bottom wave */}
           <div className="absolute bottom-0 left-0 right-0">
             <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 60V30C240 50 480 60 720 60C960 60 1200 50 1440 30V60H0Z" className="fill-background"/>
+              <path d="M0 60V30C240 50 480 60 720 60C960 60 1200 50 1440 30V60H0Z" className="fill-background" />
             </svg>
           </div>
         </section>
@@ -128,17 +100,10 @@ export default function LombaPage() {
               <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Daftar Kompetisi</h2>
               <p className="mt-2 text-muted-foreground">Pilih kompetisi yang sesuai dengan minat dan kemampuan Anda</p>
             </div>
-            
+
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 stagger-children">
               {events.map((event) => (
-                <EventCard
-                  key={event.title}
-                  title={event.title}
-                  description={event.description}
-                  date={event.date}
-                  location={event.location}
-                  status={event.status}
-                />
+                <EventCard key={event.id} id={event.id} title={event.title} description={event.description} date={`${formatTanggal(event.release_date)} - ${formatTanggal(event.end_date)}`} location={event.location} status={event.status} />
               ))}
             </div>
           </div>
@@ -151,19 +116,16 @@ export default function LombaPage() {
               {/* Decorative elements */}
               <div className="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-primary/5 blur-3xl transition-all duration-500 group-hover:bg-primary/10" />
               <div className="absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-accent/5 blur-3xl transition-all duration-500 group-hover:bg-accent/10" />
-              
+
               <div className="relative">
                 <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-primary/20 to-primary/5 transition-all duration-300 group-hover:scale-110">
                   <Trophy className="h-10 w-10 text-primary" />
                 </div>
-                <h2 className="mb-4 text-2xl font-bold text-card-foreground sm:text-3xl lg:text-4xl">
-                  Ingin Mengadakan Kompetisi?
-                </h2>
+                <h2 className="mb-4 text-2xl font-bold text-card-foreground sm:text-3xl lg:text-4xl">Ingin Mengadakan Kompetisi?</h2>
                 <p className="mx-auto mb-8 max-w-xl text-muted-foreground leading-relaxed">
-                  Jika institusi Anda ingin berkolaborasi dengan Bank Indonesia dalam mengadakan kompetisi 
-                  literasi keuangan, silakan hubungi kami untuk informasi lebih lanjut.
+                  Jika institusi Anda ingin berkolaborasi dengan Bank Indonesia dalam mengadakan kompetisi literasi keuangan, silakan hubungi kami untuk informasi lebih lanjut.
                 </p>
-                <Button 
+                <Button
                   size="lg"
                   className="group/btn bg-gradient-to-r from-primary to-[#2d8f8f] text-white hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
                   asChild
@@ -181,5 +143,5 @@ export default function LombaPage() {
 
       <Footer />
     </div>
-  )
+  );
 }
