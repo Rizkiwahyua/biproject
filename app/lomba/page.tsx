@@ -4,7 +4,7 @@ import { getLombas } from "@/lib/lomba";
 import { Lomba } from "@/types/lomba";
 import { formatTanggal } from "@/lib/date";
 
-import { Trophy, Users, Award, Calendar, ArrowRight, Sparkles } from "lucide-react";
+import { Newspaper, Trophy, Users, Award, Calendar, ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/navbar";
@@ -33,6 +33,32 @@ export default function LombaPage() {
 
     fetchData();
   }, []);
+
+  if (events.length === 0) {
+    return (
+      <>
+        <Navbar />
+
+        <main className="flex-1 bg-background">
+          <section className="mx-auto flex min-h-[60vh] max-w-3xl items-center justify-center px-4">
+            <div className="rounded-2xl border bg-card p-10 text-center shadow-sm">
+              <Newspaper className="mx-auto mb-5 h-16 w-16 text-muted-foreground" />
+
+              <h2 className="text-2xl font-bold">Belum Ada Lomba</h2>
+
+              <p className="mt-3 text-muted-foreground">Saat ini belum tersedia Lomba yang dapat ditampilkan. Silakan kembali lagi nanti.</p>
+
+              <Button asChild className="mt-8">
+                <Link href="/">Kembali ke Beranda</Link>
+              </Button>
+            </div>
+          </section>
+        </main>
+
+        <Footer />
+      </>
+    );
+  }
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
