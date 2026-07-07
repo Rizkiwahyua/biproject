@@ -1,122 +1,24 @@
-"use client";
+import { getBeritas } from "@/lib/berita";
+import DetailBeritaClient from "./DetailBeritaClient";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-
-import { ArrowLeft, Calendar, User, Building2 } from "lucide-react";
-
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { getBerita } from "@/lib/berita";
-import { formatTanggal } from "@/lib/date";
-import { Berita } from "@/types/berita";
-
-const API_STORAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
-
-export default function DetailBeritaPage() {
-  const { id } = useParams();
-
-  const [berita, setBerita] = useState<Berita | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getBerita(Number(id));
-        setBerita(data);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (id) fetchData();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <main className="py-20 text-center">Memuat berita...</main>
-        <Footer />
-      </>
-    );
+export async function generateStaticParams() {
+  try {
+    const beritas = await getBeritas();
+    const params = beritas.map((berita) => ({
+      id: String(berita.id),
+    }));
+    return [...params, { id: "detail" }];
+  } catch (error) {
+    console.error("Gagal membuat static params berita:", error);
+    return [{ id: "detail" }];
   }
+}
 
-  if (!berita) {
-    return (
-      <>
-        <Navbar />
-        <main className="py-20 text-center">Berita tidak ditemukan.</main>
-        <Footer />
-      </>
-    );
-  }
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
 
-  return (
-    <>
-      <Navbar />
-
-      <main className="bg-background">
-        {/* HEADER */}
-
-        <section className="border-b bg-gradient-to-r from-primary/10 to-accent/10">
-          <div className="mx-auto max-w-5xl px-4 py-12">
-            <Link href="/berita" className="mb-6 inline-flex items-center gap-2 text-primary hover:underline">
-              <ArrowLeft size={18} />
-              Kembali ke daftar berita
-            </Link>
-
-            <h1 className="text-4xl font-bold leading-tight">{berita.title}</h1>
-
-            <div className="mt-6 flex flex-wrap gap-6 text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Calendar size={18} />
-                {formatTanggal(berita.published_at)}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <User size={18} />
-                {berita.author}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Building2 size={18} />
-                {berita.source}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* IMAGE */}
-
-        {berita.image && (
-          <section className="mx-auto max-w-5xl px-4 pt-10">
-            <img src={`${API_STORAGE}/${berita.image}`} alt={berita.title} className="w-full rounded-xl border object-cover" />
-          </section>
-        )}
-
-        {/* CONTENT */}
-
-        <section className="mx-auto max-w-5xl px-4 py-12">
-          <article className="rounded-xl border bg-card p-8 shadow-sm">
-            <div
-              className="
-                prose
-                prose-neutral
-                max-w-none
-                prose-headings:font-bold
-                prose-img:rounded-xl
-              "
-              dangerouslySetInnerHTML={{
-                __html: berita.content,
-              }}
-            />
-          </article>
-        </section>
-      </main>
-
-      <Footer />
-    </>
-  );
+export default async function DetailBeritaPage({ params }: PageProps) {
+  const { id } = await params;
+  return <DetailBeritaClient id={id} />;
 }

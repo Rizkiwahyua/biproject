@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -24,10 +24,10 @@ export function Navbar() {
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
 
-        <Link href="/" className="group flex items-center gap-3 transition-opacity hover:opacity-80">
-          <Image src="/BIlogo.png" alt="Logo BI" width={180} height={150} className="h-auto" />
-
-          <Image src="/logocbp.png" alt="Logo CBP" width={140} height={130} className="h-auto" />
+        <Link href="/" className="group flex items-center gap-2 sm:gap-3 transition-opacity hover:opacity-80 shrink-0">
+          <Image src="/BIlogo.png" alt="Logo BI" width={140} height={40} className="h-6 sm:h-9 w-auto object-contain" />
+          <Image src="/logocbp.png" alt="Logo CBP" width={110} height={35} className="h-6 sm:h-9 w-auto object-contain" />
+          <Image src="/3e.png" alt="Logo EEE" width={40} height={40} className="h-8 sm:h-10 w-auto object-contain hidden sm:block" />
         </Link>
 
         {/* Desktop Navigation */}
@@ -81,6 +81,27 @@ export function Navbar() {
             </Link>
           </Button>
         </nav>
+      </div>
+
+      {/* Ticker Banner */}
+      <div className="border-t border-border/50 bg-primary/5 py-2 overflow-hidden text-xs text-foreground font-semibold">
+        <div className="relative flex overflow-x-hidden w-full">
+          <div className="animate-marquee flex gap-16 whitespace-nowrap">
+            {/* Set 1 */}
+            <span className="flex items-center gap-2"><Sparkles className="h-3.5 w-3.5 text-accent animate-pulse" /> INFO TERKINI: Kampanye Literasi Keuangan KPw Bank Indonesia Lhokseumawe</span>
+            <span className="flex items-center gap-2">🪙 CINTA RUPIAH: Kenali, Rawat, dan Jaga Rupiah Kita</span>
+            <span className="flex items-center gap-2">🇮🇩 BANGGA RUPIAH: Rupiah sebagai Simbol Kedaulatan Negara</span>
+            <span className="flex items-center gap-2">💡 PAHAM RUPIAH: Pahami Penggunaan dan Pengelolaan Keuangan dengan BIjak</span>
+            <span className="flex items-center gap-2">🏆 LOMBA LITERASI: Ikuti kompetisi literasi keuangan TE 2022 terbaru!</span>
+            
+            {/* Set 2 for seamless looping */}
+            <span className="flex items-center gap-2"><Sparkles className="h-3.5 w-3.5 text-accent animate-pulse" /> INFO TERKINI: Kampanye Literasi Keuangan KPw Bank Indonesia Lhokseumawe</span>
+            <span className="flex items-center gap-2">🪙 CINTA RUPIAH: Kenali, Rawat, dan Jaga Rupiah Kita</span>
+            <span className="flex items-center gap-2">🇮🇩 BANGGA RUPIAH: Rupiah sebagai Simbol Kedaulatan Negara</span>
+            <span className="flex items-center gap-2">💡 PAHAM RUPIAH: Pahami Penggunaan dan Pengelolaan Keuangan dengan BIjak</span>
+            <span className="flex items-center gap-2">🏆 LOMBA LITERASI: Ikuti kompetisi literasi keuangan TE 2022 terbaru!</span>
+          </div>
+        </div>
       </div>
     </header>
   );

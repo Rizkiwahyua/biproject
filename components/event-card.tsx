@@ -34,10 +34,38 @@ const statusConfig = {
 export function EventCard({ id, title, description, date, location, status, className }: EventCardProps) {
   const statusInfo = statusConfig[status];
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    e.currentTarget.style.setProperty("--mouse-x", `${x}px`)
+    e.currentTarget.style.setProperty("--mouse-y", `${y}px`)
+  }
+
   return (
-    <div className={cn("group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1", className)}>
-      {/* Background gradient on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+    <div 
+      onMouseMove={handleMouseMove}
+      className={cn("group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 shadow-sm transition-all duration-300 hover:border-primary/20 hover:shadow-xl hover:-translate-y-1", className)}
+    >
+      {/* Spotlight Background Glow */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: `radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), color-mix(in srgb, var(--primary) 8%, transparent), transparent 80%)`
+        }}
+      />
+      
+      {/* Spotlight Border Glow */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
+        style={{
+          border: '1px solid transparent',
+          backgroundImage: `linear-gradient(var(--card), var(--card)), radial-gradient(250px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), color-mix(in srgb, var(--primary) 40%, var(--accent) 30%), transparent 80%)`,
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'padding-box, border-box',
+          margin: '-1px',
+        }}
+      />
 
       {/* Decorative accent */}
       <div className="absolute -right-10 -top-10 h-20 w-20 rounded-full bg-primary/5 transition-all duration-500 group-hover:scale-150 group-hover:bg-primary/10" />

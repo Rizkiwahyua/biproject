@@ -2,7 +2,7 @@ import { apiFetch } from "./api";
 import { Lomba } from "@/types/lomba";
 import { ApiCollection, ApiItem } from "@/types/api";
 
-const API_URL_POST = process.env.NEXT_PUBLIC_API_URL;
+const API_URL_POST = process.env.NEXT_PUBLIC_API_URL || "https://cbprupiahlsm.id/admin-cbp/public/api/v1";
 
 export async function getLombas(): Promise<Lomba[]> {
   const response = await apiFetch<ApiCollection<Lomba>>("/lombas");

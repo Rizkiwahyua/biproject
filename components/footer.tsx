@@ -1,11 +1,12 @@
 import Link from "next/link"
-import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react"
+import Image from "next/image"
+import { Mail, Phone, MapPin, ArrowUpRight, Instagram } from "lucide-react"
 
 const footerLinks = {
   navigasi: [
     { href: "/", label: "Beranda" },
     { href: "/edukasi", label: "Edukasi" },
-    { href: "/sejarah", label: "Sejarah" },
+    { href: "/berita", label: "Berita" },
     { href: "/lomba", label: "Lomba" },
   ],
   resources: [
@@ -27,8 +28,13 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-[#2d8f8f] shadow-lg shadow-primary/25">
-                <span className="text-lg font-bold text-white">BI</span>
+              <div className="relative h-12 w-12 shrink-0">
+                <Image
+                  src="/indonesia-logo.svg"
+                  alt="Logo Bank Indonesia"
+                  fill
+                  className="object-contain"
+                />
               </div>
               <div>
                 <p className="font-semibold text-foreground">Kantor Perwakilan Bank Indonesia Lhokseumawe</p>
@@ -38,6 +44,17 @@ export function Footer() {
             <p className="mt-5 text-sm text-muted-foreground leading-relaxed">
               Kampanye literasi keuangan Bank Indonesia untuk meningkatkan pemahaman masyarakat tentang uang Rupiah.
             </p>
+            <div className="mt-4 flex gap-4">
+              <Link
+                href="https://www.instagram.com/cbp_rupiah_lsm/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary/20 hover:scale-105 transition-all duration-200"
+                aria-label="Instagram CBP Rupiah Lhokseumawe"
+              >
+                <Instagram className="h-5 w-5" />
+              </Link>
+            </div>
           </div>
 
           {/* Navigation Links */}
