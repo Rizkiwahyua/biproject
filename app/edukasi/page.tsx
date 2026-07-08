@@ -1,103 +1,18 @@
-"use client"
+"use client";
 
-import { useState, useEffect, Suspense } from "react"
-import { useSearchParams } from "next/navigation"
-import { 
-  Banknote, 
-  Shield, 
-  Wallet, 
-  PiggyBank, 
-  CreditCard, 
-  TrendingUp,
-  FileText,
-  AlertTriangle,
-  CheckCircle,
-  Sparkles,
-  BookOpen,
-  History,
-  Download
-} from "lucide-react"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { apiFetch } from "@/lib/api"
-import { TopicCard } from "@/components/topic-card"
-import { TimelineItem } from "@/components/timeline-item"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog"
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { Shield, Wallet, FileText, CheckCircle, Sparkles, BookOpen, History, Download } from "lucide-react";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import { apiFetch } from "@/lib/api";
+import { TopicCard } from "@/components/topic-card";
+import { TimelineItem } from "@/components/timeline-item";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
-const topics = [
-  {
-    title: "Mengenal Uang Rupiah",
-    description: "Pelajari karakteristik dan ciri-ciri uang Rupiah yang berlaku di Indonesia",
-    icon: Banknote,
-    pdfPath: "/materi_cbp.pdf",
-    details: "Materi ini membahas secara mendalam sejarah perkembangan uang Rupiah, fungsi dan perannya dalam perekonomian, karakteristik desain, pecahan uang kertas dan logam, serta makna filosofis budaya Indonesia yang tercermin di setiap lembar mata uang kita.",
-    focus: ["Sejarah Rupiah", "Karakteristik & Desain", "Pecahan Kertas & Logam", "Makna Kebudayaan"]
-  },
-  {
-    title: "Ciri Keaslian Uang",
-    description: "Ketahui cara membedakan uang asli dan palsu dengan teknik 3D (Dilihat, Diraba, Diterawang)",
-    icon: Shield,
-    pdfPath: "/materi_cbp.pdf",
-    details: "Panduan praktis mengenali ciri keaslian uang Rupiah (CIKUR) menggunakan metode 3D (Dilihat, Diraba, Diterawang). Mempelajari fitur pengaman canggih seperti benang pengaman mikro, cetak intaglio kasar, gambar tersembunyi (latent image), serta teknologi color shifting ink.",
-    focus: ["Teknik 3D CIKUR", "Benang Pengaman Mikro", "Cetak Intaglio Kasar", "Color Shifting Ink"]
-  },
-  {
-    title: "Pengelolaan Keuangan",
-    description: "Tips dan trik mengelola keuangan pribadi dengan bijak dan efektif",
-    icon: Wallet,
-    pdfPath: "/materi_cbp.pdf",
-    details: "Edukasi tentang perencanaan keuangan, pembuatan anggaran bulanan yang bijak (budgeting), memilah kebutuhan dasar dari keinginan impulsif, strategi menyisihkan dana darurat, serta cara melacak pengeluaran untuk menjaga stabilitas finansial jangka panjang.",
-    focus: ["Budgeting Bulanan", "Kebutuhan vs Keinginan", "Dana Darurat", "Stabilitas Finansial"]
-  },
-  {
-    title: "Menabung & Investasi",
-    description: "Panduan dasar menabung dan memulai investasi untuk masa depan",
-    icon: PiggyBank,
-    pdfPath: "/materi_cbp.pdf",
-    details: "Materi dasar mengenai pentingnya menabung sejak dini, memahami konsep bunga majemuk (compound interest), pengenalan instrumen investasi berisiko rendah hingga tinggi (seperti Surat Berharga Negara, Reksa Dana, Saham), serta pentingnya diversifikasi portofolio.",
-    focus: ["Manfaat Tabungan", "Bunga Majemuk", "Instrumen Reksa Dana", "Diversifikasi Portofolio"]
-  },
-  {
-    title: "Transaksi Non-Tunai",
-    description: "Memahami berbagai metode pembayaran digital yang aman dan nyaman",
-    icon: CreditCard,
-    pdfPath: "/materi_kebanksentralan.pdf",
-    details: "Membahas ekosistem pembayaran digital di Indonesia, termasuk penggunaan QRIS (Quick Response Code Indonesian Standard), Dompet Elektronik (E-Wallet), Mobile Banking, serta tips bertransaksi non-tunai secara aman untuk menghindari kejamannya siber.",
-    focus: ["QRIS Standard", "Keamanan Dompet Digital", "E-Wallet & M-Banking", "Keamanan Siber"]
-  },
-  {
-    title: "Inflasi & Ekonomi",
-    description: "Pahami konsep inflasi dan dampaknya terhadap perekonomian sehari-hari",
-    icon: TrendingUp,
-    pdfPath: "/materi_kebanksentralan.pdf",
-    details: "Menjelaskan konsep inflasi secara sederhana, faktor penyebab kenaikan harga barang dan jasa, dampaknya terhadap daya beli masyarakat, serta bagaimana Bank Indonesia menggunakan instrumen kebijakan moneter untuk mengendalikan inflasi demi menjaga kestabilan rupiah.",
-    focus: ["Penyebab Kenaikan Harga", "Pengendalian Inflasi", "Kebijakan Moneter BI", "Daya Beli Masyarakat"]
-  },
-  {
-    title: "Perencanaan Keuangan",
-    description: "Langkah-langkah membuat rencana keuangan untuk mencapai tujuan finansial",
-    icon: FileText,
-    pdfPath: "/materi_kebanksentralan.pdf",
-    details: "Panduan komprehensif menyusun rencana keuangan berdasarkan siklus hidup (financial life cycle), menentukan tujuan jangka pendek, menengah, dan panjang, mengelola utang secara produktif, serta pentingnya perlindungan asuransi dan dana pensiun.",
-    focus: ["Financial Life Cycle", "Tujuan Jangka Panjang", "Perlindungan Asuransi", "Perencanaan Dana Pensiun"]
-  },
-  {
-    title: "Waspadai Penipuan",
-    description: "Kenali modus penipuan keuangan dan cara melindungi diri dari kejahatan finansial",
-    icon: AlertTriangle,
-    pdfPath: "/materi_kebanksentralan.pdf",
-    details: "Edukasi perlindungan konsumen untuk mengenali berbagai modus penipuan keuangan terkini (phishing, social engineering, investasi bodong, pinjol ilegal), langkah pengamanan data pribadi perbankan (OTP, PIN, Password), dan kemana harus melapor jika menjadi korban.",
-    focus: ["Modus Phishing & Pinjol", "Proteksi Password & OTP", "Langkah Pengamanan Diri", "Pelaporan Konsumen"]
-  },
-]
+import type { ApiCollection, Edukasi } from "@/types/api";
 
 const timelineData = [
   {
@@ -145,7 +60,7 @@ const timelineData = [
     title: "Uang Rupiah Kertas Tahun Emisi 2022",
     description: "Bank Indonesia meluncurkan uang Rupiah kertas tahun emisi 2022 dengan fitur keamanan yang ditingkatkan dan desain yang diperbarui untuk mempersulit pemalsuan.",
   },
-]
+];
 
 const funFacts = [
   {
@@ -163,49 +78,80 @@ const funFacts = [
     title: "Uang Kertas",
     description: "Terdapat 7 pecahan uang kertas yang beredar: Rp1.000, Rp2.000, Rp5.000, Rp10.000, Rp20.000, Rp50.000, dan Rp100.000.",
   },
-]
+];
+
+type SelectedEdukasi = {
+  title: string;
+  description: string;
+  content: string;
+  icon: typeof FileText;
+  file: string | null;
+  link: string | null;
+};
+
+function getYoutubeEmbedUrl(url: string | null) {
+  if (!url) return null;
+
+  try {
+    const parsedUrl = new URL(url);
+
+    if (parsedUrl.hostname.includes("youtu.be")) {
+      const videoId = parsedUrl.pathname.replace("/", "");
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    if (parsedUrl.hostname.includes("youtube.com")) {
+      const videoId = parsedUrl.searchParams.get("v");
+      return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+    }
+
+    return url;
+  } catch {
+    return null;
+  }
+}
 
 function EdukasiContent() {
-  const searchParams = useSearchParams()
-  const tabParam = searchParams.get("tab")
-  const [activeTab, setActiveTab] = useState("materi")
-  const [selectedTopic, setSelectedTopic] = useState<typeof topics[number] | null>(null)
-  const [apiMateri, setApiMateri] = useState<any[]>([])
-  const [loadingMateri, setLoadingMateri] = useState(true)
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab");
+  const [activeTab, setActiveTab] = useState("materi");
+  const [selectedTopic, setSelectedTopic] = useState<SelectedEdukasi | null>(null);
+  const [apiMateri, setApiMateri] = useState<Edukasi[]>([]);
+  const [loadingMateri, setLoadingMateri] = useState(true);
 
   useEffect(() => {
-    apiFetch<any[]>("/edukasi-materi")
-      .then((data) => {
-        setApiMateri(data)
-        setLoadingMateri(false)
+    apiFetch<ApiCollection<Edukasi>>("/edukasis")
+      .then((response) => {
+        setApiMateri(response.data);
+        setLoadingMateri(false);
       })
       .catch((err) => {
-        console.error("Gagal mengambil data materi:", err)
-        setLoadingMateri(false)
-      })
-  }, [])
+        console.error("Gagal mengambil data edukasi:", err);
+        setLoadingMateri(false);
+      });
+  }, []);
 
   useEffect(() => {
     if (tabParam === "sejarah") {
-      setActiveTab("sejarah")
+      setActiveTab("sejarah");
     } else {
-      setActiveTab("materi")
+      setActiveTab("materi");
     }
-  }, [tabParam])
+  }, [tabParam]);
 
   const handleTabChange = (value: string) => {
-    setActiveTab(value)
+    setActiveTab(value);
     if (typeof window !== "undefined") {
-      const url = new URL(window.location.href)
-      url.searchParams.set("tab", value)
-      window.history.pushState({}, "", url.toString())
+      const url = new URL(window.location.href);
+      url.searchParams.set("tab", value);
+      window.history.pushState({}, "", url.toString());
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      
+
       <main className="flex-1">
         {/* Header with Gradient */}
         <section className="relative overflow-hidden bg-gradient-to-br from-[#02152c] via-[#082a52] to-[#1e3a5f] pb-24 pt-16 sm:pb-28 sm:pt-20 lg:pb-32">
@@ -214,10 +160,10 @@ function EdukasiContent() {
             <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
             <div className="absolute -right-20 top-10 h-72 w-72 rounded-full bg-accent/15 blur-3xl animate-pulse-glow animation-delay-200" />
           </div>
-          
+
           {/* Grid pattern */}
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40" />
-          
+
           <div className="relative mx-auto max-w-7xl px-4 text-center">
             <div className="animate-fade-in">
               <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
@@ -245,17 +191,17 @@ function EdukasiContent() {
                 )}
               </h1>
               <p className="mx-auto max-w-2xl text-lg text-white/70 leading-relaxed transition-all duration-300">
-                {activeTab === "materi" 
+                {activeTab === "materi"
                   ? "Tingkatkan pengetahuan Anda tentang literasi keuangan dan mata uang Rupiah melalui berbagai materi edukasi yang kami sediakan."
                   : "Telusuri sejarah panjang mata uang Rupiah dari masa awal kemerdekaan hingga era modern, mencerminkan perjalanan ekonomi bangsa Indonesia."}
               </p>
             </div>
           </div>
-          
+
           {/* Bottom wave */}
           <div className="absolute bottom-0 left-0 right-0">
             <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 60V30C240 50 480 60 720 60C960 60 1200 50 1440 30V60H0Z" className="fill-background"/>
+              <path d="M0 60V30C240 50 480 60 720 60C960 60 1200 50 1440 30V60H0Z" className="fill-background" />
             </svg>
           </div>
         </section>
@@ -263,22 +209,15 @@ function EdukasiContent() {
         {/* Tabs System */}
         <section className="bg-background relative -mt-10 z-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            
             <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
               {/* Tab Selector */}
               <div className="flex justify-center mb-12">
                 <TabsList className="grid w-full max-w-md grid-cols-2 p-1 bg-card border border-border/80 rounded-2xl h-14 shadow-lg shadow-black/5">
-                  <TabsTrigger 
-                    value="materi" 
-                    className="rounded-xl py-2.5 text-base font-semibold transition-all duration-300 data-[state=active]:bg-primary data-[state=active]:text-white cursor-pointer"
-                  >
+                  <TabsTrigger value="materi" className="rounded-xl py-2.5 text-base font-semibold transition-all duration-300 data-[state=active]:bg-primary data-[state=active]:text-white cursor-pointer">
                     <BookOpen className="h-4 w-4 mr-2" />
                     Materi Edukasi
                   </TabsTrigger>
-                  <TabsTrigger 
-                    value="sejarah" 
-                    className="rounded-xl py-2.5 text-base font-semibold transition-all duration-300 data-[state=active]:bg-primary data-[state=active]:text-white cursor-pointer"
-                  >
+                  <TabsTrigger value="sejarah" className="rounded-xl py-2.5 text-base font-semibold transition-all duration-300 data-[state=active]:bg-primary data-[state=active]:text-white cursor-pointer">
                     <History className="h-4 w-4 mr-2" />
                     Sejarah Rupiah
                   </TabsTrigger>
@@ -290,15 +229,30 @@ function EdukasiContent() {
                 <div className="animate-fade-in">
                   {/* Topics Grid */}
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 stagger-children">
-                    {topics.map((topic) => (
-                      <TopicCard
-                        key={topic.title}
-                        title={topic.title}
-                        description={topic.description}
-                        icon={topic.icon}
-                        onClick={() => setSelectedTopic(topic)}
-                      />
-                    ))}
+                    {loadingMateri ? (
+                      <p className="text-muted-foreground">Memuat data edukasi...</p>
+                    ) : apiMateri.length === 0 ? (
+                      <p className="text-muted-foreground">Belum ada data edukasi.</p>
+                    ) : (
+                      apiMateri.map((materi) => (
+                        <TopicCard
+                          key={materi.id}
+                          title={materi.judul}
+                          description={materi.deskripsi}
+                          icon={FileText}
+                          onClick={() =>
+                            setSelectedTopic({
+                              title: materi.judul,
+                              description: materi.deskripsi,
+                              content: materi.content,
+                              icon: FileText,
+                              file: materi.file,
+                              link: materi.link,
+                            })
+                          }
+                        />
+                      ))
+                    )}
                   </div>
 
                   {/* Additional Info Section (3D & 5J) */}
@@ -306,80 +260,92 @@ function EdukasiContent() {
                     {/* Teknik 3D */}
                     <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1">
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                      
+
                       <div className="relative">
                         <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 transition-all duration-300 group-hover:scale-110">
                           <Shield className="h-7 w-7 text-primary" />
                         </div>
                         <h3 className="mb-3 text-xl font-semibold text-card-foreground">Teknik 3D</h3>
-                        <p className="text-muted-foreground leading-relaxed">
-                          Cara mudah mengecek keaslian uang Rupiah:
-                        </p>
+                        <p className="text-muted-foreground leading-relaxed">Cara mudah mengecek keaslian uang Rupiah:</p>
                         <ul className="mt-5 space-y-3">
                           <li className="flex items-start gap-3 text-sm text-muted-foreground">
                             <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
                               <CheckCircle className="h-3 w-3 text-primary" />
                             </div>
-                            <span><strong className="text-foreground">Dilihat</strong> - Perhatikan gambar tersembunyi, benang pengaman, dan gambar saling isi</span>
+                            <span>
+                              <strong className="text-foreground">Dilihat</strong> - Perhatikan gambar tersembunyi, benang pengaman, dan gambar saling isi
+                            </span>
                           </li>
                           <li className="flex items-start gap-3 text-sm text-muted-foreground">
                             <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
                               <CheckCircle className="h-3 w-3 text-primary" />
                             </div>
-                            <span><strong className="text-foreground">Diraba</strong> - Rasakan tekstur cetak intaglio yang kasar pada bagian tertentu</span>
+                            <span>
+                              <strong className="text-foreground">Diraba</strong> - Rasakan tekstur cetak intaglio yang kasar pada bagian tertentu
+                            </span>
                           </li>
                           <li className="flex items-start gap-3 text-sm text-muted-foreground">
                             <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
                               <CheckCircle className="h-3 w-3 text-primary" />
                             </div>
-                            <span><strong className="text-foreground">Diterawang</strong> - Lihat tanda air dan fitur pengaman saat diterawangkan ke cahaya</span>
+                            <span>
+                              <strong className="text-foreground">Diterawang</strong> - Lihat tanda air dan fitur pengaman saat diterawangkan ke cahaya
+                            </span>
                           </li>
                         </ul>
                       </div>
                     </div>
-                    
+
                     {/* Teknik 5J */}
                     <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-accent/30 hover:shadow-xl hover:-translate-y-1">
                       <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                      
+
                       <div className="relative">
                         <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 transition-all duration-300 group-hover:scale-110">
                           <Wallet className="h-7 w-7 text-accent" />
                         </div>
                         <h3 className="mb-3 text-xl font-semibold text-card-foreground">Teknik 5J</h3>
-                        <p className="text-muted-foreground leading-relaxed">
-                          Cara mencintai uang Rupiah:
-                        </p>
+                        <p className="text-muted-foreground leading-relaxed">Cara mencintai uang Rupiah:</p>
                         <ul className="mt-5 space-y-3">
                           <li className="flex items-start gap-3 text-sm text-muted-foreground">
                             <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
                               <CheckCircle className="h-3 w-3 text-accent" />
                             </div>
-                            <span><strong className="text-foreground">Jangan Dilipat</strong> - Mencegah kerusakan serat kertas dan menjaga uang tidak lusuh.</span>
+                            <span>
+                              <strong className="text-foreground">Jangan Dilipat</strong> - Mencegah kerusakan serat kertas dan menjaga uang tidak lusuh.
+                            </span>
                           </li>
                           <li className="flex items-start gap-3 text-sm text-muted-foreground">
                             <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
                               <CheckCircle className="h-3 w-3 text-accent" />
                             </div>
-                            <span><strong className="text-foreground">Jangan Dicoret</strong> - Menjaga kebersihan dan memastikan uang tetap sah.</span>
+                            <span>
+                              <strong className="text-foreground">Jangan Dicoret</strong> - Menjaga kebersihan dan memastikan uang tetap sah.
+                            </span>
                           </li>
                           <li className="flex items-start gap-3 text-sm text-muted-foreground">
                             <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
                               <CheckCircle className="h-3 w-3 text-accent" />
                             </div>
-                            <span><strong className="text-foreground">Jangan Diremas</strong> - Menghindari kerusakan fisik seperti kerutan atau sobekan.</span>
+                            <span>
+                              <strong className="text-foreground">Jangan Diremas</strong> - Menghindari kerusakan fisik seperti kerutan atau sobekan.
+                            </span>
                           </li>
                           <li className="flex items-start gap-3 text-sm text-muted-foreground">
                             <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
                               <CheckCircle className="h-3 w-3 text-accent" />
                             </div>
-                            <span><strong className="text-foreground">Jangan Distapler</strong> - Mencegah lubang atau kerusakan struktur kertas.</span>
+                            <span>
+                              <strong className="text-foreground">Jangan Distapler</strong> - Mencegah lubang atau kerusakan struktur kertas.
+                            </span>
                           </li>
                           <li className="flex items-start gap-3 text-sm text-muted-foreground">
                             <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
                               <CheckCircle className="h-3 w-3 text-accent" />
                             </div>
-                            <span><strong className="text-foreground">Jangan Dibasahi</strong> - Menghindari jamur atau kerusakan tinta pada uang.</span>
+                            <span>
+                              <strong className="text-foreground">Jangan Dibasahi</strong> - Menghindari jamur atau kerusakan tinta pada uang.
+                            </span>
                           </li>
                         </ul>
                       </div>
@@ -391,18 +357,11 @@ function EdukasiContent() {
               {/* Tab Content: Sejarah Rupiah */}
               <TabsContent value="sejarah" className="outline-none focus:outline-none">
                 <div className="animate-fade-in">
-                  
                   {/* Timeline section */}
                   <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
                     <div className="relative stagger-children">
                       {timelineData.map((item, index) => (
-                        <TimelineItem
-                          key={item.year}
-                          year={item.year}
-                          title={item.title}
-                          description={item.description}
-                          isLast={index === timelineData.length - 1}
-                        />
+                        <TimelineItem key={item.year} year={item.year} title={item.title} description={item.description} isLast={index === timelineData.length - 1} />
                       ))}
                     </div>
                   </div>
@@ -418,160 +377,22 @@ function EdukasiContent() {
                     </div>
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 stagger-children">
                       {funFacts.map((fact) => (
-                        <div 
-                          key={fact.title}
-                          className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1"
-                        >
+                        <div key={fact.title} className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1">
                           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                           <div className="absolute -right-8 -top-8 h-16 w-16 rounded-full bg-primary/5 transition-all duration-500 group-hover:scale-[3] group-hover:bg-primary/10" />
-                          
+
                           <div className="relative">
                             <p className="mb-2 text-3xl font-bold bg-gradient-to-r from-primary to-[#3b82f6] bg-clip-text text-transparent">{fact.value}</p>
                             <h3 className="mb-2 text-lg font-semibold text-card-foreground">{fact.title}</h3>
-                            <p className="text-sm text-muted-foreground leading-relaxed">
-                              {fact.description}
-                            </p>
+                            <p className="text-sm text-muted-foreground leading-relaxed">{fact.description}</p>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
-
                 </div>
               </TabsContent>
             </Tabs>
-
-          </div>
-        </section>
-
-        {/* Video Edukasi & Download Section */}
-        <section className="bg-muted/30 border-t border-border/50 py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            {/* Embed Video Youtube */}
-            <div className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-10 shadow-sm transition-all duration-300 hover:shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              <div className="relative grid gap-8 lg:grid-cols-12 items-center">
-                <div className="lg:col-span-5">
-                  <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
-                    <Sparkles className="h-3 w-3" />
-                    Video Pembelajaran
-                  </span>
-                  <h3 className="mb-4 text-2xl font-bold text-foreground">Sosialisasi Cinta, Bangga, Paham Rupiah</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                    Saksikan video sosialisasi resmi dari Bank Indonesia untuk memahami lebih lanjut pentingnya mencintai, menjaga, dan memahami uang Rupiah sebagai simbol kedaulatan bangsa Indonesia.
-                  </p>
-                </div>
-                <div className="lg:col-span-7 aspect-video w-full overflow-hidden rounded-2xl border border-border bg-black shadow-lg relative">
-                  <iframe
-                    className="absolute inset-0 w-full h-full"
-                    src="https://www.youtube.com/embed/j-cw_ozfayQ"
-                    title="Video Edukasi Cinta Bangga Paham Rupiah"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              </div>
-            </div>
-
-            {/* Download Materi Section */}
-            <div className="mt-16">
-              <div className="mb-8 text-center lg:text-left">
-                <h3 className="text-2xl font-bold text-foreground">Unduh Materi Pembelajaran</h3>
-                <p className="text-sm text-muted-foreground mt-1">Dapatkan buku panduan dan materi presentasi resmi dari Bank Indonesia</p>
-              </div>
-
-              {loadingMateri ? (
-                <div className="grid gap-6 md:grid-cols-2">
-                  <div className="animate-pulse bg-muted h-24 rounded-2xl border border-border/50"></div>
-                  <div className="animate-pulse bg-muted h-24 rounded-2xl border border-border/50"></div>
-                </div>
-              ) : apiMateri.length === 0 ? (
-                // Fallback static files if database is empty
-                <div className="grid gap-6 md:grid-cols-2">
-                  {/* Materi CBP */}
-                  <div 
-                    onClick={() => setSelectedTopic({
-                      title: "Materi Cinta Bangga Paham Rupiah",
-                      description: "PDF (9.1 MB) • Buku Panduan Lengkap 2025",
-                      icon: FileText,
-                      pdfPath: "/materi_cbp.pdf",
-                      details: "Buku panduan lengkap Cinta, Bangga, Paham Rupiah (CBP) diterbitkan resmi oleh Bank Indonesia sebagai acuan edukasi masyarakat mengenai literasi mata uang Rupiah."
-                    })}
-                    className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
-                        <FileText className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-foreground">Materi Cinta Bangga Paham Rupiah</h4>
-                        <p className="text-xs text-muted-foreground">PDF (9.1 MB) • Buku Panduan Lengkap 2025</p>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
-                      Preview
-                    </Button>
-                  </div>
-
-                  {/* Materi Kebanksentralan */}
-                  <div 
-                    onClick={() => setSelectedTopic({
-                      title: "Materi Kebanksentralan (BI Talk)",
-                      description: "PDF (2.7 MB) • Presentasi Edukasi 2025",
-                      icon: FileText,
-                      pdfPath: "/materi_kebanksentralan.pdf",
-                      details: "Materi presentasi kebanksentralan (BI Talk) yang membahas peran, tugas, dan fungsi Bank Indonesia sebagai bank sentral dalam menjaga stabilitas nilai Rupiah."
-                    })}
-                    className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
-                        <FileText className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-foreground">Materi Kebanksentralan (BI Talk)</h4>
-                        <p className="text-xs text-muted-foreground">PDF (2.7 MB) • Presentasi Edukasi 2025</p>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
-                      Preview
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                // Dynamic loaded files from Laravel API
-                <div className="grid gap-6 md:grid-cols-2">
-                  {apiMateri.map((materi) => (
-                    <div 
-                      key={materi.id}
-                      onClick={() => setSelectedTopic({
-                        title: materi.title,
-                        description: materi.description,
-                        icon: FileText,
-                        pdfPath: materi.pdfPath,
-                        details: materi.details || "Materi Pembelajaran Resmi dari Bank Indonesia"
-                      })}
-                      className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
-                          <FileText className="h-6 w-6" />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-foreground">{materi.title}</h4>
-                          <p className="text-xs text-muted-foreground">{materi.description}</p>
-                        </div>
-                      </div>
-                      <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
-                        Preview
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
           </div>
         </section>
       </main>
@@ -587,63 +408,133 @@ function EdukasiContent() {
                   </span>
                   {selectedTopic.title}
                 </DialogTitle>
-                <DialogDescription className="text-muted-foreground text-sm mt-1">
-                  {selectedTopic.description}
-                </DialogDescription>
+                <DialogDescription className="text-muted-foreground text-sm mt-1">{selectedTopic.description}</DialogDescription>
+                <div
+                  className="mb-5 prose prose-sm max-w-none text-muted-foreground"
+                  dangerouslySetInnerHTML={{
+                    __html: selectedTopic.content,
+                  }}
+                />
               </DialogHeader>
 
-              {/* PDF Preview Frame */}
-              <div className="flex-1 min-h-[300px] w-full relative rounded-2xl border border-border bg-muted overflow-hidden shadow-inner flex items-center justify-center">
-                <iframe
-                  src={selectedTopic.pdfPath}
-                  className="w-full h-full border-0 absolute inset-0 z-0"
-                  title={selectedTopic.title}
-                />
+              <div className="flex-1 overflow-y-auto space-y-6 pr-1">
+                {selectedTopic.file && (
+                  <div>
+                    <h3 className="mb-3 text-lg font-semibold text-foreground">Materi PDF</h3>
+
+                    <div className="h-[500px] overflow-hidden rounded-2xl border border-border bg-muted shadow-inner">
+                      <iframe src={selectedTopic.file} className="h-full w-full border-0" title={`${selectedTopic.title} PDF`} />
+                    </div>
+                  </div>
+                )}
+
+                {selectedTopic.link && (
+                  <div>
+                    <h3 className="mb-3 text-lg font-semibold text-foreground">Video Edukasi</h3>
+
+                    <div className="overflow-hidden rounded-2xl border border-border bg-black shadow-lg">
+                      <div className="aspect-video w-full">
+                        <iframe
+                          src={getYoutubeEmbedUrl(selectedTopic.link) ?? selectedTopic.link}
+                          className="h-full w-full"
+                          title={`${selectedTopic.title} Video`}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {/* Action Buttons */}
               <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4 border-t border-border/80 shrink-0">
-                <Button variant="outline" onClick={() => setSelectedTopic(null)} className="cursor-pointer">
+                <Button variant="outline" onClick={() => setSelectedTopic(null)}>
                   Tutup
                 </Button>
-                
-                {/* Preview in New Tab Button */}
-                <Button variant="secondary" className="cursor-pointer" asChild>
-                  <a href={selectedTopic.pdfPath} target="_blank" rel="noopener noreferrer">
-                    Preview di Tab Baru
-                  </a>
-                </Button>
 
-                {/* Direct Download Button */}
-                <Button className="group bg-[#CF1A25] text-white hover:bg-[#CF1A25]/90 transition-all duration-300 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30" asChild>
-                  <a href={selectedTopic.pdfPath} download={selectedTopic.pdfPath.replace("/", "")} className="cursor-pointer">
-                    <Download className="mr-2 h-4 w-4" />
-                    Unduh PDF
-                  </a>
-                </Button>
+                {selectedTopic.file && (
+                  <Button variant="secondary" asChild>
+                    <a href={selectedTopic.file} target="_blank" rel="noopener noreferrer">
+                      Buka PDF
+                    </a>
+                  </Button>
+                )}
+
+                {selectedTopic.link && (
+                  <Button variant="secondary" asChild>
+                    <a href={selectedTopic.link} target="_blank" rel="noopener noreferrer">
+                      Buka Video
+                    </a>
+                  </Button>
+                )}
+
+                {selectedTopic.file && (
+                  <Button className="bg-[#CF1A25] text-white hover:bg-[#CF1A25]/90" asChild>
+                    <a href={selectedTopic.file} download>
+                      <Download className="mr-2 h-4 w-4" />
+                      Unduh PDF
+                    </a>
+                  </Button>
+                )}
               </div>
             </>
           )}
         </DialogContent>
       </Dialog>
 
+      <section className="bg-muted/30 border-t border-border/50 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-10 shadow-sm transition-all duration-300 hover:shadow-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+            <div className="relative grid gap-8 lg:grid-cols-12 items-center">
+              <div className="lg:col-span-5">
+                <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
+                  <Sparkles className="h-3 w-3" />
+                  Video Pembelajaran
+                </span>
+
+                <h3 className="mb-4 text-2xl font-bold text-foreground">Sosialisasi Cinta, Bangga, Paham Rupiah</h3>
+
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                  Saksikan video sosialisasi resmi dari Bank Indonesia untuk memahami lebih lanjut pentingnya mencintai, menjaga, dan memahami uang Rupiah sebagai simbol kedaulatan bangsa Indonesia.
+                </p>
+              </div>
+
+              <div className="lg:col-span-7 aspect-video w-full overflow-hidden rounded-2xl border border-border bg-black shadow-lg relative">
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/j-cw_ozfayQ"
+                  title="Video Edukasi Cinta Bangga Paham Rupiah"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <Footer />
     </div>
-  )
+  );
 }
 
 export default function EdukasiPage() {
   return (
-    <Suspense fallback={
-      <div className="flex min-h-screen flex-col">
-        <Navbar />
-        <div className="flex-1 flex items-center justify-center bg-background">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen flex-col">
+          <Navbar />
+          <div className="flex-1 flex items-center justify-center bg-background">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    }>
+      }
+    >
       <EdukasiContent />
     </Suspense>
-  )
+  );
 }
