@@ -19,6 +19,7 @@ import {
 } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { apiFetch } from "@/lib/api"
 import { TopicCard } from "@/components/topic-card"
 import { TimelineItem } from "@/components/timeline-item"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
@@ -169,6 +170,20 @@ function EdukasiContent() {
   const tabParam = searchParams.get("tab")
   const [activeTab, setActiveTab] = useState("materi")
   const [selectedTopic, setSelectedTopic] = useState<typeof topics[number] | null>(null)
+  const [apiMateri, setApiMateri] = useState<any[]>([])
+  const [loadingMateri, setLoadingMateri] = useState(true)
+
+  useEffect(() => {
+    apiFetch<any[]>("/edukasi-materi")
+      .then((data) => {
+        setApiMateri(data)
+        setLoadingMateri(false)
+      })
+      .catch((err) => {
+        console.error("Gagal mengambil data materi:", err)
+        setLoadingMateri(false)
+      })
+  }, [])
 
   useEffect(() => {
     if (tabParam === "sejarah") {
@@ -465,57 +480,96 @@ function EdukasiContent() {
                 <h3 className="text-2xl font-bold text-foreground">Unduh Materi Pembelajaran</h3>
                 <p className="text-sm text-muted-foreground mt-1">Dapatkan buku panduan dan materi presentasi resmi dari Bank Indonesia</p>
               </div>
-              <div className="grid gap-6 md:grid-cols-2">
-                {/* Materi CBP */}
-                <div 
-                  onClick={() => setSelectedTopic({
-                    title: "Materi Cinta Bangga Paham Rupiah",
-                    description: "PDF (9.1 MB) • Buku Panduan Lengkap 2025",
-                    icon: FileText,
-                    pdfPath: "/materi_cbp.pdf",
-                    details: "Buku panduan lengkap Cinta, Bangga, Paham Rupiah (CBP) diterbitkan resmi oleh Bank Indonesia sebagai acuan edukasi masyarakat mengenai literasi mata uang Rupiah."
-                  })}
-                  className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
-                      <FileText className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-foreground">Materi Cinta Bangga Paham Rupiah</h4>
-                      <p className="text-xs text-muted-foreground">PDF (9.1 MB) • Buku Panduan Lengkap 2025</p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
-                    Preview
-                  </Button>
-                </div>
 
-                {/* Materi Kebanksentralan */}
-                <div 
-                  onClick={() => setSelectedTopic({
-                    title: "Materi Kebanksentralan (BI Talk)",
-                    description: "PDF (2.7 MB) • Presentasi Edukasi 2025",
-                    icon: FileText,
-                    pdfPath: "/materi_kebanksentralan.pdf",
-                    details: "Materi presentasi kebanksentralan (BI Talk) yang membahas peran, tugas, dan fungsi Bank Indonesia sebagai bank sentral dalam menjaga stabilitas nilai Rupiah."
-                  })}
-                  className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
-                      <FileText className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-foreground">Materi Kebanksentralan (BI Talk)</h4>
-                      <p className="text-xs text-muted-foreground">PDF (2.7 MB) • Presentasi Edukasi 2025</p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
-                    Preview
-                  </Button>
+              {loadingMateri ? (
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="animate-pulse bg-muted h-24 rounded-2xl border border-border/50"></div>
+                  <div className="animate-pulse bg-muted h-24 rounded-2xl border border-border/50"></div>
                 </div>
-              </div>
+              ) : apiMateri.length === 0 ? (
+                // Fallback static files if database is empty
+                <div className="grid gap-6 md:grid-cols-2">
+                  {/* Materi CBP */}
+                  <div 
+                    onClick={() => setSelectedTopic({
+                      title: "Materi Cinta Bangga Paham Rupiah",
+                      description: "PDF (9.1 MB) • Buku Panduan Lengkap 2025",
+                      icon: FileText,
+                      pdfPath: "/materi_cbp.pdf",
+                      details: "Buku panduan lengkap Cinta, Bangga, Paham Rupiah (CBP) diterbitkan resmi oleh Bank Indonesia sebagai acuan edukasi masyarakat mengenai literasi mata uang Rupiah."
+                    })}
+                    className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
+                        <FileText className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-foreground">Materi Cinta Bangga Paham Rupiah</h4>
+                        <p className="text-xs text-muted-foreground">PDF (9.1 MB) • Buku Panduan Lengkap 2025</p>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
+                      Preview
+                    </Button>
+                  </div>
+
+                  {/* Materi Kebanksentralan */}
+                  <div 
+                    onClick={() => setSelectedTopic({
+                      title: "Materi Kebanksentralan (BI Talk)",
+                      description: "PDF (2.7 MB) • Presentasi Edukasi 2025",
+                      icon: FileText,
+                      pdfPath: "/materi_kebanksentralan.pdf",
+                      details: "Materi presentasi kebanksentralan (BI Talk) yang membahas peran, tugas, dan fungsi Bank Indonesia sebagai bank sentral dalam menjaga stabilitas nilai Rupiah."
+                    })}
+                    className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
+                        <FileText className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-foreground">Materi Kebanksentralan (BI Talk)</h4>
+                        <p className="text-xs text-muted-foreground">PDF (2.7 MB) • Presentasi Edukasi 2025</p>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
+                      Preview
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                // Dynamic loaded files from Laravel API
+                <div className="grid gap-6 md:grid-cols-2">
+                  {apiMateri.map((materi) => (
+                    <div 
+                      key={materi.id}
+                      onClick={() => setSelectedTopic({
+                        title: materi.title,
+                        description: materi.description,
+                        icon: FileText,
+                        pdfPath: materi.pdfPath,
+                        details: materi.details || "Materi Pembelajaran Resmi dari Bank Indonesia"
+                      })}
+                      className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
+                          <FileText className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-foreground">{materi.title}</h4>
+                          <p className="text-xs text-muted-foreground">{materi.description}</p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
+                        Preview
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
           </div>
