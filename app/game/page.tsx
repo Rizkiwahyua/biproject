@@ -21,7 +21,7 @@ export default function GamePage() {
       <Navbar />
       <main className="flex-1">
         {/* HERO SECTION */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364] text-white py-24 sm:py-32">
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#02152c] via-[#082a52] to-[#1e3a5f] text-white py-24 sm:py-32">
           {/* Decorative Background Circles */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />

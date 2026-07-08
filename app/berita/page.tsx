@@ -74,7 +74,7 @@ export default function BeritaPage() {
 
       <main className="flex-1">
         {/* Header with Gradient */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364] py-16 sm:py-20 lg:py-24">
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#02152c] via-[#082a52] to-[#1e3a5f] py-16 sm:py-20 lg:py-24">
           {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
@@ -90,7 +90,7 @@ export default function BeritaPage() {
               Portal Berita
             </span>
             <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl text-balance">
-              Berita & <span className="bg-gradient-to-r from-[#4ecdc4] via-[#44a8a1] to-[#2d8f8f] bg-clip-text text-transparent">Kabar Terbaru</span>
+              Berita & <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#00529C] bg-clip-text text-transparent">Kabar Terbaru</span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-white/70 leading-relaxed">Ikuti perkembangan kegiatan, program edukasi, dan pengumuman resmi dari Kantor Perwakilan Bank Indonesia Lhokseumawe.</p>
           </div>

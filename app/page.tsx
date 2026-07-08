@@ -1,9 +1,11 @@
 "use client"
 
+import { useState } from "react"
 import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Users, Sparkles, TrendingUp, Award } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { FeatureCard } from "@/components/feature-card"
@@ -46,14 +48,34 @@ const rupiahImages = [
   "/uang/Spesimen Rupiah (7).jpeg",
 ]
 
+const heroCards = [
+  {
+    id: 1,
+    image: "/kantorbi.jpg",
+    title: "KPw Bank Indonesia Lhokseumawe",
+  },
+  {
+    id: 2,
+    image: "/kantorbi_group.jpg",
+    title: "Kegiatan Edukasi CBP Rupiah",
+  },
+  {
+    id: 3,
+    image: "/kantorbi_activity.png",
+    title: "Sosialisasi Cinta Bangga Paham Rupiah",
+  },
+];
+
 export default function HomePage() {
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
       
       <main className="flex-1">
         {/* Hero Section with Modern Gradient */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364]">
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#02152c] via-[#082a52] to-[#1e3a5f]">
           {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
@@ -73,16 +95,16 @@ export default function HomePage() {
           />
           
           {/* Ornamen Pojok (Bingkai) */}
-          <div className="absolute bottom-0 left-0 w-48 h-60 md:w-64 md:h-80 bg-[url(/pinto-aceh-corner.png)] bg-left-bottom bg-no-repeat bg-contain opacity-25 mix-blend-screen pointer-events-none" />
-          <div className="absolute top-0 right-0 w-48 h-60 md:w-64 md:h-80 bg-[url(/pinto-aceh-corner.png)] bg-right-top bg-no-repeat bg-contain rotate-180 opacity-25 mix-blend-screen pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-48 h-60 md:w-64 md:h-80 bg-[url(/pinto-aceh-corner.png)] bg-left-bottom bg-no-repeat bg-contain opacity-[0.40] mix-blend-screen pointer-events-none" />
+          <div className="absolute top-0 right-0 w-48 h-60 md:w-64 md:h-80 bg-[url(/pinto-aceh-corner.png)] bg-right-top bg-no-repeat bg-contain rotate-180 opacity-[0.40] mix-blend-screen pointer-events-none" />
           
           {/* Ornamen Menyebar (Kecil) */}
           {/* Kiri Atas (di belakang teks) */}
-          <div className="absolute top-[12%] left-[5%] w-36 h-36 md:w-52 md:h-52 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.08] mix-blend-screen pointer-events-none" />
+          <div className="absolute top-[12%] left-[5%] w-36 h-36 md:w-52 md:h-52 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.22] mix-blend-screen pointer-events-none" />
           {/* Kanan Bawah (di belakang kartu) */}
-          <div className="absolute bottom-[12%] right-[5%] w-36 h-36 md:w-52 md:h-52 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.08] mix-blend-screen pointer-events-none" />
+          <div className="absolute bottom-[12%] right-[5%] w-36 h-36 md:w-52 md:h-52 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.22] mix-blend-screen pointer-events-none" />
           {/* Tengah Bawah */}
-          <div className="absolute bottom-[20%] left-[40%] w-20 h-20 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.05] mix-blend-screen pointer-events-none hidden lg:block" />
+          <div className="absolute bottom-[20%] left-[40%] w-20 h-20 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.15] mix-blend-screen pointer-events-none hidden lg:block" />
           
           <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
@@ -98,7 +120,7 @@ export default function HomePage() {
                 {/* Headline */}
                 <h1 className="animate-fade-in animation-delay-100 mb-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl text-balance">
                   Cinta, Bangga,{" "}
-                  <span className="bg-gradient-to-r from-[#4ecdc4] via-[#44a8a1] to-[#2d8f8f] bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#00529C] bg-clip-text text-transparent">
                     Paham Rupiah
                   </span>
                 </h1>
@@ -113,7 +135,7 @@ export default function HomePage() {
                 <div className="animate-fade-in animation-delay-300 flex flex-col gap-4 sm:flex-row">
                   <Button 
                     size="lg" 
-                    className="group bg-gradient-to-r from-primary to-[#2d8f8f] text-white hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+                    className="group bg-gradient-to-r from-primary to-[#3b82f6] text-white hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
                     asChild
                   >
                     <Link href="/edukasi">
@@ -148,21 +170,46 @@ export default function HomePage() {
                     <Sparkles className="h-5 w-5 text-white/60" />
                   </div>
                   
-                  {/* Main visual image */}
-                  <div className="relative mx-auto flex h-full w-full max-w-sm flex-col overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-2xl backdrop-blur-md group">
-                    <Image 
-                      src="/kantorbi.jpg" 
-                      alt="Kantor Bank Indonesia Lhokseumawe" 
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
-                      <h3 className="text-lg font-bold text-white mb-1">KPw Bank Indonesia Lhokseumawe</h3>
-                      <p className="text-xs text-white/75 leading-relaxed">
-                        Kantor Perwakilan Bank Indonesia Lhokseumawe
-                      </p>
-                    </div>
+                  {/* Stacked Cards Deck */}
+                  <div className="relative mx-auto w-full max-w-sm h-80 lg:h-[400px] flex items-center justify-center select-none cursor-pointer">
+                    {heroCards.map((card, index) => {
+                      // Calculate offset relative to active index
+                      const offset = (index - activeCardIndex + heroCards.length) % heroCards.length;
+                      
+                      // Style configurations for stacked effect
+                      const zIndex = 30 - offset;
+                      const opacity = offset === 0 ? 1 : offset === 1 ? 0.85 : 0.65;
+                      const scale = offset === 0 ? 1 : offset === 1 ? 0.93 : 0.86;
+                      const translateX = offset === 0 ? 0 : offset === 1 ? 16 : 28; // shifted to the right/bottom
+                      const translateY = offset === 0 ? 0 : offset === 1 ? 12 : 24;
+                      const rotate = offset === 0 ? 0 : offset === 1 ? 4 : 8; // rotated slightly
+
+                      return (
+                        <div
+                          key={card.id}
+                          onClick={() => setActiveCardIndex((prev) => (prev + 1) % heroCards.length)}
+                          className={cn(
+                            "absolute inset-0 w-full h-full rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-2xl backdrop-blur-md overflow-hidden transition-all duration-500 ease-out"
+                          )}
+                          style={{
+                            zIndex,
+                            opacity,
+                            transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotate}deg)`,
+                          }}
+                        >
+                          <Image 
+                            src={card.image} 
+                            alt={card.title} 
+                            fill
+                            className="object-cover pointer-events-none"
+                            priority={index === 0}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 pointer-events-none">
+                            <h3 className="text-lg font-bold text-white mb-1 leading-snug">{card.title}</h3>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -323,7 +370,7 @@ export default function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364]">
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#02152c] via-[#082a52] to-[#1e3a5f]">
           {/* Animated background */}
           <div className="absolute inset-0">
             <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
@@ -341,7 +388,7 @@ export default function HomePage() {
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in animation-delay-200">
                 <Button 
                   size="lg" 
-                  className="group bg-white text-[#203a43] hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5" 
+                  className="group bg-white text-[#082a52] hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5" 
                   asChild
                 >
                   <Link href="/edukasi">

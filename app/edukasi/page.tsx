@@ -14,7 +14,8 @@ import {
   CheckCircle,
   Sparkles,
   BookOpen,
-  History
+  History,
+  Download
 } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -22,47 +23,78 @@ import { TopicCard } from "@/components/topic-card"
 import { TimelineItem } from "@/components/timeline-item"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog"
 
 const topics = [
   {
     title: "Mengenal Uang Rupiah",
     description: "Pelajari karakteristik dan ciri-ciri uang Rupiah yang berlaku di Indonesia",
     icon: Banknote,
+    pdfPath: "/materi_cbp.pdf",
+    details: "Materi ini membahas secara mendalam sejarah perkembangan uang Rupiah, fungsi dan perannya dalam perekonomian, karakteristik desain, pecahan uang kertas dan logam, serta makna filosofis budaya Indonesia yang tercermin di setiap lembar mata uang kita.",
+    focus: ["Sejarah Rupiah", "Karakteristik & Desain", "Pecahan Kertas & Logam", "Makna Kebudayaan"]
   },
   {
     title: "Ciri Keaslian Uang",
     description: "Ketahui cara membedakan uang asli dan palsu dengan teknik 3D (Dilihat, Diraba, Diterawang)",
     icon: Shield,
+    pdfPath: "/materi_cbp.pdf",
+    details: "Panduan praktis mengenali ciri keaslian uang Rupiah (CIKUR) menggunakan metode 3D (Dilihat, Diraba, Diterawang). Mempelajari fitur pengaman canggih seperti benang pengaman mikro, cetak intaglio kasar, gambar tersembunyi (latent image), serta teknologi color shifting ink.",
+    focus: ["Teknik 3D CIKUR", "Benang Pengaman Mikro", "Cetak Intaglio Kasar", "Color Shifting Ink"]
   },
   {
     title: "Pengelolaan Keuangan",
     description: "Tips dan trik mengelola keuangan pribadi dengan bijak dan efektif",
     icon: Wallet,
+    pdfPath: "/materi_cbp.pdf",
+    details: "Edukasi tentang perencanaan keuangan, pembuatan anggaran bulanan yang bijak (budgeting), memilah kebutuhan dasar dari keinginan impulsif, strategi menyisihkan dana darurat, serta cara melacak pengeluaran untuk menjaga stabilitas finansial jangka panjang.",
+    focus: ["Budgeting Bulanan", "Kebutuhan vs Keinginan", "Dana Darurat", "Stabilitas Finansial"]
   },
   {
     title: "Menabung & Investasi",
     description: "Panduan dasar menabung dan memulai investasi untuk masa depan",
     icon: PiggyBank,
+    pdfPath: "/materi_cbp.pdf",
+    details: "Materi dasar mengenai pentingnya menabung sejak dini, memahami konsep bunga majemuk (compound interest), pengenalan instrumen investasi berisiko rendah hingga tinggi (seperti Surat Berharga Negara, Reksa Dana, Saham), serta pentingnya diversifikasi portofolio.",
+    focus: ["Manfaat Tabungan", "Bunga Majemuk", "Instrumen Reksa Dana", "Diversifikasi Portofolio"]
   },
   {
     title: "Transaksi Non-Tunai",
     description: "Memahami berbagai metode pembayaran digital yang aman dan nyaman",
     icon: CreditCard,
+    pdfPath: "/materi_kebanksentralan.pdf",
+    details: "Membahas ekosistem pembayaran digital di Indonesia, termasuk penggunaan QRIS (Quick Response Code Indonesian Standard), Dompet Elektronik (E-Wallet), Mobile Banking, serta tips bertransaksi non-tunai secara aman untuk menghindari kejamannya siber.",
+    focus: ["QRIS Standard", "Keamanan Dompet Digital", "E-Wallet & M-Banking", "Keamanan Siber"]
   },
   {
     title: "Inflasi & Ekonomi",
     description: "Pahami konsep inflasi dan dampaknya terhadap perekonomian sehari-hari",
     icon: TrendingUp,
+    pdfPath: "/materi_kebanksentralan.pdf",
+    details: "Menjelaskan konsep inflasi secara sederhana, faktor penyebab kenaikan harga barang dan jasa, dampaknya terhadap daya beli masyarakat, serta bagaimana Bank Indonesia menggunakan instrumen kebijakan moneter untuk mengendalikan inflasi demi menjaga kestabilan rupiah.",
+    focus: ["Penyebab Kenaikan Harga", "Pengendalian Inflasi", "Kebijakan Moneter BI", "Daya Beli Masyarakat"]
   },
   {
     title: "Perencanaan Keuangan",
     description: "Langkah-langkah membuat rencana keuangan untuk mencapai tujuan finansial",
     icon: FileText,
+    pdfPath: "/materi_kebanksentralan.pdf",
+    details: "Panduan komprehensif menyusun rencana keuangan berdasarkan siklus hidup (financial life cycle), menentukan tujuan jangka pendek, menengah, dan panjang, mengelola utang secara produktif, serta pentingnya perlindungan asuransi dan dana pensiun.",
+    focus: ["Financial Life Cycle", "Tujuan Jangka Panjang", "Perlindungan Asuransi", "Perencanaan Dana Pensiun"]
   },
   {
     title: "Waspadai Penipuan",
     description: "Kenali modus penipuan keuangan dan cara melindungi diri dari kejahatan finansial",
     icon: AlertTriangle,
+    pdfPath: "/materi_kebanksentralan.pdf",
+    details: "Edukasi perlindungan konsumen untuk mengenali berbagai modus penipuan keuangan terkini (phishing, social engineering, investasi bodong, pinjol ilegal), langkah pengamanan data pribadi perbankan (OTP, PIN, Password), dan kemana harus melapor jika menjadi korban.",
+    focus: ["Modus Phishing & Pinjol", "Proteksi Password & OTP", "Langkah Pengamanan Diri", "Pelaporan Konsumen"]
   },
 ]
 
@@ -136,6 +168,7 @@ function EdukasiContent() {
   const searchParams = useSearchParams()
   const tabParam = searchParams.get("tab")
   const [activeTab, setActiveTab] = useState("materi")
+  const [selectedTopic, setSelectedTopic] = useState<typeof topics[number] | null>(null)
 
   useEffect(() => {
     if (tabParam === "sejarah") {
@@ -160,7 +193,7 @@ function EdukasiContent() {
       
       <main className="flex-1">
         {/* Header with Gradient */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364] pb-24 pt-16 sm:pb-28 sm:pt-20 lg:pb-32">
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#02152c] via-[#082a52] to-[#1e3a5f] pb-24 pt-16 sm:pb-28 sm:pt-20 lg:pb-32">
           {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
@@ -188,11 +221,11 @@ function EdukasiContent() {
               <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl text-balance transition-all duration-300">
                 {activeTab === "materi" ? (
                   <>
-                    Materi <span className="bg-gradient-to-r from-[#4ecdc4] via-[#44a8a1] to-[#2d8f8f] bg-clip-text text-transparent">Pembelajaran</span>
+                    Materi <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#00529C] bg-clip-text text-transparent">Pembelajaran</span>
                   </>
                 ) : (
                   <>
-                    Perjalanan <span className="bg-gradient-to-r from-[#4ecdc4] via-[#44a8a1] to-[#2d8f8f] bg-clip-text text-transparent">Mata Uang</span> Rupiah
+                    Perjalanan <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#00529C] bg-clip-text text-transparent">Mata Uang</span> Rupiah
                   </>
                 )}
               </h1>
@@ -248,6 +281,7 @@ function EdukasiContent() {
                         title={topic.title}
                         description={topic.description}
                         icon={topic.icon}
+                        onClick={() => setSelectedTopic(topic)}
                       />
                     ))}
                   </div>
@@ -377,7 +411,7 @@ function EdukasiContent() {
                           <div className="absolute -right-8 -top-8 h-16 w-16 rounded-full bg-primary/5 transition-all duration-500 group-hover:scale-[3] group-hover:bg-primary/10" />
                           
                           <div className="relative">
-                            <p className="mb-2 text-3xl font-bold bg-gradient-to-r from-primary to-[#2d8f8f] bg-clip-text text-transparent">{fact.value}</p>
+                            <p className="mb-2 text-3xl font-bold bg-gradient-to-r from-primary to-[#3b82f6] bg-clip-text text-transparent">{fact.value}</p>
                             <h3 className="mb-2 text-lg font-semibold text-card-foreground">{fact.title}</h3>
                             <p className="text-sm text-muted-foreground leading-relaxed">
                               {fact.description}
@@ -433,7 +467,16 @@ function EdukasiContent() {
               </div>
               <div className="grid gap-6 md:grid-cols-2">
                 {/* Materi CBP */}
-                <div className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md">
+                <div 
+                  onClick={() => setSelectedTopic({
+                    title: "Materi Cinta Bangga Paham Rupiah",
+                    description: "PDF (9.1 MB) • Buku Panduan Lengkap 2025",
+                    icon: FileText,
+                    pdfPath: "/materi_cbp.pdf",
+                    details: "Buku panduan lengkap Cinta, Bangga, Paham Rupiah (CBP) diterbitkan resmi oleh Bank Indonesia sebagai acuan edukasi masyarakat mengenai literasi mata uang Rupiah."
+                  })}
+                  className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
+                >
                   <div className="flex items-center gap-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
                       <FileText className="h-6 w-6" />
@@ -443,13 +486,22 @@ function EdukasiContent() {
                       <p className="text-xs text-muted-foreground">PDF (9.1 MB) • Buku Panduan Lengkap 2025</p>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer" asChild>
-                    <a href="/materi_cbp.pdf" download="Materi_Cinta_Bangga_Paham_Rupiah_BI.pdf">Unduh</a>
+                  <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
+                    Preview
                   </Button>
                 </div>
 
                 {/* Materi Kebanksentralan */}
-                <div className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md">
+                <div 
+                  onClick={() => setSelectedTopic({
+                    title: "Materi Kebanksentralan (BI Talk)",
+                    description: "PDF (2.7 MB) • Presentasi Edukasi 2025",
+                    icon: FileText,
+                    pdfPath: "/materi_kebanksentralan.pdf",
+                    details: "Materi presentasi kebanksentralan (BI Talk) yang membahas peran, tugas, dan fungsi Bank Indonesia sebagai bank sentral dalam menjaga stabilitas nilai Rupiah."
+                  })}
+                  className="group relative flex items-center justify-between p-6 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md cursor-pointer"
+                >
                   <div className="flex items-center gap-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
                       <FileText className="h-6 w-6" />
@@ -459,8 +511,8 @@ function EdukasiContent() {
                       <p className="text-xs text-muted-foreground">PDF (2.7 MB) • Presentasi Edukasi 2025</p>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer" asChild>
-                    <a href="/materi_kebanksentralan.pdf" download="Materi_Kebanksentralan_BI_Talk.pdf">Unduh</a>
+                  <Button variant="outline" size="sm" className="ml-4 shrink-0 cursor-pointer">
+                    Preview
                   </Button>
                 </div>
               </div>
@@ -469,6 +521,57 @@ function EdukasiContent() {
           </div>
         </section>
       </main>
+
+      <Dialog open={!!selectedTopic} onOpenChange={(open) => !open && setSelectedTopic(null)}>
+        <DialogContent className="sm:max-w-4xl w-[95vw] h-[90vh] md:h-[85vh] flex flex-col p-6 overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
+          {selectedTopic && (
+            <>
+              <DialogHeader className="mb-4 shrink-0">
+                <DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <selectedTopic.icon className="h-5 w-5" />
+                  </span>
+                  {selectedTopic.title}
+                </DialogTitle>
+                <DialogDescription className="text-muted-foreground text-sm mt-1">
+                  {selectedTopic.description}
+                </DialogDescription>
+              </DialogHeader>
+
+              {/* PDF Preview Frame */}
+              <div className="flex-1 min-h-[300px] w-full relative rounded-2xl border border-border bg-muted overflow-hidden shadow-inner flex items-center justify-center">
+                <iframe
+                  src={selectedTopic.pdfPath}
+                  className="w-full h-full border-0 absolute inset-0 z-0"
+                  title={selectedTopic.title}
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4 border-t border-border/80 shrink-0">
+                <Button variant="outline" onClick={() => setSelectedTopic(null)} className="cursor-pointer">
+                  Tutup
+                </Button>
+                
+                {/* Preview in New Tab Button */}
+                <Button variant="secondary" className="cursor-pointer" asChild>
+                  <a href={selectedTopic.pdfPath} target="_blank" rel="noopener noreferrer">
+                    Preview di Tab Baru
+                  </a>
+                </Button>
+
+                {/* Direct Download Button */}
+                <Button className="group bg-[#CF1A25] text-white hover:bg-[#CF1A25]/90 transition-all duration-300 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30" asChild>
+                  <a href={selectedTopic.pdfPath} download={selectedTopic.pdfPath.replace("/", "")} className="cursor-pointer">
+                    <Download className="mr-2 h-4 w-4" />
+                    Unduh PDF
+                  </a>
+                </Button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>

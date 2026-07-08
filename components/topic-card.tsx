@@ -8,9 +8,10 @@ interface TopicCardProps {
   icon: LucideIcon
   href?: string
   className?: string
+  onClick?: () => void
 }
 
-export function TopicCard({ title, description, icon: Icon, href = "#", className }: TopicCardProps) {
+export function TopicCard({ title, description, icon: Icon, href = "#", className, onClick }: TopicCardProps) {
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
@@ -19,10 +20,18 @@ export function TopicCard({ title, description, icon: Icon, href = "#", classNam
     e.currentTarget.style.setProperty("--mouse-y", `${y}px`)
   }
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (onClick) {
+      e.preventDefault()
+      onClick()
+    }
+  }
+
   return (
     <Link
       href={href}
       onMouseMove={handleMouseMove}
+      onClick={handleClick}
       className={cn(
         "group relative flex flex-col items-center overflow-hidden rounded-2xl border border-border bg-card p-8 text-center shadow-sm transition-all duration-300 hover:border-primary/20 hover:shadow-xl hover:-translate-y-1",
         className

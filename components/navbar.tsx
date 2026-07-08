@@ -9,10 +9,10 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 const navLinks = [
-  { href: "/", label: "Beranda" },
-  { href: "/edukasi", label: "Edukasi" },
-  { href: "/berita", label: "Berita" },
-  { href: "/lomba", label: "Lomba" },
+  { href: "/", label: "Home" },
+  { href: "/edukasi", label: "Education" },
+  { href: "/berita", label: "Entertainment" },
+  { href: "/lomba", label: "Engagement" },
 ];
 
 export function Navbar() {
@@ -25,9 +25,8 @@ export function Navbar() {
         {/* Logo */}
 
         <Link href="/" className="group flex items-center gap-2 sm:gap-3 transition-opacity hover:opacity-80 shrink-0">
-          <Image src="/BIlogo.png" alt="Logo BI" width={140} height={40} className="h-6 sm:h-9 w-auto object-contain" />
-          <Image src="/logocbp.png" alt="Logo CBP" width={110} height={35} className="h-6 sm:h-9 w-auto object-contain" />
-          <Image src="/3e.png" alt="Logo EEE" width={40} height={40} className="h-8 sm:h-10 w-auto object-contain hidden sm:block" />
+          <Image src="/BIlogo.png" alt="Logo BI" width={180} height={50} className="h-8 sm:h-12 w-auto object-contain" />
+          <Image src="/logocbp.png" alt="Logo CBP" width={150} height={45} className="h-8 sm:h-12 w-auto object-contain" />
         </Link>
 
         {/* Desktop Navigation */}
@@ -40,11 +39,16 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* CTA Button */}
-        <div className="hidden md:block">
-          <Button className="group bg-gradient-to-r from-primary to-[#2d8f8f] text-white hover:opacity-90 transition-all duration-300 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5" asChild>
+        {/* CTA Buttons */}
+        <div className="hidden md:flex md:items-center md:gap-3">
+          <Button className="bg-[#CF1A25] text-white border border-[#CF1A25] hover:bg-[#CF1A25]/90 hover:text-white transition-all duration-300 hover:-translate-y-0.5" asChild>
+            <Link href="https://pintar.bi.go.id/" target="_blank" rel="noopener noreferrer">
+              PINTAR.BI
+            </Link>
+          </Button>
+          <Button className="group bg-gradient-to-r from-primary to-[#3b82f6] text-white hover:opacity-90 transition-all duration-300 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5" asChild>
             <Link href="/game">
-              Mulai Game
+              Start Game
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
@@ -74,12 +78,19 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Button className="mt-3 bg-gradient-to-r from-primary to-[#2d8f8f] text-white hover:opacity-90 transition-all duration-300" asChild>
-            <Link href="/game" onClick={() => setMobileMenuOpen(false)}>
-              Mulai Game
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="flex flex-col gap-2 mt-3">
+            <Button className="w-full bg-[#CF1A25] text-white border border-[#CF1A25] hover:bg-[#CF1A25]/90 hover:text-white transition-all duration-300" asChild>
+              <Link href="https://pintar.bi.go.id/" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
+                PINTAR.BI
+              </Link>
+            </Button>
+            <Button className="w-full bg-gradient-to-r from-primary to-[#3b82f6] text-white hover:opacity-90 transition-all duration-300" asChild>
+              <Link href="/game" onClick={() => setMobileMenuOpen(false)}>
+                Start Game
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </nav>
       </div>
 

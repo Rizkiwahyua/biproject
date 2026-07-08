@@ -150,7 +150,7 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
                 </div>
 
                 {lomba.status === "ongoing" && (
-                  <Button asChild className="mt-8 w-full bg-gradient-to-r from-primary to-[#2d8f8f] hover:opacity-90">
+                  <Button asChild className="mt-8 w-full bg-gradient-to-r from-primary to-[#3b82f6] hover:opacity-90">
                     <Link href={`/lomba/${lomba.id}/registrasi`}>
                       Daftar Sekarang
                       <ArrowRight className="ml-2 h-4 w-4" />
