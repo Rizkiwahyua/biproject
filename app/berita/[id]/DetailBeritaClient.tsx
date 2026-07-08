@@ -100,8 +100,14 @@ export default function DetailBeritaClient({ id }: DetailBeritaClientProps) {
         {/* IMAGE */}
 
         {berita.image && (
-          <section className="mx-auto max-w-5xl px-4 pt-10">
-            <img src={`${API_STORAGE}/${berita.image}`} alt={berita.title} className="w-full rounded-xl border object-cover" />
+          <section className="mx-auto max-w-3xl px-4 pt-10">
+            <div className="relative h-[250px] sm:h-[350px] md:h-[400px] w-full overflow-hidden rounded-xl border bg-muted shadow-sm">
+              <img 
+                src={`${API_STORAGE}/${berita.image}`} 
+                alt={berita.title} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
           </section>
         )}
 
