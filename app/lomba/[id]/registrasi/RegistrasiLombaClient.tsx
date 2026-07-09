@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { ArrowLeft, Calendar, MapPin, Trophy, Upload } from "lucide-react";
-import { useParams } from "next/navigation";
 
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -19,8 +18,6 @@ interface RegistrasiLombaClientProps {
 }
 
 export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps) {
-  const params = useParams();
-  const lombaId = params?.id ? String(params.id) : id;
   const [lomba, setLomba] = useState<Lomba | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -160,12 +157,19 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
 
   useEffect(() => {
     async function fetchData() {
-      if (!lombaId || lombaId === "detail") {
+      // Extract real ID from browser URL path (e.g., /lomba/1/registrasi -> "1")
+      // because Apache rewrite serves detail/registrasi.html with id="detail"
+      const segments = window.location.pathname.split("/").filter(Boolean);
+      // URL pattern: /lomba/<id>/registrasi, so ID is at index 1
+      const urlId = segments.length >= 3 && segments[0] === "lomba" ? segments[1] : null;
+      const resolvedId = urlId && urlId !== "detail" ? urlId : (id !== "detail" ? id : null);
+
+      if (!resolvedId) {
         setLoading(false);
         return;
       }
       try {
-        const data = await getLomba(Number(lombaId));
+        const data = await getLomba(Number(resolvedId));
         setLomba(data);
       } catch (error) {
         console.error("Gagal memuat data lomba untuk registrasi:", error);
@@ -175,7 +179,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
     }
 
     fetchData();
-  }, [lombaId]);
+  }, [id]);
 
   if (loading) {
     return (

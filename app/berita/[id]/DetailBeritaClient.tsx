@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Calendar, User, Building2 } from "lucide-react";
-import { useParams } from "next/navigation";
 
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -18,19 +17,23 @@ interface DetailBeritaClientProps {
 }
 
 export default function DetailBeritaClient({ id }: DetailBeritaClientProps) {
-  const params = useParams();
-  const beritaId = params?.id ? String(params.id) : id;
   const [berita, setBerita] = useState<Berita | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
-      if (!beritaId || beritaId === "detail") {
+      // Extract real ID from browser URL path (e.g., /berita/1 -> "1")
+      // because Apache rewrite serves detail.html with id="detail"
+      const segments = window.location.pathname.split("/").filter(Boolean);
+      const urlId = segments.length >= 2 ? segments[segments.length - 1] : null;
+      const resolvedId = urlId && urlId !== "detail" ? urlId : (id !== "detail" ? id : null);
+
+      if (!resolvedId) {
         setLoading(false);
         return;
       }
       try {
-        const data = await getBerita(Number(beritaId));
+        const data = await getBerita(Number(resolvedId));
         setBerita(data);
       } catch (error) {
         console.error("Gagal memuat berita:", error);
@@ -40,7 +43,7 @@ export default function DetailBeritaClient({ id }: DetailBeritaClientProps) {
     }
 
     fetchData();
-  }, [beritaId]);
+  }, [id]);
 
   if (loading) {
     return (

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Download, ExternalLink, FileText, Youtube } from "lucide-react";
-import { useParams } from "next/navigation";
 
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -50,19 +49,23 @@ interface DetailEdukasiClientProps {
 }
 
 export default function DetailEdukasiClient({ id }: DetailEdukasiClientProps) {
-  const params = useParams();
-  const edukasiId = params?.id ? String(params.id) : id;
   const [edukasi, setEdukasi] = useState<Edukasi | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
-      if (!edukasiId || edukasiId === "detail") {
+      // Extract real ID from browser URL path (e.g., /edukasi/4 -> "4")
+      // because Apache rewrite serves detail.html with id="detail"
+      const segments = window.location.pathname.split("/").filter(Boolean);
+      const urlId = segments.length >= 2 ? segments[segments.length - 1] : null;
+      const resolvedId = urlId && urlId !== "detail" ? urlId : (id !== "detail" ? id : null);
+
+      if (!resolvedId) {
         setLoading(false);
         return;
       }
       try {
-        const data = await getEdukasi(Number(edukasiId));
+        const data = await getEdukasi(Number(resolvedId));
         setEdukasi(data);
       } catch (error) {
         console.error("Gagal memuat edukasi:", error);
@@ -72,7 +75,7 @@ export default function DetailEdukasiClient({ id }: DetailEdukasiClientProps) {
     }
 
     fetchData();
-  }, [edukasiId]);
+  }, [id]);
 
   if (loading) {
     return (

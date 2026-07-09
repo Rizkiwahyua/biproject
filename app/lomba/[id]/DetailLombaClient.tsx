@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Calendar, MapPin, Trophy, ArrowLeft, ArrowRight } from "lucide-react";
-import { useParams } from "next/navigation";
 
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -20,19 +19,23 @@ interface DetailLombaClientProps {
 }
 
 export default function DetailLombaClient({ id }: DetailLombaClientProps) {
-  const params = useParams();
-  const lombaId = params?.id ? String(params.id) : id;
   const [lomba, setLomba] = useState<Lomba | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchLomba() {
-      if (!lombaId || lombaId === "detail") {
+      // Extract real ID from browser URL path (e.g., /lomba/1 -> "1")
+      // because Apache rewrite serves detail.html with id="detail"
+      const segments = window.location.pathname.split("/").filter(Boolean);
+      const urlId = segments.length >= 2 ? segments[segments.length - 1] : null;
+      const resolvedId = urlId && urlId !== "detail" ? urlId : (id !== "detail" ? id : null);
+
+      if (!resolvedId) {
         setLoading(false);
         return;
       }
       try {
-        const data = await getLomba(Number(lombaId));
+        const data = await getLomba(Number(resolvedId));
         setLomba(data);
       } catch (error) {
         console.error("Gagal memuat detail lomba:", error);
@@ -42,7 +45,7 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
     }
 
     fetchLomba();
-  }, [lombaId]);
+  }, [id]);
 
   if (loading) {
     return (

@@ -15,8 +15,14 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^berita/([^/]+)$ /berita/detail.html [L]
 
-# 4. Standard Next.js route fallback (remove .html from URL)
+# 4. Detail Edukasi: /edukasi/<id> -> /edukasi/detail.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^edukasi/([^/]+)$ /edukasi/detail.html [L]
+
+# 5. Standard Next.js route fallback (remove .html from URL)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{DOCUMENT_ROOT}/$1.html -f
 RewriteRule ^(.*)$ /$1.html [L]
+
