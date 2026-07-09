@@ -10,6 +10,7 @@ interface EventCardProps {
   date: string;
   location?: string;
   status: "upcoming" | "ongoing" | "closed";
+  thumbnail?: string | null;
   className?: string;
 }
 
@@ -31,7 +32,7 @@ const statusConfig = {
   },
 };
 
-export function EventCard({ id, title, description, date, location, status, className }: EventCardProps) {
+export function EventCard({ id, title, description, date, location, status, thumbnail, className }: EventCardProps) {
   const statusInfo = statusConfig[status];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -69,6 +70,17 @@ export function EventCard({ id, title, description, date, location, status, clas
 
       {/* Decorative accent */}
       <div className="absolute -right-10 -top-10 h-20 w-20 rounded-full bg-primary/5 transition-all duration-500 group-hover:scale-150 group-hover:bg-primary/10" />
+
+      {/* Thumbnail if present */}
+      {thumbnail && (
+        <div className="relative -mx-7 -mt-7 mb-6 h-48 overflow-hidden rounded-t-2xl border-b border-border bg-muted">
+          <img 
+            src={`${process.env.NEXT_PUBLIC_STORAGE_URL || "http://127.0.0.1:8000/storage"}/${thumbnail}`} 
+            alt={title} 
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
+          />
+        </div>
+      )}
 
       <div className="relative">
         <div className="mb-5 flex items-start justify-between">

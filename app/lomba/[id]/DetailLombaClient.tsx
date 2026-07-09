@@ -13,6 +13,8 @@ import { getLomba } from "@/lib/lomba";
 import { formatTanggal } from "@/lib/date";
 import { Lomba } from "@/types/lomba";
 
+const API_STORAGE = process.env.NEXT_PUBLIC_STORAGE_URL || "https://cbprupiahlsm.id/admin-cbp/public/storage";
+
 interface DetailLombaClientProps {
   id: string;
 }
@@ -96,6 +98,19 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
             </div>
           </div>
         </section>
+
+        {/* IMAGE */}
+        {lomba.thumbnail && (
+          <section className="mx-auto max-w-6xl px-4 pt-10">
+            <div className="relative h-[250px] sm:h-[350px] md:h-[450px] w-full overflow-hidden rounded-2xl border bg-muted shadow-sm">
+              <img 
+                src={`${API_STORAGE}/${lomba.thumbnail}`} 
+                alt={lomba.title} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+          </section>
+        )}
 
         {/* Content */}
 

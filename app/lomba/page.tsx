@@ -126,10 +126,9 @@ export default function LombaPage() {
               <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Daftar Kompetisi</h2>
               <p className="mt-2 text-muted-foreground">Pilih kompetisi yang sesuai dengan minat dan kemampuan Anda</p>
             </div>
-
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 stagger-children">
               {events.map((event) => (
-                <EventCard key={event.id} id={event.id} title={event.title} description={event.description} date={`${formatTanggal(event.release_date)} - ${formatTanggal(event.end_date)}`} location={event.location} status={event.status} />
+                <EventCard key={event.id} id={event.id} title={event.title} description={event.description} date={`${formatTanggal(event.release_date)} - ${formatTanggal(event.end_date)}`} location={event.location} status={event.status} thumbnail={event.thumbnail} />
               ))}
             </div>
           </div>

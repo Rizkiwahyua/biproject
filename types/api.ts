@@ -12,6 +12,8 @@ export interface Edukasi {
   deskripsi: string;
   content: string;
   file: string | null;
+  file_name: string | null;
+  file_extension: string | null;
   link: string | null;
   created_at: string;
 }

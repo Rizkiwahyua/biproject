@@ -2,15 +2,13 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Shield, Wallet, FileText, CheckCircle, Sparkles, BookOpen, History, Download } from "lucide-react";
+import { Shield, Wallet, FileText, CheckCircle, Sparkles, BookOpen, History, Youtube } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { apiFetch } from "@/lib/api";
 import { TopicCard } from "@/components/topic-card";
 import { TimelineItem } from "@/components/timeline-item";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 import type { ApiCollection, Edukasi } from "@/types/api";
 
@@ -80,42 +78,12 @@ const funFacts = [
   },
 ];
 
-type SelectedEdukasi = {
-  title: string;
-  description: string;
-  content: string;
-  icon: typeof FileText;
-  file: string | null;
-  link: string | null;
-};
 
-function getYoutubeEmbedUrl(url: string | null) {
-  if (!url) return null;
-
-  try {
-    const parsedUrl = new URL(url);
-
-    if (parsedUrl.hostname.includes("youtu.be")) {
-      const videoId = parsedUrl.pathname.replace("/", "");
-      return `https://www.youtube.com/embed/${videoId}`;
-    }
-
-    if (parsedUrl.hostname.includes("youtube.com")) {
-      const videoId = parsedUrl.searchParams.get("v");
-      return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
-    }
-
-    return url;
-  } catch {
-    return null;
-  }
-}
 
 function EdukasiContent() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState("materi");
-  const [selectedTopic, setSelectedTopic] = useState<SelectedEdukasi | null>(null);
   const [apiMateri, setApiMateri] = useState<Edukasi[]>([]);
   const [loadingMateri, setLoadingMateri] = useState(true);
 
@@ -239,17 +207,8 @@ function EdukasiContent() {
                           key={materi.id}
                           title={materi.judul}
                           description={materi.deskripsi}
-                          icon={FileText}
-                          onClick={() =>
-                            setSelectedTopic({
-                              title: materi.judul,
-                              description: materi.deskripsi,
-                              content: materi.content,
-                              icon: FileText,
-                              file: materi.file,
-                              link: materi.link,
-                            })
-                          }
+                          icon={materi.link ? Youtube : FileText}
+                          href={`/edukasi/${materi.id}`}
                         />
                       ))
                     )}
@@ -397,91 +356,7 @@ function EdukasiContent() {
         </section>
       </main>
 
-      <Dialog open={!!selectedTopic} onOpenChange={(open) => !open && setSelectedTopic(null)}>
-        <DialogContent className="sm:max-w-4xl w-[95vw] h-[90vh] md:h-[85vh] flex flex-col p-6 overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
-          {selectedTopic && (
-            <>
-              <DialogHeader className="mb-4 shrink-0">
-                <DialogTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <selectedTopic.icon className="h-5 w-5" />
-                  </span>
-                  {selectedTopic.title}
-                </DialogTitle>
-                <DialogDescription className="text-muted-foreground text-sm mt-1">{selectedTopic.description}</DialogDescription>
-                <div
-                  className="mb-5 prose prose-sm max-w-none text-muted-foreground"
-                  dangerouslySetInnerHTML={{
-                    __html: selectedTopic.content,
-                  }}
-                />
-              </DialogHeader>
 
-              <div className="flex-1 overflow-y-auto space-y-6 pr-1">
-                {selectedTopic.file && (
-                  <div>
-                    <h3 className="mb-3 text-lg font-semibold text-foreground">Materi PDF</h3>
-
-                    <div className="h-[500px] overflow-hidden rounded-2xl border border-border bg-muted shadow-inner">
-                      <iframe src={selectedTopic.file} className="h-full w-full border-0" title={`${selectedTopic.title} PDF`} />
-                    </div>
-                  </div>
-                )}
-
-                {selectedTopic.link && (
-                  <div>
-                    <h3 className="mb-3 text-lg font-semibold text-foreground">Video Edukasi</h3>
-
-                    <div className="overflow-hidden rounded-2xl border border-border bg-black shadow-lg">
-                      <div className="aspect-video w-full">
-                        <iframe
-                          src={getYoutubeEmbedUrl(selectedTopic.link) ?? selectedTopic.link}
-                          className="h-full w-full"
-                          title={`${selectedTopic.title} Video`}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4 border-t border-border/80 shrink-0">
-                <Button variant="outline" onClick={() => setSelectedTopic(null)}>
-                  Tutup
-                </Button>
-
-                {selectedTopic.file && (
-                  <Button variant="secondary" asChild>
-                    <a href={selectedTopic.file} target="_blank" rel="noopener noreferrer">
-                      Buka PDF
-                    </a>
-                  </Button>
-                )}
-
-                {selectedTopic.link && (
-                  <Button variant="secondary" asChild>
-                    <a href={selectedTopic.link} target="_blank" rel="noopener noreferrer">
-                      Buka Video
-                    </a>
-                  </Button>
-                )}
-
-                {selectedTopic.file && (
-                  <Button className="bg-[#CF1A25] text-white hover:bg-[#CF1A25]/90" asChild>
-                    <a href={selectedTopic.file} download>
-                      <Download className="mr-2 h-4 w-4" />
-                      Unduh PDF
-                    </a>
-                  </Button>
-                )}
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
 
       <section className="bg-muted/30 border-t border-border/50 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
