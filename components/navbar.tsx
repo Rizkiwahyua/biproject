@@ -43,7 +43,7 @@ export function Navbar() {
         <div className="hidden md:flex md:items-center md:gap-3">
           <Button className="bg-[#CF1A25] text-white border border-[#CF1A25] hover:bg-[#CF1A25]/90 hover:text-white transition-all duration-300 hover:-translate-y-0.5" asChild>
             <Link href="https://pintar.bi.go.id/" target="_blank" rel="noopener noreferrer">
-              PINTAR.BI
+              BI.PINTAR
             </Link>
           </Button>
           <Button className="group bg-gradient-to-r from-primary to-[#3b82f6] text-white hover:opacity-90 transition-all duration-300 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5" asChild>
@@ -81,7 +81,7 @@ export function Navbar() {
           <div className="flex flex-col gap-2 mt-3">
             <Button className="w-full bg-[#CF1A25] text-white border border-[#CF1A25] hover:bg-[#CF1A25]/90 hover:text-white transition-all duration-300" asChild>
               <Link href="https://pintar.bi.go.id/" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
-                PINTAR.BI
+                BI.PINTAR
               </Link>
             </Button>
             <Button className="w-full bg-gradient-to-r from-primary to-[#3b82f6] text-white hover:opacity-90 transition-all duration-300" asChild>

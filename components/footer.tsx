@@ -116,13 +116,13 @@ export function Footer() {
                 <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                   <MapPin className="h-4 w-4 text-primary" />
                 </div>
-                <span>Jl. merdeka no.1 Kuta Blang, Kec. Banda Sakti, Kota Lhokseumawe, Aceh</span>
+                <span>Jl. Merdeka No.1, Lhokseumawe, Aceh 24312</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                   <Phone className="h-4 w-4 text-primary" />
                 </div>
-                <span> - </span>
+                <span>(0645) 44000</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10">

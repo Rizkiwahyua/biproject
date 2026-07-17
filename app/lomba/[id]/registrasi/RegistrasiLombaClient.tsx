@@ -17,6 +17,19 @@ interface RegistrasiLombaClientProps {
   id: string;
 }
 
+const DOMISILI_OPTIONS = [
+  "Kota Lhokseumawe",
+  "Kota Langsa",
+  "Kabupaten Aceh Utara",
+  "Kabupaten Aceh Tengah",
+  "Kabupaten Bireuen",
+  "Kabupaten Bener Meriah",
+  "Kabupaten Gayo Lues",
+  "Kabupaten Aceh Timur",
+  "Kabupaten Aceh Tamiang",
+  "Kabupaten Aceh Tenggara"
+];
+
 export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps) {
   const [lomba, setLomba] = useState<Lomba | null>(null);
   const [loading, setLoading] = useState(true);
@@ -26,6 +39,8 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
     email: "",
     phone: "",
     address: "",
+    domisili: "",
+    file_link: "",
   });
 
   const [file, setFile] = useState<File | null>(null);
@@ -35,12 +50,14 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
     email?: string;
     phone?: string;
     address?: string;
+    domisili?: string;
+    file_link?: string;
     file?: string;
   }>({});
 
   const [submitting, setSubmitting] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -55,7 +72,14 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
+    } else {
+      setFile(null);
     }
+
+    setErrors((prev) => ({
+      ...prev,
+      file: undefined,
+    }));
   };
 
   const validateForm = () => {
@@ -64,10 +88,15 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
       email?: string;
       phone?: string;
       address?: string;
+      domisili?: string;
+      file_link?: string;
       file?: string;
     } = {};
     if (!form.name.trim()) {
       newErrors.name = "Nama lengkap wajib diisi.";
+    }
+    if (!form.domisili) {
+      newErrors.domisili = "Domisili wajib dipilih.";
     }
     if (!form.email.trim()) {
       newErrors.email = "Email wajib diisi.";
@@ -82,6 +111,12 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
     }
     if (!form.address.trim()) {
       newErrors.address = "Alamat wajib diisi.";
+    }
+    
+    // Require either file upload OR file link
+    if (!file && !form.file_link.trim()) {
+      newErrors.file = "Unggah berkas atau masukkan link berkas wajib diisi salah satunya.";
+      newErrors.file_link = "Unggah berkas atau masukkan link berkas wajib diisi salah satunya.";
     }
 
     setErrors(newErrors);
@@ -100,12 +135,21 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
       const formData = new FormData();
       formData.append("lomba_id", String(lomba.id));
       formData.append("name", form.name);
+      formData.append("domisili", form.domisili);
       formData.append("email", form.email);
       formData.append("phone", form.phone);
-      formData.append("address", form.address);
-
+      formData.append("address", "Domisili: " + form.domisili + "\nAlamat: " + form.address);
+      
       if (file) {
         formData.append("file", file);
+      }
+      if (form.file_link.trim()) {
+        formData.append("file_link", form.file_link);
+        formData.append("link", form.file_link);
+        // If file upload is empty but link is provided, we can also pass the link string to file parameter
+        if (!file) {
+          formData.append("file", form.file_link);
+        }
       }
 
       await registerLomba(formData);
@@ -121,6 +165,8 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
         email: "",
         phone: "",
         address: "",
+        domisili: "",
+        file_link: "",
       });
       setFile(null);
       setErrors({});
@@ -131,6 +177,8 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
           email: error.errors.email?.[0],
           phone: error.errors.phone?.[0],
           address: error.errors.address?.[0],
+          domisili: error.errors.domisili?.[0],
+          file_link: error.errors.file_link?.[0] || error.errors.file?.[0],
           file: error.errors.file?.[0],
         });
         return;
@@ -252,32 +300,68 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="mb-2 block text-sm font-medium">Nama Lengkap</label>
-                    <input type="text" name="name" value={form.name} onChange={handleChange} className="w-full rounded-lg border p-3" />
+                    <input type="text" name="name" value={form.name} onChange={handleChange} className="w-full rounded-lg border p-3 bg-background" />
                     {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
                   </div>
 
                   <div>
+                    <label className="mb-2 block text-sm font-medium">Domisili</label>
+                    <select 
+                      name="domisili" 
+                      value={form.domisili} 
+                      onChange={handleChange} 
+                      className="w-full rounded-lg border p-3 bg-background"
+                    >
+                      <option value="">Pilih Domisili</option>
+                      {DOMISILI_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.domisili && <p className="mt-1 text-sm text-red-500">{errors.domisili}</p>}
+                  </div>
+
+                  <div>
                     <label className="mb-2 block text-sm font-medium">Email</label>
-                    <input type="email" name="email" value={form.email} onChange={handleChange} className="w-full rounded-lg border p-3" />
+                    <input type="email" name="email" value={form.email} onChange={handleChange} className="w-full rounded-lg border p-3 bg-background" />
                     {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium">Nomor HP</label>
-                    <input type="text" name="phone" value={form.phone} onChange={handleChange} className="w-full rounded-lg border p-3" />
-                    {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
-                  </div>
-
-                  <div>
                     <label className="mb-2 block text-sm font-medium">Alamat</label>
-                    <textarea rows={4} name="address" value={form.address} onChange={handleChange} className="w-full rounded-lg border p-3" />
+                    <textarea rows={4} name="address" value={form.address} onChange={handleChange} className="w-full rounded-lg border p-3 bg-background" />
                     {errors.address && <p className="mt-1 text-sm text-red-500">{errors.address}</p>}
                   </div>
 
                   <div>
+                    <label className="mb-2 block text-sm font-medium">Nomor HP</label>
+                    <input type="text" name="phone" value={form.phone} onChange={handleChange} className="w-full rounded-lg border p-3 bg-background" />
+                    {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
+                  </div>
+
+                  <div>
                     <label className="mb-2 block text-sm font-medium">Upload Berkas (PDF/DOC/DOCX)</label>
-                    <input type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} className="w-full rounded-lg border p-3" />
+                    <input 
+                      type="file" 
+                      accept=".pdf,.doc,.docx" 
+                      onChange={handleFileChange} 
+                      className="w-full rounded-lg border p-3 bg-background" 
+                    />
                     {errors.file && <p className="mt-1 text-sm text-red-500">{errors.file}</p>}
+                  </div>
+
+                  <div>
+                    <label className="mb-2 block text-sm font-medium">File link</label>
+                    <input 
+                      type="text" 
+                      name="file_link" 
+                      value={form.file_link} 
+                      onChange={handleChange} 
+                      placeholder="Masukkan link berkas (e.g. Google Drive)" 
+                      className="w-full rounded-lg border p-3 bg-background" 
+                    />
+                    {errors.file_link && <p className="mt-1 text-sm text-red-500">{errors.file_link}</p>}
                   </div>
 
                   <Button type="submit" disabled={submitting} className="w-full">

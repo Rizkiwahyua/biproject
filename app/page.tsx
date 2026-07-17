@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Users, Sparkles, TrendingUp, Award } from "lucide-react"
+import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Users, Sparkles, TrendingUp, Award, Newspaper } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -12,22 +12,22 @@ import { FeatureCard } from "@/components/feature-card"
 
 const features = [
   {
-    title: "Edukasi Keuangan",
-    description: "Pelajari berbagai materi tentang literasi keuangan dan pengelolaan uang yang bijak untuk kehidupan sehari-hari.",
-    icon: BookOpen,
-    href: "/edukasi",
-  },
-  {
-    title: "Sejarah Rupiah",
-    description: "Telusuri perjalanan sejarah mata uang Rupiah dari masa ke masa hingga bentuknya yang kita kenal saat ini.",
-    icon: History,
-    href: "/edukasi?tab=sejarah",
+    title: "Berita & Kabar Terbaru",
+    description: "Ikuti perkembangan informasi, kegiatan, dan berita terbaru seputar CBP Rupiah dari Bank Indonesia.",
+    icon: Newspaper,
+    href: "/berita",
   },
   {
     title: "Lomba & Kompetisi",
     description: "Ikuti berbagai lomba dan kompetisi menarik seputar literasi keuangan dengan hadiah yang menarik.",
     icon: Trophy,
     href: "/lomba",
+  },
+  {
+    title: "Edukasi Keuangan",
+    description: "Pelajari berbagai materi tentang literasi keuangan dan pengelolaan uang yang bijak untuk kehidupan sehari-hari.",
+    icon: BookOpen,
+    href: "/edukasi",
   },
 ]
 
@@ -113,7 +113,7 @@ export default function HomePage() {
                 <div className="animate-fade-in mb-6">
                   <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
                     <Sparkles className="h-4 w-4 text-accent" />
-                    Kampanye Literasi Keuangan Kantor Perwakilan Bank Indonesia Lhokseumawe
+                    Kampanye CBP Rupiah Kantor Perwakilan Bank Indonesia Lhokseumawe
                   </span>
                 </div>
                 
@@ -127,8 +127,8 @@ export default function HomePage() {
                 
                 {/* Description */}
                 <p className="animate-fade-in animation-delay-200 mb-10 max-w-xl text-lg text-white/70 leading-relaxed sm:text-xl">
-                  Tingkatkan pemahaman Anda tentang mata uang Rupiah dan literasi keuangan. 
-                  Bersama Bank Indonesia, mari wujudkan masyarakat yang cerdas finansial.
+                  Tingkatkan pemahaman Anda tentang mata uang Rupiah. 
+                  Bersama Bank Indonesia, mari wujudkan masyarakat yang cerdas.
                 </p>
                 
                 {/* CTA Buttons */}
@@ -251,15 +251,7 @@ export default function HomePage() {
             </div>
           </div>
           
-          {/* Decorative Rupiah Hand Image */}
-          <div className="absolute right-4 bottom-[-30px] w-48 h-48 pointer-events-none hidden md:block opacity-90 transition-transform duration-500 hover:scale-105">
-            <Image
-              src="/uang/Rupiah-tangan.png"
-              alt="Rupiah Illustration"
-              fill
-              className="object-contain transform rotate-[-8deg]"
-            />
-          </div>
+
         </section>
 
         {/* Rupiah Specimen sliding marquee gallery */}
@@ -271,6 +263,18 @@ export default function HomePage() {
             </span>
             <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Uang Kertas Tahun Emisi 2022</h2>
             <p className="mt-2 text-sm text-muted-foreground">Dekatkan kursor/sentuh untuk menjeda putaran</p>
+            <div className="mt-6 flex flex-wrap justify-center gap-4">
+              <Button asChild className="bg-primary hover:bg-primary/90 text-white transition-all duration-300 shadow-md">
+                <a href="https://www.bi.go.id/id/rupiah/gambar-uang/Default.aspx" target="_blank" rel="noopener noreferrer">
+                  Uang Berlaku
+                </a>
+              </Button>
+              <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary/10 transition-all duration-300">
+                <a href="https://www.bi.go.id/id/rupiah/uang-dicabut/Default.aspx" target="_blank" rel="noopener noreferrer">
+                  Uang Dicabut
+                </a>
+              </Button>
+            </div>
           </div>
           
           <div className="relative flex overflow-x-hidden w-full">
