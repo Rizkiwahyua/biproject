@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { HomeHero, HomeSettingResponse } from "@/types/api";
 
-<<<<<<< HEAD
-import { useState } from "react"
 import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Users, Sparkles, TrendingUp, Award, Newspaper } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -13,16 +11,6 @@ import { cn } from "@/lib/utils"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { FeatureCard } from "@/components/feature-card"
-=======
-import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Users, Sparkles, TrendingUp, Award } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { FeatureCard } from "@/components/feature-card";
->>>>>>> 60a634a0ee264f094c90f9666d5ca3bc51b18a46
 
 const features = [
   {
@@ -37,17 +25,13 @@ const features = [
     icon: Trophy,
     href: "/lomba",
   },
-<<<<<<< HEAD
   {
     title: "Edukasi Keuangan",
     description: "Pelajari berbagai materi tentang literasi keuangan dan pengelolaan uang yang bijak untuk kehidupan sehari-hari.",
     icon: BookOpen,
     href: "/edukasi",
   },
-]
-=======
 ];
->>>>>>> 60a634a0ee264f094c90f9666d5ca3bc51b18a46
 
 const stats = [
   { value: "275M+", label: "Pengguna Rupiah", icon: Users },
@@ -164,12 +148,8 @@ export default function HomePage() {
 
                 {/* Description */}
                 <p className="animate-fade-in animation-delay-200 mb-10 max-w-xl text-lg text-white/70 leading-relaxed sm:text-xl">
-<<<<<<< HEAD
                   Tingkatkan pemahaman Anda tentang mata uang Rupiah. 
                   Bersama Bank Indonesia, mari wujudkan masyarakat yang cerdas.
-=======
-                  Tingkatkan pemahaman Anda tentang mata uang Rupiah dan literasi keuangan. Bersama Bank Indonesia, mari wujudkan masyarakat yang cerdas finansial.
->>>>>>> 60a634a0ee264f094c90f9666d5ca3bc51b18a46
                 </p>
 
                 {/* CTA Buttons */}
@@ -272,16 +252,6 @@ export default function HomePage() {
               </Button>
             </div>
           </div>
-<<<<<<< HEAD
-          
-
-=======
-
-          {/* Decorative Rupiah Hand Image */}
-          <div className="absolute right-4 bottom-[-30px] w-48 h-48 pointer-events-none hidden md:block opacity-90 transition-transform duration-500 hover:scale-105">
-            <Image src="/uang/Rupiah-tangan.png" alt="Rupiah Illustration" fill className="object-contain transform rotate-[-8deg]" />
-          </div>
->>>>>>> 60a634a0ee264f094c90f9666d5ca3bc51b18a46
         </section>
 
         {/* Rupiah Specimen sliding marquee gallery */}
