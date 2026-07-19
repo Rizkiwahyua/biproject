@@ -141,24 +141,6 @@ export default function DetailEdukasiClient({ id }: DetailEdukasiClientProps) {
           <div className="grid gap-8 lg:grid-cols-12">
             {/* Main Content */}
             <div className="lg:col-span-9 space-y-8">
-              {/* Text Content Card */}
-              <article className="rounded-2xl border bg-card p-6 sm:p-8 shadow-sm">
-                <div
-                  className="
-                    prose
-                    prose-neutral
-                    dark:prose-invert
-                    max-w-none
-                    prose-headings:font-bold
-                    prose-img:rounded-xl
-                    leading-relaxed
-                  "
-                  dangerouslySetInnerHTML={{
-                    __html: edukasi.content,
-                  }}
-                />
-              </article>
-
               {/* Image Preview directly in the main section if it is an image */}
               {edukasi.file && ['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(edukasi.file_extension || '') && (
                 <div className="rounded-2xl border bg-card p-6 sm:p-8 shadow-sm space-y-4">

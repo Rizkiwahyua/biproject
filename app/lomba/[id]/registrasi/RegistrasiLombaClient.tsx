@@ -27,7 +27,7 @@ const DOMISILI_OPTIONS = [
   "Kabupaten Gayo Lues",
   "Kabupaten Aceh Timur",
   "Kabupaten Aceh Tamiang",
-  "Kabupaten Aceh Tenggara"
+  "Kabupaten Aceh Tenggara",
 ];
 
 export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps) {
@@ -39,8 +39,8 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
     email: "",
     phone: "",
     address: "",
-    domisili: "",
-    file_link: "",
+    domicile: "",
+    link: "",
   });
 
   const [file, setFile] = useState<File | null>(null);
@@ -50,8 +50,8 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
     email?: string;
     phone?: string;
     address?: string;
-    domisili?: string;
-    file_link?: string;
+    domicile?: string;
+    link?: string;
     file?: string;
   }>({});
 
@@ -88,15 +88,15 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
       email?: string;
       phone?: string;
       address?: string;
-      domisili?: string;
-      file_link?: string;
+      domicile?: string;
+      link?: string;
       file?: string;
     } = {};
     if (!form.name.trim()) {
       newErrors.name = "Nama lengkap wajib diisi.";
     }
-    if (!form.domisili) {
-      newErrors.domisili = "Domisili wajib dipilih.";
+    if (!form.domicile) {
+      newErrors.domicile = "domicile wajib dipilih.";
     }
     if (!form.email.trim()) {
       newErrors.email = "Email wajib diisi.";
@@ -112,12 +112,12 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
     if (!form.address.trim()) {
       newErrors.address = "Alamat wajib diisi.";
     }
-    
+
     // Require either file upload OR file link
-    if (!file && !form.file_link.trim()) {
-      newErrors.file = "Unggah berkas atau masukkan link berkas wajib diisi salah satunya.";
-      newErrors.file_link = "Unggah berkas atau masukkan link berkas wajib diisi salah satunya.";
-    }
+    // if (!file && !form.link.trim()) {
+    //   newErrors.file = "Unggah berkas atau masukkan link berkas wajib diisi salah satunya.";
+    //   newErrors.link = "Unggah berkas atau masukkan link berkas wajib diisi salah satunya.";
+    // }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -135,21 +135,25 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
       const formData = new FormData();
       formData.append("lomba_id", String(lomba.id));
       formData.append("name", form.name);
-      formData.append("domisili", form.domisili);
+      formData.append("domicile", form.domicile);
       formData.append("email", form.email);
       formData.append("phone", form.phone);
-      formData.append("address", "Domisili: " + form.domisili + "\nAlamat: " + form.address);
-      
+      formData.append("address", form.address);
+
       if (file) {
         formData.append("file", file);
       }
-      if (form.file_link.trim()) {
-        formData.append("file_link", form.file_link);
-        formData.append("link", form.file_link);
-        // If file upload is empty but link is provided, we can also pass the link string to file parameter
-        if (!file) {
-          formData.append("file", form.file_link);
-        }
+
+      // if (form.link.trim()) {
+      //   formData.append("link", form.link);
+      //   formData.append("link", form.link);
+      //   // If file upload is empty but link is provided, we can also pass the link string to file parameter
+      //   if (!file) {
+      //     formData.append("file", form.link);
+      //   }
+      // }
+      if (form.link.trim()) {
+        formData.append("link", form.link);
       }
 
       await registerLomba(formData);
@@ -165,22 +169,34 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
         email: "",
         phone: "",
         address: "",
-        domisili: "",
-        file_link: "",
+        domicile: "",
+        link: "",
       });
+
       setFile(null);
       setErrors({});
     } catch (error: any) {
+      if (error.errors?.quota) {
+        Swal.fire({
+          icon: "warning",
+          title: "Pendaftaran Gagal",
+          text: error.errors.quota[0],
+        });
+
+        return;
+      }
+
       if (error.errors) {
         setErrors({
           name: error.errors.name?.[0],
           email: error.errors.email?.[0],
           phone: error.errors.phone?.[0],
           address: error.errors.address?.[0],
-          domisili: error.errors.domisili?.[0],
-          file_link: error.errors.file_link?.[0] || error.errors.file?.[0],
+          domicile: error.errors.domicile?.[0],
+          link: error.errors.link?.[0],
           file: error.errors.file?.[0],
         });
+
         return;
       }
 
@@ -190,6 +206,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
           title: "Pendaftaran Gagal",
           text: error.message,
         });
+
         return;
       }
 
@@ -210,7 +227,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
       const segments = window.location.pathname.split("/").filter(Boolean);
       // URL pattern: /lomba/<id>/registrasi, so ID is at index 1
       const urlId = segments.length >= 3 && segments[0] === "lomba" ? segments[1] : null;
-      const resolvedId = urlId && urlId !== "detail" ? urlId : (id !== "detail" ? id : null);
+      const resolvedId = urlId && urlId !== "detail" ? urlId : id !== "detail" ? id : null;
 
       if (!resolvedId) {
         setLoading(false);
@@ -305,13 +322,8 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium">Domisili</label>
-                    <select 
-                      name="domisili" 
-                      value={form.domisili} 
-                      onChange={handleChange} 
-                      className="w-full rounded-lg border p-3 bg-background"
-                    >
+                    <label className="mb-2 block text-sm font-medium">domicile</label>
+                    <select name="domicile" value={form.domicile} onChange={handleChange} className="w-full rounded-lg border p-3 bg-background">
                       <option value="">Pilih Domisili</option>
                       {DOMISILI_OPTIONS.map((opt) => (
                         <option key={opt} value={opt}>
@@ -319,7 +331,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
                         </option>
                       ))}
                     </select>
-                    {errors.domisili && <p className="mt-1 text-sm text-red-500">{errors.domisili}</p>}
+                    {errors.domicile && <p className="mt-1 text-sm text-red-500">{errors.domicile}</p>}
                   </div>
 
                   <div>
@@ -342,26 +354,14 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
 
                   <div>
                     <label className="mb-2 block text-sm font-medium">Upload Berkas (PDF/DOC/DOCX)</label>
-                    <input 
-                      type="file" 
-                      accept=".pdf,.doc,.docx" 
-                      onChange={handleFileChange} 
-                      className="w-full rounded-lg border p-3 bg-background" 
-                    />
+                    <input type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} className="w-full rounded-lg border p-3 bg-background" />
                     {errors.file && <p className="mt-1 text-sm text-red-500">{errors.file}</p>}
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium">File link</label>
-                    <input 
-                      type="text" 
-                      name="file_link" 
-                      value={form.file_link} 
-                      onChange={handleChange} 
-                      placeholder="Masukkan link berkas (e.g. Google Drive)" 
-                      className="w-full rounded-lg border p-3 bg-background" 
-                    />
-                    {errors.file_link && <p className="mt-1 text-sm text-red-500">{errors.file_link}</p>}
+                    <input type="text" name="link" value={form.link} onChange={handleChange} placeholder="Masukkan link berkas (e.g. Google Drive)" className="w-full rounded-lg border p-3 bg-background" />
+                    {errors.link && <p className="mt-1 text-sm text-red-500">{errors.link}</p>}
                   </div>
 
                   <Button type="submit" disabled={submitting} className="w-full">
@@ -385,7 +385,9 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
 
                   <div className="flex gap-2">
                     <Calendar size={18} />
-                    <span>{formatTanggal(lomba.release_date)} - {formatTanggal(lomba.end_date)}</span>
+                    <span>
+                      {formatTanggal(lomba.release_date)} - {formatTanggal(lomba.end_date)}
+                    </span>
                   </div>
 
                   <div className="flex gap-2">

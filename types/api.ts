@@ -26,12 +26,17 @@ export interface HomeHero {
   sort_order: number;
 }
 
-export interface YoutubeLink {
+export interface RunningText {
   id: number;
-  youtube_url: string;
+  running_text: string;
+  created_at: string;
 }
 
-export interface HomeSettingResponse {
-  heroes: HomeHero[];
-  youtube_urls: string[];
+export interface EdukasiVideo {
+  id: number;
+  judul: string;
+  deskripsi: string;
+  link: string;
+  created_at: string;
+  updated_at: string;
 }

@@ -1,16 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
-import { HomeHero, HomeSettingResponse } from "@/types/api";
+import { ApiCollection, HomeHero } from "@/types/api";
 
-import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Users, Sparkles, TrendingUp, Award, Newspaper } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { FeatureCard } from "@/components/feature-card"
+import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Users, Sparkles, TrendingUp, Award, Newspaper } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import { FeatureCard } from "@/components/feature-card";
 
 const features = [
   {
@@ -54,43 +54,22 @@ export default function HomePage() {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
 
   const [heroCards, setHeroCards] = useState<HomeHero[]>([]);
-  const [youtubeUrls, setYoutubeUrls] = useState<string[]>([]);
 
   useEffect(() => {
-    async function loadHome() {
+    async function loadHeroes() {
       try {
-        const result = await apiFetch<HomeSettingResponse>("/home-settings");
+        const response = await apiFetch<ApiCollection<HomeHero>>("/home-heroes");
 
-        setHeroCards(result.heroes);
-        setYoutubeUrls(result.youtube_urls);
+        setHeroCards(response.data);
+
+        console.log(response.data);
       } catch (error) {
-        console.error(error);
+        console.error("Gagal mengambil Hero:", error);
       }
     }
 
-    loadHome();
+    loadHeroes();
   }, []);
-
-  //embed link url yt
-  const getYoutubeEmbedUrl = (url: string) => {
-    try {
-      const youtube = new URL(url);
-
-      // https://youtu.be/xxxxx
-      if (youtube.hostname === "youtu.be") {
-        return `https://www.youtube.com/embed/${youtube.pathname.slice(1)}`;
-      }
-
-      // https://www.youtube.com/watch?v=xxxxx
-      if (youtube.searchParams.get("v")) {
-        return `https://www.youtube.com/embed/${youtube.searchParams.get("v")}`;
-      }
-
-      return url;
-    } catch {
-      return "";
-    }
-  };
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -148,8 +127,7 @@ export default function HomePage() {
 
                 {/* Description */}
                 <p className="animate-fade-in animation-delay-200 mb-10 max-w-xl text-lg text-white/70 leading-relaxed sm:text-xl">
-                  Tingkatkan pemahaman Anda tentang mata uang Rupiah. 
-                  Bersama Bank Indonesia, mari wujudkan masyarakat yang cerdas.
+                  Tingkatkan pemahaman Anda tentang mata uang Rupiah. Bersama Bank Indonesia, mari wujudkan masyarakat yang cerdas.
                 </p>
 
                 {/* CTA Buttons */}
@@ -325,38 +303,6 @@ export default function HomePage() {
                   </div>
                 );
               })}
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-muted/30 border-t border-border/50 py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-10">
-              <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
-                <Sparkles className="h-3 w-3" />
-                Video Pembelajaran
-              </span>
-
-              <h2 className="text-3xl font-bold">Sosialisasi Cinta, Bangga, Paham Rupiah</h2>
-
-              <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">Saksikan video resmi Bank Indonesia mengenai Cinta, Bangga, dan Paham Rupiah.</p>
-            </div>
-
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {youtubeUrls.map((url, index) => (
-                <div key={index} className="overflow-hidden rounded-2xl border border-border bg-card shadow-lg">
-                  <div className="aspect-video relative">
-                    <iframe
-                      className="absolute inset-0 w-full h-full"
-                      src={getYoutubeEmbedUrl(url)}
-                      title={`Video ${index + 1}`}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </section>

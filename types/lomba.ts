@@ -13,4 +13,9 @@ export interface Lomba {
   status: "upcoming" | "ongoing" | "closed";
   status_label: string;
   status_color: string;
+
+  current_participants: number;
+  max_participants: number;
+  remaining_quota: number;
+  is_full: boolean;
 }
