@@ -14,7 +14,7 @@ import { FeatureCard } from "@/components/feature-card";
 
 const features = [
   {
-    title: "Berita & Kabar Terbaru",
+    title: "Kabar Terbaru & Game",
     description: "Ikuti perkembangan informasi, kegiatan, dan berita terbaru seputar CBP Rupiah dari Bank Indonesia.",
     icon: Newspaper,
     href: "/berita",
@@ -261,7 +261,7 @@ export default function HomePage() {
             {/* Gradient shadow overlay right */}
             <div className="absolute top-0 right-0 h-full w-12 sm:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-            <div className="animate-marquee flex gap-8 whitespace-nowrap py-4">
+            <div className="animate-marquee-seamless flex gap-8 whitespace-nowrap py-4">
               {/* Set 1 */}
               {rupiahImages.map((src, index) => (
                 <div

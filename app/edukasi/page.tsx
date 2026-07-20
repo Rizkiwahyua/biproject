@@ -398,56 +398,46 @@ function EdukasiContent() {
 
           {loadingVideo ? (
             <div className="py-20 text-center text-muted-foreground">Memuat video...</div>
-          ) : videos.length === 0 ? (
-            <div className="py-20 text-center text-muted-foreground">Belum ada video edukasi.</div>
           ) : (
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {videos.map((video) => (
-                <div key={video.id} className="overflow-hidden rounded-3xl border bg-card shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-                  {/* VIDEO */}
-                  <div className="relative">
-                    <iframe
-                      src={getYoutubeEmbed(video.link)}
-                      title={video.judul}
-                      className="aspect-video w-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    />
+            <div className="space-y-10">
+              {(videos.length > 0 ? videos : [
+                {
+                  id: 1,
+                  judul: "Sosialisasi Cinta, Bangga, Paham Rupiah",
+                  deskripsi: "Saksikan video sosialisasi resmi dari Bank Indonesia untuk memahami lebih lanjut pentingnya mencintai, menjaga, dan memahami uang Rupiah sebagai simbol kedaulatan bangsa Indonesia.",
+                  link: "https://www.youtube.com/watch?v=3nQxV3n7N5w",
+                  created_at: "",
+                  updated_at: ""
+                }
+              ]).map((video) => (
+                <div key={video.id} className="group relative overflow-hidden rounded-3xl border border-border/80 bg-card p-6 sm:p-8 lg:p-10 shadow-sm transition-all duration-300 hover:border-primary/40 hover:shadow-2xl hover:-translate-y-1">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    {/* Detail Informasi (Kiri) */}
+                    <div className="lg:col-span-5 flex flex-col items-start justify-center">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-blue-50 dark:bg-blue-950/60 px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-800/60 mb-4">
+                        <Sparkles className="h-3.5 w-3.5 text-blue-500" />
+                        Video Pembelajaran
+                      </span>
 
-                    {/* Badge (tidak menghalangi klik) */}
-                    <div
-                      className="
-                  pointer-events-none
-                  absolute left-4 top-4
-                  flex items-center gap-2
-                  rounded-full
-                  bg-red-600/95
-                  px-3 py-1
-                  text-xs font-semibold
-                  text-white
-                  shadow-lg
-                "
-                    >
-                      <Youtube className="h-3 w-3" />
-                      VIDEO
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground tracking-tight mb-4 leading-snug">
+                        {video.judul}
+                      </h3>
+
+                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                        {video.deskripsi}
+                      </p>
                     </div>
-                  </div>
 
-                  {/* Content */}
-
-                  <div className="p-6">
-                    <h3 className="line-clamp-2 text-xl font-bold">{video.judul}</h3>
-
-                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">{video.deskripsi}</p>
-
-                    <div className="mt-6 flex items-center justify-between">
-                      <span className="text-xs text-muted-foreground">YouTube</span>
-
-                      <a href={video.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90">
-                        <Youtube className="h-4 w-4" />
-                        Buka
-                      </a>
+                    {/* Frame Video Embed (Kanan) */}
+                    <div className="lg:col-span-7 overflow-hidden rounded-2xl sm:rounded-3xl shadow-lg border border-border/40 bg-black">
+                      <iframe
+                        src={getYoutubeEmbed(video.link)}
+                        title={video.judul}
+                        className="aspect-video w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      />
                     </div>
                   </div>
                 </div>
