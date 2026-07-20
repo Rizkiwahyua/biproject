@@ -128,7 +128,20 @@ export default function LombaPage() {
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 stagger-children">
               {events.map((event) => (
-                <EventCard key={event.id} id={event.id} title={event.title} description={event.description} date={`${formatTanggal(event.release_date)} - ${formatTanggal(event.end_date)}`} location={event.location} status={event.status} thumbnail={event.thumbnail} />
+                <EventCard
+                  key={event.id}
+                  id={event.id}
+                  title={event.title}
+                  description={event.description}
+                  date={`${formatTanggal(event.release_date)} - ${formatTanggal(event.end_date)}`}
+                  location={event.location}
+                  status={event.status}
+                  thumbnail={event.thumbnail}
+                  isFull={event.is_full}
+                  currentParticipants={event.current_participants}
+                  maxParticipants={event.max_participants}
+                  remainingQuota={event.remaining_quota}
+                />
               ))}
             </div>
           </div>

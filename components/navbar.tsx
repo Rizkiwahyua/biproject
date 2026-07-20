@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+
+import { apiFetch } from "@/lib/api";
+import { ApiCollection, RunningText } from "@/types/api";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,6 +21,21 @@ const navLinks = [
 export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [runningTexts, setRunningTexts] = useState<RunningText[]>([]);
+
+  useEffect(() => {
+    async function loadRunningTexts() {
+      try {
+        const response = await apiFetch<ApiCollection<RunningText>>("/running-texts");
+
+        setRunningTexts(response.data);
+      } catch (error) {
+        console.error("Gagal mengambil running text:", error);
+      }
+    }
+
+    loadRunningTexts();
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-card/80 backdrop-blur-xl supports-[backdrop-filter]:bg-card/60">
@@ -97,20 +115,23 @@ export function Navbar() {
       {/* Ticker Banner */}
       <div className="border-t border-border/50 bg-primary/5 py-2 overflow-hidden text-xs text-foreground font-semibold">
         <div className="relative flex overflow-x-hidden w-full">
+          {/* Running text */}
           <div className="animate-marquee flex gap-16 whitespace-nowrap">
-            {/* Set 1 */}
-            <span className="flex items-center gap-2"><Sparkles className="h-3.5 w-3.5 text-accent animate-pulse" /> INFO TERKINI: Kampanye Literasi Keuangan KPw Bank Indonesia Lhokseumawe</span>
-            <span className="flex items-center gap-2">🪙 CINTA RUPIAH: Kenali, Rawat, dan Jaga Rupiah Kita</span>
-            <span className="flex items-center gap-2">🇮🇩 BANGGA RUPIAH: Rupiah sebagai Simbol Kedaulatan Negara</span>
-            <span className="flex items-center gap-2">💡 PAHAM RUPIAH: Pahami Penggunaan dan Pengelolaan Keuangan dengan BIjak</span>
-            <span className="flex items-center gap-2">🏆 LOMBA LITERASI: Ikuti kompetisi literasi keuangan TE 2022 terbaru!</span>
-            
-            {/* Set 2 for seamless looping */}
-            <span className="flex items-center gap-2"><Sparkles className="h-3.5 w-3.5 text-accent animate-pulse" /> INFO TERKINI: Kampanye Literasi Keuangan KPw Bank Indonesia Lhokseumawe</span>
-            <span className="flex items-center gap-2">🪙 CINTA RUPIAH: Kenali, Rawat, dan Jaga Rupiah Kita</span>
-            <span className="flex items-center gap-2">🇮🇩 BANGGA RUPIAH: Rupiah sebagai Simbol Kedaulatan Negara</span>
-            <span className="flex items-center gap-2">💡 PAHAM RUPIAH: Pahami Penggunaan dan Pengelolaan Keuangan dengan BIjak</span>
-            <span className="flex items-center gap-2">🏆 LOMBA LITERASI: Ikuti kompetisi literasi keuangan TE 2022 terbaru!</span>
+            {/* Set pertama */}
+            {runningTexts.map((item) => (
+              <span key={`first-${item.id}`} className="flex items-center gap-2">
+                <Sparkles className="h-3.5 w-3.5 text-accent animate-pulse" />
+                {item.running_text}
+              </span>
+            ))}
+
+            {/* Set kedua supaya looping */}
+            {runningTexts.map((item) => (
+              <span key={`second-${item.id}`} className="flex items-center gap-2">
+                <Sparkles className="h-3.5 w-3.5 text-accent animate-pulse" />
+                {item.running_text}
+              </span>
+            ))}
           </div>
         </div>
       </div>

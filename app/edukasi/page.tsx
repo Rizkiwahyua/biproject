@@ -10,7 +10,7 @@ import { TopicCard } from "@/components/topic-card";
 import { TimelineItem } from "@/components/timeline-item";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-import type { ApiCollection, Edukasi } from "@/types/api";
+import type { ApiCollection, Edukasi, EdukasiVideo } from "@/types/api";
 
 const timelineData = [
   {
@@ -78,14 +78,15 @@ const funFacts = [
   },
 ];
 
-
-
 function EdukasiContent() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState("materi");
   const [apiMateri, setApiMateri] = useState<Edukasi[]>([]);
   const [loadingMateri, setLoadingMateri] = useState(true);
+
+  const [videos, setVideos] = useState<EdukasiVideo[]>([]);
+  const [loadingVideo, setLoadingVideo] = useState(true);
 
   useEffect(() => {
     apiFetch<ApiCollection<Edukasi>>("/edukasis")
@@ -98,6 +99,36 @@ function EdukasiContent() {
         setLoadingMateri(false);
       });
   }, []);
+
+  // card videos
+  useEffect(() => {
+    apiFetch<ApiCollection<EdukasiVideo>>("/edukasi-videos")
+      .then((response) => {
+        setVideos(response.data);
+        setLoadingVideo(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoadingVideo(false);
+      });
+  }, []);
+
+  // helper link vidio
+  function getYoutubeEmbed(url: string) {
+    if (!url) return "";
+
+    if (url.includes("youtu.be")) {
+      const id = url.split("youtu.be/")[1].split("?")[0];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+
+    if (url.includes("watch?v=")) {
+      const id = new URL(url).searchParams.get("v");
+      return `https://www.youtube.com/embed/${id}`;
+    }
+
+    return url;
+  }
 
   useEffect(() => {
     if (tabParam === "sejarah") {
@@ -202,15 +233,7 @@ function EdukasiContent() {
                     ) : apiMateri.length === 0 ? (
                       <p className="text-muted-foreground">Belum ada data edukasi.</p>
                     ) : (
-                      apiMateri.map((materi) => (
-                        <TopicCard
-                          key={materi.id}
-                          title={materi.judul}
-                          description={materi.deskripsi}
-                          icon={materi.link ? Youtube : FileText}
-                          href={`/edukasi/${materi.id}`}
-                        />
-                      ))
+                      apiMateri.map((materi) => <TopicCard key={materi.id} title={materi.judul} description={materi.deskripsi} icon={materi.link ? Youtube : FileText} href={`/edukasi/${materi.id}`} />)
                     )}
                   </div>
 
@@ -356,39 +379,81 @@ function EdukasiContent() {
         </section>
       </main>
 
+      {/* videos yt dari back-end */}
+      <section className="relative overflow-hidden border-t border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-20">
+        <div className="absolute -top-32 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]" />
 
-
-      <section className="bg-muted/30 border-t border-border/50 py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-10 shadow-sm transition-all duration-300 hover:shadow-xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-            <div className="relative grid gap-8 lg:grid-cols-12 items-center">
-              <div className="lg:col-span-5">
-                <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
-                  <Sparkles className="h-3 w-3" />
-                  Video Pembelajaran
-                </span>
-
-                <h3 className="mb-4 text-2xl font-bold text-foreground">Sosialisasi Cinta, Bangga, Paham Rupiah</h3>
-
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                  Saksikan video sosialisasi resmi dari Bank Indonesia untuk memahami lebih lanjut pentingnya mencintai, menjaga, dan memahami uang Rupiah sebagai simbol kedaulatan bangsa Indonesia.
-                </p>
-              </div>
-
-              <div className="lg:col-span-7 aspect-video w-full overflow-hidden rounded-2xl border border-border bg-black shadow-lg relative">
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src="https://www.youtube.com/embed/j-cw_ozfayQ"
-                  title="Video Edukasi Cinta Bangga Paham Rupiah"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
-              </div>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="mb-14 text-center">
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-5 py-2 text-sm font-semibold text-primary">
+              <Youtube className="h-4 w-4" />
+              Video Edukasi
             </div>
+
+            <h2 className="mt-5 text-4xl font-bold tracking-tight">Belajar Rupiah Melalui Video</h2>
+
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">Tonton video edukasi resmi Bank Indonesia mengenai Rupiah, literasi keuangan, dan berbagai materi pembelajaran lainnya.</p>
           </div>
+
+          {loadingVideo ? (
+            <div className="py-20 text-center text-muted-foreground">Memuat video...</div>
+          ) : videos.length === 0 ? (
+            <div className="py-20 text-center text-muted-foreground">Belum ada video edukasi.</div>
+          ) : (
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {videos.map((video) => (
+                <div key={video.id} className="overflow-hidden rounded-3xl border bg-card shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                  {/* VIDEO */}
+                  <div className="relative">
+                    <iframe
+                      src={getYoutubeEmbed(video.link)}
+                      title={video.judul}
+                      className="aspect-video w-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+
+                    {/* Badge (tidak menghalangi klik) */}
+                    <div
+                      className="
+                  pointer-events-none
+                  absolute left-4 top-4
+                  flex items-center gap-2
+                  rounded-full
+                  bg-red-600/95
+                  px-3 py-1
+                  text-xs font-semibold
+                  text-white
+                  shadow-lg
+                "
+                    >
+                      <Youtube className="h-3 w-3" />
+                      VIDEO
+                    </div>
+                  </div>
+
+                  {/* Content */}
+
+                  <div className="p-6">
+                    <h3 className="line-clamp-2 text-xl font-bold">{video.judul}</h3>
+
+                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">{video.deskripsi}</p>
+
+                    <div className="mt-6 flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground">YouTube</span>
+
+                      <a href={video.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90">
+                        <Youtube className="h-4 w-4" />
+                        Buka
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
       <Footer />

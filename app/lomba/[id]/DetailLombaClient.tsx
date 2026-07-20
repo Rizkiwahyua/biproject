@@ -28,7 +28,7 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
       // because Apache rewrite serves detail.html with id="detail"
       const segments = window.location.pathname.split("/").filter(Boolean);
       const urlId = segments.length >= 2 ? segments[segments.length - 1] : null;
-      const resolvedId = urlId && urlId !== "detail" ? urlId : (id !== "detail" ? id : null);
+      const resolvedId = urlId && urlId !== "detail" ? urlId : id !== "detail" ? id : null;
 
       if (!resolvedId) {
         setLoading(false);
@@ -106,11 +106,7 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
         {lomba.thumbnail && (
           <section className="mx-auto max-w-6xl px-4 pt-10">
             <div className="relative h-[250px] sm:h-[350px] md:h-[450px] w-full overflow-hidden rounded-2xl border bg-muted shadow-sm">
-              <img 
-                src={`${API_STORAGE}/${lomba.thumbnail}`} 
-                alt={lomba.title} 
-                className="w-full h-full object-cover" 
-              />
+              <img src={`${API_STORAGE}/${lomba.thumbnail}`} alt={lomba.title} className="w-full h-full object-cover" />
             </div>
           </section>
         )}
@@ -155,6 +151,22 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
                   </div>
 
                   <div>
+                    <p className="text-sm text-muted-foreground">Kuota Peserta</p>
+
+                    {lomba.max_participants ? (
+                      <>
+                        <p className="font-medium">
+                          {lomba.current_participants} / {lomba.max_participants}
+                        </p>
+
+                        {!lomba.is_full ? <p className="text-sm text-green-600">Sisa {lomba.remaining_quota} peserta</p> : <p className="text-sm text-red-600 font-medium">Kuota Penuh</p>}
+                      </>
+                    ) : (
+                      <p className="font-medium">Tidak dibatasi</p>
+                    )}
+                  </div>
+
+                  <div>
                     <p className="text-sm text-muted-foreground">Pendaftaran</p>
 
                     <p className="font-medium">{formatTanggal(lomba.release_date)}</p>
@@ -167,12 +179,18 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
                   </div>
                 </div>
 
-                {lomba.status === "ongoing" && (
+                {lomba.status === "ongoing" && !lomba.is_full && (
                   <Button asChild className="mt-8 w-full bg-gradient-to-r from-primary to-[#3b82f6] hover:opacity-90">
                     <Link href={`/lomba/${lomba.id}/registrasi`}>
                       Daftar Sekarang
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
+                  </Button>
+                )}
+
+                {lomba.status === "ongoing" && lomba.is_full && (
+                  <Button disabled className="mt-8 w-full cursor-not-allowed bg-red-500 text-white hover:bg-red-500">
+                    Kuota Peserta Penuh
                   </Button>
                 )}
 

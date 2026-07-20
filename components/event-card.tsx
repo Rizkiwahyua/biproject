@@ -1,4 +1,4 @@
-import { Calendar, MapPin, ArrowRight } from "lucide-react";
+import { Calendar, MapPin, ArrowRight, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -11,6 +11,13 @@ interface EventCardProps {
   location?: string;
   status: "upcoming" | "ongoing" | "closed";
   thumbnail?: string | null;
+
+  isFull: boolean;
+
+  currentParticipants: number;
+  maxParticipants: number | null;
+  remainingQuota: number;
+
   className?: string;
 }
 
@@ -32,39 +39,39 @@ const statusConfig = {
   },
 };
 
-export function EventCard({ id, title, description, date, location, status, thumbnail, className }: EventCardProps) {
+export function EventCard({ id, title, description, date, location, status, thumbnail, isFull, currentParticipants, maxParticipants, remainingQuota, className }: EventCardProps) {
   const statusInfo = statusConfig[status];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    e.currentTarget.style.setProperty("--mouse-x", `${x}px`)
-    e.currentTarget.style.setProperty("--mouse-y", `${y}px`)
-  }
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
 
   return (
-    <div 
+    <div
       onMouseMove={handleMouseMove}
       className={cn("group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 shadow-sm transition-all duration-300 hover:border-primary/20 hover:shadow-xl hover:-translate-y-1", className)}
     >
       {/* Spotlight Background Glow */}
-      <div 
+      <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         style={{
-          background: `radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), color-mix(in srgb, var(--primary) 8%, transparent), transparent 80%)`
+          background: `radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), color-mix(in srgb, var(--primary) 8%, transparent), transparent 80%)`,
         }}
       />
-      
+
       {/* Spotlight Border Glow */}
-      <div 
+      <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
         style={{
-          border: '1px solid transparent',
+          border: "1px solid transparent",
           backgroundImage: `linear-gradient(var(--card), var(--card)), radial-gradient(250px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), color-mix(in srgb, var(--primary) 40%, var(--accent) 30%), transparent 80%)`,
-          backgroundOrigin: 'border-box',
-          backgroundClip: 'padding-box, border-box',
-          margin: '-1px',
+          backgroundOrigin: "border-box",
+          backgroundClip: "padding-box, border-box",
+          margin: "-1px",
         }}
       />
 
@@ -74,11 +81,7 @@ export function EventCard({ id, title, description, date, location, status, thum
       {/* Thumbnail if present */}
       {thumbnail && (
         <div className="relative -mx-7 -mt-7 mb-6 h-48 overflow-hidden rounded-t-2xl border-b border-border bg-muted">
-          <img 
-            src={`${process.env.NEXT_PUBLIC_STORAGE_URL || "http://127.0.0.1:8000/storage"}/${thumbnail}`} 
-            alt={title} 
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
-          />
+          <img src={`${process.env.NEXT_PUBLIC_STORAGE_URL || "http://127.0.0.1:8000/storage"}/${thumbnail}`} alt={title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>
       )}
 
@@ -108,20 +111,35 @@ export function EventCard({ id, title, description, date, location, status, thum
               <span>{location}</span>
             </div>
           )}
+
+          <div className="flex items-center gap-3 text-sm">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+              <Users className="h-4 w-4 text-primary" />
+            </div>
+
+            {maxParticipants ? (
+              <span className={isFull ? "text-red-600 font-medium" : "text-muted-foreground"}>
+                {currentParticipants} / {maxParticipants} Peserta
+                {!isFull && <span className="ml-1 text-green-600">({remainingQuota} tersisa)</span>}
+              </span>
+            ) : (
+              <span className="text-muted-foreground">Kuota Tidak Terbatas</span>
+            )}
+          </div>
         </div>
 
-        {
-          <Button
-            asChild
-            className={cn("w-full transition-all duration-300 group/btn", status === "closed" ? "bg-muted text-muted-foreground cursor-not-allowed" : "bg-gradient-to-r from-primary to-[#2d8f8f] text-white hover:opacity-90")}
-            disabled={status === "closed"}
-          >
+        {status === "closed" || isFull ? (
+          <Button disabled className="w-full bg-gray-300 text-gray-600 cursor-not-allowed">
+            {isFull ? "Kuota Penuh" : "Pendaftaran Ditutup"}
+          </Button>
+        ) : (
+          <Button asChild className="w-full bg-gradient-to-r from-primary to-[#2d8f8f] text-white">
             <Link href={`/lomba/${id}`}>
               Daftar Sekarang
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
-        }
+        )}
       </div>
     </div>
   );

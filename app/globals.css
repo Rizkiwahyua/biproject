@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -46,7 +46,7 @@
   --card-foreground: oklch(0.95 0 0);
   --popover: oklch(0.22 0.025 220);
   --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.60 0.15 255);
+  --primary: oklch(0.6 0.15 255);
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.28 0.02 220);
   --secondary-foreground: oklch(0.95 0 0);
@@ -58,20 +58,20 @@
   --destructive-foreground: oklch(0.99 0 0);
   --border: oklch(0.3 0.02 220);
   --input: oklch(0.28 0.02 220);
-  --ring: oklch(0.60 0.15 255);
-  --chart-1: oklch(0.60 0.15 255);
+  --ring: oklch(0.6 0.15 255);
+  --chart-1: oklch(0.6 0.15 255);
   --chart-2: oklch(0.6 0.2 25);
   --chart-3: oklch(0.45 0.1 220);
   --chart-4: oklch(0.65 0.1 180);
   --chart-5: oklch(0.75 0.08 200);
   --sidebar: oklch(0.22 0.025 220);
   --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.60 0.15 255);
+  --sidebar-primary: oklch(0.6 0.15 255);
   --sidebar-primary-foreground: oklch(0.99 0 0);
   --sidebar-accent: oklch(0.28 0.02 220);
   --sidebar-accent-foreground: oklch(0.95 0 0);
   --sidebar-border: oklch(0.3 0.02 220);
-  --sidebar-ring: oklch(0.60 0.15 255);
+  --sidebar-ring: oklch(0.6 0.15 255);
 }
 
 @theme inline {
@@ -146,7 +146,8 @@
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -155,7 +156,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(1);
   }
@@ -177,7 +179,8 @@
 }
 
 @keyframes gradient-shift {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -245,12 +248,24 @@
   animation: fade-in-up 0.5s ease-out forwards;
 }
 
-.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
-.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
-.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
-.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
-.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
-.stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+.stagger-children > *:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.stagger-children > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.stagger-children > *:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.stagger-children > *:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.stagger-children > *:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.stagger-children > *:nth-child(6) {
+  animation-delay: 0.6s;
+}
 
 /* Glass morphism */
 .glass {
@@ -278,4 +293,3 @@
 .animate-marquee:hover {
   animation-play-state: paused;
 }
-
