@@ -39,13 +39,12 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-card/80 backdrop-blur-xl supports-[backdrop-filter]:bg-card/60">
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
 
         <Link href="/" className="group flex items-center gap-2 sm:gap-3 transition-opacity hover:opacity-80 shrink-0">
-          <Image src="/BIlogo.png" alt="Logo BI" width={180} height={50} className="h-8 sm:h-12 w-auto object-contain" />
-          <Image src="/logocbp.png" alt="Logo CBP" width={150} height={45} className="h-8 sm:h-12 w-auto object-contain" />
-          <Image src="/logo3e_cropped.png" alt="Logo 3E" width={48} height={48} className="h-8 sm:h-12 w-auto object-contain" />
+          <Image src="/BIlogo.png" alt="Logo BI" width={180} height={50} className="h-7 sm:h-10 w-auto object-contain" />
+          <Image src="/logocbp.png" alt="Logo CBP" width={150} height={45} className="h-7 sm:h-10 w-auto object-contain" />
         </Link>
 
         {/* Desktop Navigation */}
