@@ -88,6 +88,9 @@ function EdukasiContent() {
   const [videos, setVideos] = useState<EdukasiVideo[]>([]);
   const [loadingVideo, setLoadingVideo] = useState(true);
 
+  const [showTeknik3d, setShowTeknik3d] = useState(false);
+  const [showTeknik5j, setShowTeknik5j] = useState(false);
+
   useEffect(() => {
     apiFetch<ApiCollection<Edukasi>>("/edukasis")
       .then((response) => {
@@ -152,44 +155,40 @@ function EdukasiContent() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Header with Gradient */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#02152c] via-[#082a52] to-[#1e3a5f] pb-24 pt-16 sm:pb-28 sm:pt-20 lg:pb-32">
-          {/* Animated background elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
-            <div className="absolute -right-20 top-10 h-72 w-72 rounded-full bg-accent/15 blur-3xl animate-pulse-glow animation-delay-200" />
-          </div>
+        <section 
+          className="relative overflow-hidden pb-24 pt-16 sm:pb-28 sm:pt-20 lg:pb-32 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/uang/banner.jpeg')" }}
+        >
+          {/* Very light Overlay to keep background colors clear and vibrant while assisting readability */}
+          <div className="absolute inset-0 bg-slate-950/15" />
 
-          {/* Grid pattern */}
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40" />
-
-          <div className="relative mx-auto max-w-7xl px-4 text-center">
+          <div className="relative mx-auto max-w-7xl px-4 text-center z-10">
             <div className="animate-fade-in">
-              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm shadow-sm">
                 {activeTab === "materi" ? (
                   <>
-                    <BookOpen className="h-4 w-4 text-primary" />
-                    Edukasi Keuangan
+                    <BookOpen className="h-4 w-4 text-sky-300" />
+                    Edukasi Rupiah
                   </>
                 ) : (
                   <>
-                    <History className="h-4 w-4 text-primary" />
+                    <History className="h-4 w-4 text-sky-300" />
                     Sejarah Rupiah
                   </>
                 )}
               </span>
-              <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl text-balance transition-all duration-300">
+              <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl text-balance transition-all duration-300 drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
                 {activeTab === "materi" ? (
                   <>
-                    Materi <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#00529C] bg-clip-text text-transparent">Pembelajaran</span>
+                    Materi <span className="bg-gradient-to-r from-sky-300 via-sky-100 to-white bg-clip-text text-transparent">Pembelajaran</span>
                   </>
                 ) : (
                   <>
-                    Perjalanan <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#00529C] bg-clip-text text-transparent">Mata Uang</span> Rupiah
+                    Perjalanan <span className="bg-gradient-to-r from-sky-300 via-sky-100 to-white bg-clip-text text-transparent">Mata Uang</span> Rupiah
                   </>
                 )}
               </h1>
-              <p className="mx-auto max-w-2xl text-lg text-white/70 leading-relaxed transition-all duration-300">
+              <p className="mx-auto max-w-2xl text-lg text-white font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] leading-relaxed transition-all duration-300">
                 {activeTab === "materi"
                   ? "Tingkatkan pengetahuan Anda tentang literasi keuangan dan mata uang Rupiah melalui berbagai materi edukasi yang kami sediakan."
                   : "Telusuri sejarah panjang mata uang Rupiah dari masa awal kemerdekaan hingga era modern, mencerminkan perjalanan ekonomi bangsa Indonesia."}
@@ -237,102 +236,135 @@ function EdukasiContent() {
                     )}
                   </div>
 
-                  {/* Additional Info Section (3D & 5J) */}
-                  <div className="mt-16 grid gap-8 lg:grid-cols-2">
-                    {/* Teknik 3D */}
-                    <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1">
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  {/* Buttons to toggle additional info */}
+                  <div className="mt-16 flex flex-wrap justify-center gap-4">
+                    <button
+                      onClick={() => setShowTeknik3d(!showTeknik3d)}
+                      className={`inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-semibold transition-all duration-300 border shadow-md hover:-translate-y-0.5 cursor-pointer ${
+                        showTeknik3d
+                          ? "bg-primary text-white border-primary shadow-primary/20"
+                          : "bg-card text-card-foreground border-border hover:border-primary/50 hover:bg-primary/5"
+                      }`}
+                    >
+                      <Shield className={`h-5 w-5 ${showTeknik3d ? "text-white" : "text-primary"}`} />
+                      {showTeknik3d ? "Sembunyikan Teknik 3D" : "Tampilkan Teknik 3D"}
+                    </button>
 
-                      <div className="relative">
-                        <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 transition-all duration-300 group-hover:scale-110">
-                          <Shield className="h-7 w-7 text-primary" />
-                        </div>
-                        <h3 className="mb-3 text-xl font-semibold text-card-foreground">Teknik 3D</h3>
-                        <p className="text-muted-foreground leading-relaxed">Cara mudah mengecek keaslian uang Rupiah:</p>
-                        <ul className="mt-5 space-y-3">
-                          <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                              <CheckCircle className="h-3 w-3 text-primary" />
-                            </div>
-                            <span>
-                              <strong className="text-foreground">Dilihat</strong> - Perhatikan gambar tersembunyi, benang pengaman, dan gambar saling isi
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                              <CheckCircle className="h-3 w-3 text-primary" />
-                            </div>
-                            <span>
-                              <strong className="text-foreground">Diraba</strong> - Rasakan tekstur cetak intaglio yang kasar pada bagian tertentu
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                              <CheckCircle className="h-3 w-3 text-primary" />
-                            </div>
-                            <span>
-                              <strong className="text-foreground">Diterawang</strong> - Lihat tanda air dan fitur pengaman saat diterawangkan ke cahaya
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    {/* Teknik 5J */}
-                    <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-accent/30 hover:shadow-xl hover:-translate-y-1">
-                      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-                      <div className="relative">
-                        <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 transition-all duration-300 group-hover:scale-110">
-                          <Wallet className="h-7 w-7 text-accent" />
-                        </div>
-                        <h3 className="mb-3 text-xl font-semibold text-card-foreground">Teknik 5J</h3>
-                        <p className="text-muted-foreground leading-relaxed">Cara mencintai uang Rupiah:</p>
-                        <ul className="mt-5 space-y-3">
-                          <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
-                              <CheckCircle className="h-3 w-3 text-accent" />
-                            </div>
-                            <span>
-                              <strong className="text-foreground">Jangan Dilipat</strong> - Mencegah kerusakan serat kertas dan menjaga uang tidak lusuh.
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
-                              <CheckCircle className="h-3 w-3 text-accent" />
-                            </div>
-                            <span>
-                              <strong className="text-foreground">Jangan Dicoret</strong> - Menjaga kebersihan dan memastikan uang tetap sah.
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
-                              <CheckCircle className="h-3 w-3 text-accent" />
-                            </div>
-                            <span>
-                              <strong className="text-foreground">Jangan Diremas</strong> - Menghindari kerusakan fisik seperti kerutan atau sobekan.
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
-                              <CheckCircle className="h-3 w-3 text-accent" />
-                            </div>
-                            <span>
-                              <strong className="text-foreground">Jangan Distapler</strong> - Mencegah lubang atau kerusakan struktur kertas.
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
-                              <CheckCircle className="h-3 w-3 text-accent" />
-                            </div>
-                            <span>
-                              <strong className="text-foreground">Jangan Dibasahi</strong> - Menghindari jamur atau kerusakan tinta pada uang.
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
+                    <button
+                      onClick={() => setShowTeknik5j(!showTeknik5j)}
+                      className={`inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-semibold transition-all duration-300 border shadow-md hover:-translate-y-0.5 cursor-pointer ${
+                        showTeknik5j
+                          ? "bg-accent text-white border-accent shadow-accent/20"
+                          : "bg-card text-card-foreground border-border hover:border-accent/50 hover:bg-accent/5"
+                      }`}
+                    >
+                      <Wallet className={`h-5 w-5 ${showTeknik5j ? "text-white" : "text-accent"}`} />
+                      {showTeknik5j ? "Sembunyikan Teknik 5J" : "Tampilkan Teknik 5J"}
+                    </button>
                   </div>
+
+                  {/* Additional Info Section (3D & 5J) */}
+                  {(showTeknik3d || showTeknik5j) && (
+                    <div className={`mt-8 grid gap-8 ${showTeknik3d && showTeknik5j ? "lg:grid-cols-2" : "max-w-2xl mx-auto"}`}>
+                      {/* Teknik 3D */}
+                      {showTeknik3d && (
+                        <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1 animate-fade-in w-full text-left">
+                          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                          <div className="relative">
+                            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 transition-all duration-300 group-hover:scale-110">
+                              <Shield className="h-7 w-7 text-primary" />
+                            </div>
+                            <h3 className="mb-3 text-xl font-semibold text-card-foreground">Teknik 3D</h3>
+                            <p className="text-muted-foreground leading-relaxed">Cara mudah mengecek keaslian uang Rupiah:</p>
+                            <ul className="mt-5 space-y-3">
+                              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                                  <CheckCircle className="h-3 w-3 text-primary" />
+                                </div>
+                                <span>
+                                  <strong className="text-foreground">Dilihat</strong> - Perhatikan gambar tersembunyi, benang pengaman, dan gambar saling isi
+                                </span>
+                              </li>
+                              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                                  <CheckCircle className="h-3 w-3 text-primary" />
+                                </div>
+                                <span>
+                                  <strong className="text-foreground">Diraba</strong> - Rasakan tekstur cetak intaglio yang kasar pada bagian tertentu
+                                </span>
+                              </li>
+                              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                                  <CheckCircle className="h-3 w-3 text-primary" />
+                                </div>
+                                <span>
+                                  <strong className="text-foreground">Diterawang</strong> - Lihat tanda air dan fitur pengaman saat diterawangkan ke cahaya
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Teknik 5J */}
+                      {showTeknik5j && (
+                        <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-accent/30 hover:shadow-xl hover:-translate-y-1 animate-fade-in w-full text-left">
+                          <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                          <div className="relative">
+                            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 transition-all duration-300 group-hover:scale-110">
+                              <Wallet className="h-7 w-7 text-accent" />
+                            </div>
+                            <h3 className="mb-3 text-xl font-semibold text-card-foreground">Teknik 5J</h3>
+                            <p className="text-muted-foreground leading-relaxed">Cara mencintai uang Rupiah:</p>
+                            <ul className="mt-5 space-y-3">
+                              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
+                                  <CheckCircle className="h-3 w-3 text-accent" />
+                                </div>
+                                <span>
+                                  <strong className="text-foreground">Jangan Dilipat</strong> - Mencegah kerusakan serat kertas dan menjaga uang tidak lusuh.
+                                </span>
+                              </li>
+                              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
+                                  <CheckCircle className="h-3 w-3 text-accent" />
+                                </div>
+                                <span>
+                                  <strong className="text-foreground">Jangan Dicoret</strong> - Menjaga kebersihan dan memastikan uang tetap sah.
+                                </span>
+                              </li>
+                              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
+                                  <CheckCircle className="h-3 w-3 text-accent" />
+                                </div>
+                                <span>
+                                  <strong className="text-foreground">Jangan Diremas</strong> - Menghindari kerusakan fisik seperti kerutan atau sobekan.
+                                </span>
+                              </li>
+                              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
+                                  <CheckCircle className="h-3 w-3 text-accent" />
+                                </div>
+                                <span>
+                                  <strong className="text-foreground">Jangan Distapler</strong> - Mencegah lubang atau kerusakan struktur kertas.
+                                </span>
+                              </li>
+                              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10">
+                                  <CheckCircle className="h-3 w-3 text-accent" />
+                                </div>
+                                <span>
+                                  <strong className="text-foreground">Jangan Dibasahi</strong> - Menghindari jamur atau kerusakan tinta pada uang.
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </TabsContent>
 
