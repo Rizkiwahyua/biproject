@@ -52,8 +52,45 @@ const rupiahImages = [
 
 export default function HomePage() {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
-
   const [heroCards, setHeroCards] = useState<HomeHero[]>([]);
+
+  // Swipe & Drag states
+  const [startX, setStartX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragStart = (clientX: number) => {
+    setStartX(clientX);
+    setIsDragging(true);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging) return;
+    const diff = clientX - startX;
+    setDragOffset(diff);
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    
+    // Swipe threshold of 80px
+    if (Math.abs(dragOffset) > 80) {
+      setActiveCardIndex((prev) => (prev + 1) % heroCards.length);
+    } else if (Math.abs(dragOffset) < 5) {
+      // Treat as click/tap
+      setActiveCardIndex((prev) => (prev + 1) % heroCards.length);
+    }
+    setDragOffset(0);
+  };
 
   useEffect(() => {
     async function loadHeroes() {
@@ -171,21 +208,41 @@ export default function HomePage() {
 
                         // Style configurations for stacked effect
                         const zIndex = 30 - offset;
-                        const opacity = offset === 0 ? 1 : offset === 1 ? 0.85 : 0.65;
+                        const opacity = offset === 0 ? 1 : offset === 1 ? 0.90 : 0.75;
                         const scale = offset === 0 ? 1 : offset === 1 ? 0.93 : 0.86;
-                        const translateX = offset === 0 ? 0 : offset === 1 ? 16 : 28; // shifted to the right/bottom
-                        const translateY = offset === 0 ? 0 : offset === 1 ? 12 : 24;
-                        const rotate = offset === 0 ? 0 : offset === 1 ? 4 : 8; // rotated slightly
+                        
+                        // Increased translations and rotations so background cards are more visible (nampak lagi sikit)
+                        const translateX = offset === 0 ? 0 : offset === 1 ? 28 : 52;
+                        const translateY = offset === 0 ? 0 : offset === 1 ? 16 : 32;
+                        const rotate = offset === 0 ? 0 : offset === 1 ? 6 : 12;
+
+                        // Apply swipe drag offset to the active card
+                        const tx = offset === 0 ? translateX + dragOffset : translateX;
+                        const rot = offset === 0 ? rotate + (dragOffset * 0.05) : rotate;
+
+                        // Smooth transition except when actively dragging
+                        const transitionStyle = isDragging && offset === 0
+                          ? "opacity 0.2s ease-out"
+                          : "transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease-out";
 
                         return (
                           <div
                             key={card.id}
-                            onClick={() => setActiveCardIndex((prev) => (prev + 1) % heroCards.length)}
-                            className={cn("absolute inset-0 w-full h-full rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-2xl backdrop-blur-md overflow-hidden transition-all duration-500 ease-out")}
+                            onMouseDown={(e) => offset === 0 && handleDragStart(e.clientX)}
+                            onMouseMove={(e) => offset === 0 && handleDragMove(e.clientX)}
+                            onMouseUp={() => offset === 0 && handleDragEnd()}
+                            onMouseLeave={() => offset === 0 && handleDragEnd()}
+                            onTouchStart={(e) => offset === 0 && handleDragStart(e.touches[0].clientX)}
+                            onTouchMove={(e) => offset === 0 && handleDragMove(e.touches[0].clientX)}
+                            onTouchEnd={() => offset === 0 && handleDragEnd()}
+                            onDragStart={(e) => e.preventDefault()}
+                            className={cn("absolute inset-0 w-full h-full rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-2xl backdrop-blur-md overflow-hidden")}
                             style={{
                               zIndex,
                               opacity,
-                              transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotate}deg)`,
+                              transform: `translate3d(${tx}px, ${translateY}px, 0) scale(${scale}) rotate(${rot}deg)`,
+                              transition: transitionStyle,
+                              cursor: offset === 0 ? (isDragging ? "grabbing" : "grab") : "default",
                             }}
                           >
                             <Image src={card.image} alt={card.title} fill className="object-cover pointer-events-none" priority={index === 0} />
@@ -211,6 +268,15 @@ export default function HomePage() {
 
         {/* Highlight Banner */}
         <section className="relative -mt-1 bg-gradient-to-r from-accent via-[#e74c3c] to-accent animate-gradient overflow-hidden">
+          {/* Guilloche Banknote Pattern Overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.08] pointer-events-none mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40 C 20 20, 20 60, 40 40 C 60 20, 60 60, 80 40 M0 20 C 20 0, 20 40, 40 20 C 60 0, 60 40, 80 20 M0 60 C 20 40, 20 80, 40 60 C 60 40, 60 80, 80 60' stroke='%23ffffff' stroke-width='1.2' fill='none'/%3E%3Cpath d='M40 0 C 20 20, 60 20, 40 40 C 20 60, 60 60, 40 80' stroke='%23ffffff' stroke-width='0.6' fill='none'/%3E%3C/svg%3E")`,
+              backgroundSize: "80px 80px",
+            }}
+          />
+
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 relative z-10">
             <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
               <div className="flex items-center gap-4">
@@ -291,7 +357,29 @@ export default function HomePage() {
               {stats.map((stat) => {
                 const Icon = stat.icon;
                 return (
-                  <div key={stat.label} className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 text-center transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1">
+                  <div
+                    key={stat.label}
+                    onMouseMove={handleMouseMove}
+                    className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 text-center transition-all duration-300 hover:border-primary/30 hover:shadow-2xl hover:-translate-y-1"
+                  >
+                    {/* Spotlight Background Glow */}
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                      style={{
+                        background: `radial-gradient(150px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), color-mix(in srgb, var(--primary) 6%, transparent), transparent 80%)`,
+                      }}
+                    />
+                    {/* Spotlight Border Glow */}
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
+                      style={{
+                        border: "1px solid transparent",
+                        backgroundImage: `linear-gradient(var(--card), var(--card)), radial-gradient(120px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), color-mix(in srgb, var(--primary) 40%, var(--accent) 30%), transparent 80%)`,
+                        backgroundOrigin: "border-box",
+                        backgroundClip: "padding-box, border-box",
+                        margin: "-1px",
+                      }}
+                    />
                     <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-primary/5 transition-all duration-300 group-hover:bg-primary/10 group-hover:scale-110" />
                     <div className="relative">
                       <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
@@ -321,7 +409,7 @@ export default function HomePage() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 stagger-children">
               {features.map((feature) => (
-                <FeatureCard key={feature.title} title={feature.title} description={feature.description} icon={feature.icon} href={feature.href} />
+                <FeatureCard key={feature.title} title={feature.title} description={feature.description} href={feature.href} />
               ))}
             </div>
           </div>

@@ -159,8 +159,8 @@ function EdukasiContent() {
           className="relative overflow-hidden pb-24 pt-16 sm:pb-28 sm:pt-20 lg:pb-32 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/uang/banner.jpeg')" }}
         >
-          {/* Very light Overlay to keep background colors clear and vibrant while assisting readability */}
-          <div className="absolute inset-0 bg-slate-950/15" />
+          {/* Darker Overlay to significantly improve contrast and text readability */}
+          <div className="absolute inset-0 bg-slate-950/50" />
 
           <div className="relative mx-auto max-w-7xl px-4 text-center z-10">
             <div className="animate-fade-in">
