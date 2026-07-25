@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { ApiCollection, HomeHero } from "@/types/api";
 
-import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Users, Sparkles, TrendingUp, Award, Newspaper } from "lucide-react";
+import { BookOpen, History, Trophy, ArrowRight, Banknote, Shield, Sparkles, TrendingUp, Award, Newspaper } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -31,13 +31,6 @@ const features = [
     icon: BookOpen,
     href: "/edukasi",
   },
-];
-
-const stats = [
-  { value: "275M+", label: "Pengguna Rupiah", icon: Users },
-  { value: "17.000+", label: "Pulau di Indonesia", icon: TrendingUp },
-  { value: "1945", label: "Tahun Kemerdekaan", icon: Award },
-  { value: "7", label: "Pecahan Uang Kertas", icon: Banknote },
 ];
 
 const rupiahImages = [
@@ -346,51 +339,6 @@ export default function HomePage() {
                   <Image src={src} alt={`Spesimen Rupiah Emisi 2022 Pecahan ke-${index + 1}`} fill className="object-cover" />
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="bg-background">
-          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8 stagger-children">
-              {stats.map((stat) => {
-                const Icon = stat.icon;
-                return (
-                  <div
-                    key={stat.label}
-                    onMouseMove={handleMouseMove}
-                    className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 text-center transition-all duration-300 hover:border-primary/30 hover:shadow-2xl hover:-translate-y-1"
-                  >
-                    {/* Spotlight Background Glow */}
-                    <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                      style={{
-                        background: `radial-gradient(150px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), color-mix(in srgb, var(--primary) 6%, transparent), transparent 80%)`,
-                      }}
-                    />
-                    {/* Spotlight Border Glow */}
-                    <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
-                      style={{
-                        border: "1px solid transparent",
-                        backgroundImage: `linear-gradient(var(--card), var(--card)), radial-gradient(120px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), color-mix(in srgb, var(--primary) 40%, var(--accent) 30%), transparent 80%)`,
-                        backgroundOrigin: "border-box",
-                        backgroundClip: "padding-box, border-box",
-                        margin: "-1px",
-                      }}
-                    />
-                    <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-primary/5 transition-all duration-300 group-hover:bg-primary/10 group-hover:scale-110" />
-                    <div className="relative">
-                      <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
-                        <Icon className="h-5 w-5 text-primary" />
-                      </div>
-                      <p className="text-3xl font-bold text-foreground sm:text-4xl">{stat.value}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </div>
         </section>

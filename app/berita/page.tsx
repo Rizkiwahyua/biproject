@@ -5,12 +5,19 @@ import { getBeritas } from "@/lib/berita";
 import { Berita } from "@/types/berita";
 import { formatTanggal } from "@/lib/date";
 
-import { Newspaper, Calendar, ArrowRight, User, Building2, Gamepad2, Lock, Brain, Play } from "lucide-react";
+import { Newspaper, Calendar, ArrowRight, User, Building2, Gamepad2, Lock, Brain, Play, Users, Sparkles } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 
 const API_STORAGE = process.env.NEXT_PUBLIC_STORAGE_URL || "https://cbprupiahlsm.id/admin-cbp/public/storage";
+
+const newsStats = [
+  { icon: Newspaper, value: "100+", label: "Rilis Berita" },
+  { icon: Gamepad2, value: "2", label: "Game Edukasi" },
+  { icon: Users, value: "10K+", label: "Masyarakat Terbantu" },
+  { icon: Sparkles, value: "24/7", label: "Update Informasi" },
+];
 
 export default function BeritaPage() {
   const gradients = ["from-emerald-600 to-teal-500", "from-blue-600 to-indigo-500", "from-orange-500 to-red-500", "from-purple-600 to-pink-500"];
@@ -237,6 +244,25 @@ export default function BeritaPage() {
             <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
               <path d="M0 60V30C240 50 480 60 720 60C960 60 1200 50 1440 30V60H0Z" className="fill-background" />
             </svg>
+          </div>
+        </section>
+
+        {/* Highlight Stats Banner */}
+        <section className="relative -mt-1 bg-gradient-to-r from-accent via-[#e74c3c] to-accent animate-gradient">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+              {newsStats.map((stat) => (
+                <div key={stat.label} className="flex items-center gap-3 justify-center md:justify-start group">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-white/30">
+                    <stat.icon className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-white leading-none sm:text-xl">{stat.value}</p>
+                    <p className="text-xs text-white/80 mt-0.5">{stat.label}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

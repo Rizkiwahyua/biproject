@@ -100,15 +100,17 @@ export default function LombaPage() {
 
         {/* Stats */}
         <section className="relative -mt-1 bg-gradient-to-r from-accent via-[#e74c3c] to-accent animate-gradient">
-          <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
               {stats.map((stat) => (
-                <div key={stat.label} className="flex flex-col items-center text-center group">
-                  <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-white/30">
-                    <stat.icon className="h-7 w-7 text-white" />
+                <div key={stat.label} className="flex items-center gap-3 justify-center md:justify-start group">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-white/30">
+                    <stat.icon className="h-5 w-5 text-white" />
                   </div>
-                  <p className="text-2xl font-bold text-white sm:text-3xl">{stat.value}</p>
-                  <p className="text-sm text-white/80">{stat.label}</p>
+                  <div>
+                    <p className="text-lg font-bold text-white leading-none sm:text-xl">{stat.value}</p>
+                    <p className="text-xs text-white/80 mt-0.5">{stat.label}</p>
+                  </div>
                 </div>
               ))}
             </div>
