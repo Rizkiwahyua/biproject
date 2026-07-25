@@ -12,10 +12,10 @@ import { apiFetch } from "@/lib/api";
 import { ApiCollection, RunningText } from "@/types/api";
 
 const navLinks = [
-  { href: "/", label: "Beranda" },
-  { href: "/edukasi", label: "Edukasi" },
-  { href: "/berita", label: "Berita & Game" },
-  { href: "/lomba", label: "Lomba" },
+  { href: "/", label: "Home" },
+  { href: "/edukasi", label: "Learn" },
+  { href: "/berita", label: "Share" },
+  { href: "/lomba", label: "Move" },
 ];
 
 export function Navbar() {

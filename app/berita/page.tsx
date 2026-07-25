@@ -66,7 +66,7 @@ export default function BeritaPage() {
               <p className="mt-3 text-muted-foreground">Saat ini belum tersedia berita yang dapat ditampilkan. Silakan kembali lagi nanti.</p>
 
               <Button asChild className="mt-8">
-                <Link href="/">Kembali ke Beranda</Link>
+                <Link href="/">Kembali ke Home</Link>
               </Button>
             </div>
           </section>
@@ -201,7 +201,7 @@ export default function BeritaPage() {
 
       <main className="flex-1">
         {/* Header with Gradient */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#02152c] via-[#082a52] to-[#1e3a5f] py-16 sm:py-20 lg:py-24">
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#02152c] via-[#082a52] to-[#1e3a5f]">
           {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
@@ -211,7 +211,17 @@ export default function BeritaPage() {
           {/* Grid pattern */}
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40" />
 
-          <div className="relative mx-auto max-w-7xl px-4 text-center animate-fade-in">
+          {/* Ornamen Pojok (Bingkai) */}
+          <div className="absolute bottom-0 left-0 w-36 h-48 md:w-48 md:h-64 bg-[url(/pinto-aceh-corner.png)] bg-left-bottom bg-no-repeat bg-contain opacity-[0.40] mix-blend-screen pointer-events-none" />
+          <div className="absolute top-0 right-0 w-36 h-48 md:w-48 md:h-64 bg-[url(/pinto-aceh-corner.png)] bg-right-top bg-no-repeat bg-contain rotate-180 opacity-[0.40] mix-blend-screen pointer-events-none" />
+
+          {/* Ornamen Menyebar Pinto Aceh (Kiri Atas) */}
+          <div className="absolute top-[12%] left-[5%] w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.22] mix-blend-screen pointer-events-none" />
+
+          {/* Ornamen Menyebar Pinto Aceh (Kanan Bawah) */}
+          <div className="absolute bottom-[12%] right-[5%] w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.22] mix-blend-screen pointer-events-none" />
+
+          <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20 text-center animate-fade-in">
             <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
               <Newspaper className="h-4 w-4 text-primary" />
               Portal Berita

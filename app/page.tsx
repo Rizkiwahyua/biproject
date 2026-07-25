@@ -409,7 +409,7 @@ export default function HomePage() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 stagger-children">
               {features.map((feature) => (
-                <FeatureCard key={feature.title} title={feature.title} description={feature.description} href={feature.href} />
+                <FeatureCard key={feature.title} title={feature.title} description={feature.description} icon={feature.icon} href={feature.href} />
               ))}
             </div>
           </div>

@@ -1,16 +1,16 @@
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
-import Image from "next/image"
 
 interface FeatureCardProps {
   title: string
   description: string
   href: string
+  icon: LucideIcon
   className?: string
 }
 
-export function FeatureCard({ title, description, href, className }: FeatureCardProps) {
+export function FeatureCard({ title, description, href, icon: Icon, className }: FeatureCardProps) {
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
@@ -52,8 +52,8 @@ export function FeatureCard({ title, description, href, className }: FeatureCard
       <div className="absolute -right-12 -top-12 h-24 w-24 rounded-full bg-primary/5 transition-all duration-500 group-hover:scale-150 group-hover:bg-primary/10" />
       
       <div className="relative">
-        <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
-          <Image src="/logo3e_cropped.png" alt={title} width={56} height={56} className="h-13 w-13 object-contain transition-transform duration-300 group-hover:scale-110" />
+        <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20 text-primary">
+          <Icon className="h-8 w-8 transition-transform duration-300 group-hover:scale-110" />
         </div>
         <h3 className="mb-3 text-xl font-semibold text-card-foreground">{title}</h3>
         <p className="mb-5 flex-1 text-muted-foreground leading-relaxed">{description}</p>

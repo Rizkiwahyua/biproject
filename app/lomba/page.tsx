@@ -49,7 +49,7 @@ export default function LombaPage() {
               <p className="mt-3 text-muted-foreground">Saat ini belum tersedia Lomba yang dapat ditampilkan. Silakan kembali lagi nanti.</p>
 
               <Button asChild className="mt-8">
-                <Link href="/">Kembali ke Beranda</Link>
+                <Link href="/">Kembali ke Home</Link>
               </Button>
             </div>
           </section>
