@@ -79,7 +79,7 @@ export default function DetailBeritaClient({ id }: DetailBeritaClientProps) {
               Kembali ke daftar berita
             </Link>
 
-            <h1 className="text-4xl font-bold leading-tight">{berita.title}</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">{berita.title}</h1>
 
             <div className="mt-6 flex flex-wrap gap-6 text-muted-foreground">
               <div className="flex items-center gap-2">

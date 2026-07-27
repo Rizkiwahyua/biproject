@@ -4,7 +4,7 @@ import { getLombas } from "@/lib/lomba";
 import { Lomba } from "@/types/lomba";
 import { formatTanggal } from "@/lib/date";
 
-import { Newspaper, Trophy, Users, Award, Calendar, ArrowRight, Sparkles } from "lucide-react";
+import { Newspaper, Trophy, Users, Award, Calendar, ArrowRight, Sparkles, Gamepad2, Lock, Brain, Play } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/navbar";
@@ -20,6 +20,15 @@ const stats = [
 
 export default function LombaPage() {
   const [events, setEvents] = useState<Lomba[]>([]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    e.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -51,6 +60,124 @@ export default function LombaPage() {
               <Button asChild className="mt-8">
                 <Link href="/">Kembali ke Home</Link>
               </Button>
+            </div>
+          </section>
+
+          {/* GAME EDUKASI SECTION EVEN IF NO LOMBA */}
+          <section className="bg-muted/30 py-16 sm:py-24 border-t border-border/50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-12">
+                <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs sm:text-sm font-semibold text-primary mb-3">
+                  <Gamepad2 className="h-4 w-4 text-primary" />
+                  Interaktif & Seru
+                </span>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">Game Edukasi Rupiah</h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                  Uji wawasan dan logika Anda tentang mata uang Rupiah melalui permainan interaktif yang mendidik dan menyenangkan.
+                </p>
+              </div>
+
+              <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+                {/* GAME CARD 1: CR7s */}
+                <a
+                  href="https://qoricbp.cbprupiahlsm.id/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onMouseMove={handleMouseMove}
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/40 to-emerald-900/10 p-8 shadow-md transition-all duration-300 hover:border-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-950/20 hover:-translate-y-1.5"
+                >
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    style={{
+                      background: "radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(16, 185, 129, 0.15), transparent 80%)",
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl"
+                    style={{
+                      border: "1.5px solid transparent",
+                      backgroundImage: "linear-gradient(rgba(2, 44, 34, 0.9), rgba(2, 44, 34, 0.9)), radial-gradient(250px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(16, 185, 129, 0.5), transparent 80%)",
+                      backgroundOrigin: "border-box",
+                      backgroundClip: "padding-box, border-box",
+                      margin: "-1.5px",
+                    }}
+                  />
+                  <div className="absolute -right-6 -top-6 text-9xl text-emerald-500/5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12 pointer-events-none font-bold">C</div>
+                  <div className="relative">
+                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-inner group-hover:scale-110 group-hover:bg-emerald-500/20 group-hover:text-emerald-300 transition-all duration-300">
+                      <Lock className="h-7 w-7" />
+                    </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <h2 className="text-2xl font-bold text-foreground">CR7s</h2>
+                      <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-400 border border-emerald-500/20">Misteri</span>
+                    </div>
+                    <p className="text-sm font-medium text-emerald-500/80 mb-3">Challenge Rupiah 7 seconds</p>
+                    <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8">
+                      Pecahkan kode rahasia CBP, uji pemikiran kritis Anda, dan selesaikan berbagai misi logika Rupiah dalam petualangan teka-teki misterius ini!
+                    </p>
+                  </div>
+                  <div className="relative flex items-center justify-between mt-auto">
+                    <span className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-500/25 group-hover:bg-emerald-400 group-hover:shadow-emerald-400/30 group-hover:translate-x-0.5 transition-all duration-300">
+                      Mulai Main
+                      <Play className="h-4 w-4 fill-white" />
+                    </span>
+                    <span className="flex items-center gap-1 text-xs font-semibold text-emerald-500/75 group-hover:text-emerald-400 transition-colors">
+                      qoricbp.cbprupiahlsm.id
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </a>
+
+                {/* GAME CARD 2: KUPIAH */}
+                <a
+                  href="https://quiz.cbprupiahlsm.id/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onMouseMove={handleMouseMove}
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-red-500/20 bg-gradient-to-br from-red-950/40 to-red-900/10 p-8 shadow-md transition-all duration-300 hover:border-red-500/40 hover:shadow-2xl hover:shadow-red-950/20 hover:-translate-y-1.5"
+                >
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    style={{
+                      background: "radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(239, 68, 68, 0.15), transparent 80%)",
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl"
+                    style={{
+                      border: "1.5px solid transparent",
+                      backgroundImage: "linear-gradient(rgba(45, 10, 10, 0.9), rgba(45, 10, 10, 0.9)), radial-gradient(250px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(239, 68, 68, 0.5), transparent 80%)",
+                      backgroundOrigin: "border-box",
+                      backgroundClip: "padding-box, border-box",
+                      margin: "-1.5px",
+                    }}
+                  />
+                  <div className="absolute -right-6 -top-6 text-9xl text-red-500/5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12 pointer-events-none font-bold">K</div>
+                  <div className="relative">
+                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-red-400 border border-red-500/20 shadow-inner group-hover:scale-110 group-hover:bg-red-500/20 group-hover:text-red-300 transition-all duration-300">
+                      <Brain className="h-7 w-7" />
+                    </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <h2 className="text-2xl font-bold text-foreground">KUPIAH</h2>
+                      <span className="inline-flex items-center rounded-full bg-red-500/10 px-2.5 py-0.5 text-xs font-medium text-red-400 border border-red-500/20">Kuis</span>
+                    </div>
+                    <p className="text-sm font-medium text-red-500/80 mb-3">Kuis Rupiah</p>
+                    <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8">
+                      Uji pengetahuan Anda tentang CBP Rupiah, pahlawan-pahlawan di lembaran uang, dan wawasan literasi keuangan dengan kuis khas daerah yang menantang!
+                    </p>
+                  </div>
+                  <div className="relative flex items-center justify-between mt-auto">
+                    <span className="inline-flex items-center gap-2 rounded-xl bg-red-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-red-500/25 group-hover:bg-red-400 group-hover:shadow-red-400/30 group-hover:translate-x-0.5 transition-all duration-300">
+                      Mulai Main
+                      <Play className="h-4 w-4 fill-white" />
+                    </span>
+                    <span className="flex items-center gap-1 text-xs font-semibold text-red-500/75 group-hover:text-red-400 transition-colors">
+                      quiz.cbprupiahlsm.id
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </a>
+              </div>
             </div>
           </section>
         </main>
@@ -145,6 +272,124 @@ export default function LombaPage() {
                   remainingQuota={event.remaining_quota}
                 />
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* GAME EDUKASI SECTION */}
+        <section className="bg-muted/30 py-16 sm:py-24 border-t border-border/50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs sm:text-sm font-semibold text-primary mb-3">
+                <Gamepad2 className="h-4 w-4 text-primary" />
+                Interaktif & Seru
+              </span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">Game Edukasi Rupiah</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                Uji wawasan and logika Anda tentang mata uang Rupiah melalui permainan interaktif yang mendidik dan menyenangkan.
+              </p>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+              {/* GAME CARD 1: CR7s */}
+              <a
+                href="https://qoricbp.cbprupiahlsm.id/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseMove={handleMouseMove}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/40 to-emerald-900/10 p-8 shadow-md transition-all duration-300 hover:border-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-950/20 hover:-translate-y-1.5"
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style={{
+                    background: "radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(16, 185, 129, 0.15), transparent 80%)",
+                  }}
+                />
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl"
+                  style={{
+                    border: "1.5px solid transparent",
+                    backgroundImage: "linear-gradient(rgba(2, 44, 34, 0.9), rgba(2, 44, 34, 0.9)), radial-gradient(250px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(16, 185, 129, 0.5), transparent 80%)",
+                    backgroundOrigin: "border-box",
+                    backgroundClip: "padding-box, border-box",
+                    margin: "-1.5px",
+                  }}
+                />
+                <div className="absolute -right-6 -top-6 text-9xl text-emerald-500/5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12 pointer-events-none font-bold">C</div>
+                <div className="relative">
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-inner group-hover:scale-110 group-hover:bg-emerald-500/20 group-hover:text-emerald-300 transition-all duration-300">
+                    <Lock className="h-7 w-7" />
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <h2 className="text-2xl font-bold text-foreground">CR7s</h2>
+                    <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-400 border border-emerald-500/20">Misteri</span>
+                  </div>
+                  <p className="text-sm font-medium text-emerald-500/80 mb-3">Challenge Rupiah 7 seconds</p>
+                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8">
+                    Pecahkan kode rahasia CBP, uji pemikiran kritis Anda, dan selesaikan berbagai misi logika Rupiah dalam petualangan teka-teki misterius ini!
+                  </p>
+                </div>
+                <div className="relative flex items-center justify-between mt-auto">
+                  <span className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-500/25 group-hover:bg-emerald-400 group-hover:shadow-emerald-400/30 group-hover:translate-x-0.5 transition-all duration-300">
+                    Mulai Main
+                    <Play className="h-4 w-4 fill-white" />
+                  </span>
+                  <span className="flex items-center gap-1 text-xs font-semibold text-emerald-500/75 group-hover:text-emerald-400 transition-colors">
+                    qoricbp.cbprupiahlsm.id
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </a>
+
+              {/* GAME CARD 2: KUPIAH */}
+              <a
+                href="https://quiz.cbprupiahlsm.id/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseMove={handleMouseMove}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-red-500/20 bg-gradient-to-br from-red-950/40 to-red-900/10 p-8 shadow-md transition-all duration-300 hover:border-red-500/40 hover:shadow-2xl hover:shadow-red-950/20 hover:-translate-y-1.5"
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style={{
+                    background: "radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(239, 68, 68, 0.15), transparent 80%)",
+                  }}
+                />
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl"
+                  style={{
+                    border: "1.5px solid transparent",
+                    backgroundImage: "linear-gradient(rgba(45, 10, 10, 0.9), rgba(45, 10, 10, 0.9)), radial-gradient(250px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(239, 68, 68, 0.5), transparent 80%)",
+                    backgroundOrigin: "border-box",
+                    backgroundClip: "padding-box, border-box",
+                    margin: "-1.5px",
+                  }}
+                />
+                <div className="absolute -right-6 -top-6 text-9xl text-red-500/5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12 pointer-events-none font-bold">K</div>
+                <div className="relative">
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-red-400 border border-red-500/20 shadow-inner group-hover:scale-110 group-hover:bg-red-500/20 group-hover:text-red-300 transition-all duration-300">
+                    <Brain className="h-7 w-7" />
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <h2 className="text-2xl font-bold text-foreground">KUPIAH</h2>
+                    <span className="inline-flex items-center rounded-full bg-red-500/10 px-2.5 py-0.5 text-xs font-medium text-red-400 border border-red-500/20">Kuis</span>
+                  </div>
+                  <p className="text-sm font-medium text-red-500/80 mb-3">Kuis Rupiah</p>
+                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8">
+                    Uji pengetahuan Anda tentang CBP Rupiah, pahlawan-pahlawan di lembaran uang, dan wawasan literasi keuangan dengan kuis khas daerah yang menantang!
+                  </p>
+                </div>
+                <div className="relative flex items-center justify-between mt-auto">
+                  <span className="inline-flex items-center gap-2 rounded-xl bg-red-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-red-500/25 group-hover:bg-red-400 group-hover:shadow-red-400/30 group-hover:translate-x-0.5 transition-all duration-300">
+                    Mulai Main
+                    <Play className="h-4 w-4 fill-white" />
+                  </span>
+                  <span className="flex items-center gap-1 text-xs font-semibold text-red-500/75 group-hover:text-red-400 transition-colors">
+                    quiz.cbprupiahlsm.id
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </a>
             </div>
           </div>
         </section>

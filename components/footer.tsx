@@ -5,9 +5,9 @@ import { Mail, Phone, MapPin, ArrowUpRight, Instagram } from "lucide-react"
 const footerLinks = {
   navigasi: [
     { href: "/", label: "Home" },
-    { href: "/edukasi", label: "Learn" },
-    { href: "/berita", label: "Share" },
-    { href: "/lomba", label: "Move" },
+    { href: "/edukasi", label: "Learning" },
+    { href: "/berita", label: "Sharing" },
+    { href: "/lomba", label: "Moving" },
   ],
 }
 
