@@ -26,7 +26,7 @@ export default function DetailBeritaClient({ id }: DetailBeritaClientProps) {
       // because Apache rewrite serves detail.html with id="detail"
       const segments = window.location.pathname.split("/").filter(Boolean);
       const urlId = segments.length >= 2 ? segments[segments.length - 1] : null;
-      const resolvedId = urlId && urlId !== "detail" ? urlId : (id !== "detail" ? id : null);
+      const resolvedId = urlId && urlId !== "detail" ? urlId : id !== "detail" ? id : null;
 
       if (!resolvedId) {
         setLoading(false);
@@ -79,7 +79,7 @@ export default function DetailBeritaClient({ id }: DetailBeritaClientProps) {
               Kembali ke daftar berita
             </Link>
 
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">{berita.title}</h1>
+            <h1 className="text-4xl font-bold leading-tight">{berita.title}</h1>
 
             <div className="mt-6 flex flex-wrap gap-6 text-muted-foreground">
               <div className="flex items-center gap-2">
@@ -101,16 +101,18 @@ export default function DetailBeritaClient({ id }: DetailBeritaClientProps) {
         </section>
 
         {/* IMAGE */}
-
         {berita.image && (
           <section className="mx-auto max-w-3xl px-4 pt-10">
-            <div className="relative h-[250px] sm:h-[350px] md:h-[400px] w-full overflow-hidden rounded-xl border bg-muted shadow-sm">
-              <img 
-                src={`${API_STORAGE}/${berita.image}`} 
-                alt={berita.title} 
-                className="w-full h-full object-cover" 
-              />
+            <div className="overflow-hidden rounded-xl border bg-muted shadow-sm">
+              <img src={`${API_STORAGE}/${berita.image}`} alt={berita.title} className="w-full h-[250px] sm:h-[350px] md:h-[400px] object-cover" />
             </div>
+
+            {/* Excerpt */}
+            {berita.excerpt && (
+              <div className="mt-4 border-l-4 border-primary pl-4">
+                <p className="text-sm md:text-base leading-7 text-muted-foreground italic">{berita.excerpt}</p>
+              </div>
+            )}
           </section>
         )}
 
