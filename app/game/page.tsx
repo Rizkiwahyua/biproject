@@ -99,7 +99,7 @@ export default function GamePage() {
 
                 {/* Decorative floating bg icon */}
                 <div className="absolute -right-6 -top-6 text-9xl text-emerald-500/5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12 pointer-events-none font-bold">
-                  Q
+                  C
                 </div>
 
                 <div className="relative">
@@ -108,7 +108,7 @@ export default function GamePage() {
                   </div>
                   
                   <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-2xl font-bold text-foreground">QORI</h2>
+                    <h2 className="text-2xl font-bold text-foreground">CR7s</h2>
                     <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-400 border border-emerald-500/20">
                       Misteri
                     </span>
@@ -170,12 +170,12 @@ export default function GamePage() {
                   </div>
                   
                   <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-2xl font-bold text-foreground">Kuah Pliek u</h2>
+                    <h2 className="text-2xl font-bold text-foreground">KUPIAH</h2>
                     <span className="inline-flex items-center rounded-full bg-red-500/10 px-2.5 py-0.5 text-xs font-medium text-red-400 border border-red-500/20">
                       Kuis
                     </span>
                   </div>
-                  <p className="text-sm font-medium text-red-500/80 mb-3">Kuis Wawasan Rupiah</p>
+                  <p className="text-sm font-medium text-red-500/80 mb-3">Kuis Rupiah</p>
                   <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8">
                     Uji pengetahuan Anda tentang CBP Rupiah, pahlawan-pahlawan di lembaran uang, dan wawasan literasi keuangan dengan kuis khas daerah yang menantang!
                   </p>

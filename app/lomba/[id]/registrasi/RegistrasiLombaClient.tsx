@@ -96,7 +96,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
       newErrors.name = "Nama lengkap wajib diisi.";
     }
     if (!form.domicile) {
-      newErrors.domicile = "domicile wajib dipilih.";
+      newErrors.domicile = "Domisili wajib dipilih.";
     }
     if (!form.email.trim()) {
       newErrors.email = "Email wajib diisi.";
@@ -107,7 +107,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
       }
     }
     if (!form.phone.trim()) {
-      newErrors.phone = "Nomor HP wajib diisi.";
+      newErrors.phone = "Nomor Handphone wajib diisi.";
     }
     if (!form.address.trim()) {
       newErrors.address = "Alamat wajib diisi.";
@@ -301,7 +301,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
               <ArrowLeft size={18} />
               Kembali ke Detail Lomba
             </Link>
-            <h1 className="text-4xl font-bold">Form Registrasi</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">Form Registrasi</h1>
             <p className="mt-3 text-muted-foreground">Lengkapi data berikut untuk mengikuti lomba.</p>
           </div>
         </section>
@@ -322,7 +322,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium">domicile</label>
+                    <label className="mb-2 block text-sm font-medium">Domisili</label>
                     <select name="domicile" value={form.domicile} onChange={handleChange} className="w-full rounded-lg border p-3 bg-background">
                       <option value="">Pilih Domisili</option>
                       {DOMISILI_OPTIONS.map((opt) => (
@@ -347,7 +347,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium">Nomor HP</label>
+                    <label className="mb-2 block text-sm font-medium">Nomor Handphone</label>
                     <input type="text" name="phone" value={form.phone} onChange={handleChange} className="w-full rounded-lg border p-3 bg-background" />
                     {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
                   </div>
@@ -359,8 +359,8 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium">File link</label>
-                    <input type="text" name="link" value={form.link} onChange={handleChange} placeholder="Masukkan link berkas (e.g. Google Drive)" className="w-full rounded-lg border p-3 bg-background" />
+                    <label className="mb-2 block text-sm font-medium">Link</label>
+                    <input type="text" name="link" value={form.link} onChange={handleChange} placeholder="Masukkan link berkas" className="w-full rounded-lg border p-3 bg-background" />
                     {errors.link && <p className="mt-1 text-sm text-red-500">{errors.link}</p>}
                   </div>
 
@@ -375,7 +375,7 @@ export default function RegistrasiLombaClient({ id }: RegistrasiLombaClientProps
             {/* SIDEBAR */}
 
             <div>
-              <div className="sticky top-24 rounded-xl border bg-card p-6 shadow-sm">
+              <div className="lg:sticky lg:top-24 rounded-xl border bg-card p-6 shadow-sm">
                 <h3 className="mb-5 text-xl font-semibold">Informasi Lomba</h3>
 
                 <div className="space-y-4">

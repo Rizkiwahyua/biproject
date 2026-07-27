@@ -81,7 +81,7 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
               Kembali ke daftar lomba
             </Link>
 
-            <h1 className="text-4xl font-bold">{lomba.title}</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">{lomba.title}</h1>
 
             <div className="mt-6 flex flex-wrap gap-6 text-muted-foreground">
               <div className="flex items-center gap-2">
@@ -128,7 +128,7 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
             {/* Right */}
 
             <div>
-              <div className="sticky top-24 rounded-xl border bg-card p-6 shadow-sm">
+              <div className="lg:sticky lg:top-24 rounded-xl border bg-card p-6 shadow-sm">
                 <h3 className="mb-5 text-xl font-semibold">Informasi Lomba</h3>
 
                 <div className="space-y-4">

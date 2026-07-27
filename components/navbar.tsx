@@ -13,9 +13,9 @@ import { ApiCollection, RunningText } from "@/types/api";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/edukasi", label: "Learn" },
-  { href: "/berita", label: "Share" },
-  { href: "/lomba", label: "Move" },
+  { href: "/edukasi", label: "Learning" },
+  { href: "/berita", label: "Sharing" },
+  { href: "/lomba", label: "Moving" },
 ];
 
 export function Navbar() {
@@ -99,7 +99,7 @@ export function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
-      <div className={cn("border-t border-border/50 bg-card/95 backdrop-blur-xl md:hidden transition-all duration-300 overflow-hidden", mobileMenuOpen ? "max-h-80" : "max-h-0 border-t-0")}>
+      <div className={cn("border-t border-border/50 bg-card/95 backdrop-blur-xl md:hidden transition-all duration-300 overflow-hidden", mobileMenuOpen ? "max-h-[450px]" : "max-h-0 border-t-0")}>
         <nav className="flex flex-col gap-1 p-4">
           {navLinks.map((link) => (
             <Link

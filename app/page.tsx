@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { FeatureCard } from "@/components/feature-card";
+import { useIsMobile } from "@/components/ui/use-mobile";
 
 const features = [
   {
@@ -44,6 +45,7 @@ const rupiahImages = [
 ];
 
 export default function HomePage() {
+  const isMobile = useIsMobile();
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [heroCards, setHeroCards] = useState<HomeHero[]>([]);
 
@@ -204,9 +206,10 @@ export default function HomePage() {
                         const opacity = offset === 0 ? 1 : offset === 1 ? 0.90 : 0.75;
                         const scale = offset === 0 ? 1 : offset === 1 ? 0.93 : 0.86;
                         
-                        // Increased translations and rotations so background cards are more visible (nampak lagi sikit)
-                        const translateX = offset === 0 ? 0 : offset === 1 ? 28 : 52;
-                        const translateY = offset === 0 ? 0 : offset === 1 ? 16 : 32;
+                        // Scale translations on mobile viewports to prevent screen clipping
+                        const factor = isMobile ? 0.5 : 1;
+                        const translateX = offset === 0 ? 0 : offset === 1 ? 28 * factor : 52 * factor;
+                        const translateY = offset === 0 ? 0 : offset === 1 ? 16 * factor : 32 * factor;
                         const rotate = offset === 0 ? 0 : offset === 1 ? 6 : 12;
 
                         // Apply swipe drag offset to the active card

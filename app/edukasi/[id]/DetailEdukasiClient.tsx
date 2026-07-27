@@ -10,6 +10,7 @@ import { getEdukasi } from "@/lib/edukasi";
 import { formatTanggal } from "@/lib/date";
 import { Button } from "@/components/ui/button";
 import { Edukasi } from "@/types/api";
+import { useIsMobile } from "@/components/ui/use-mobile";
 
 function getYoutubeEmbedUrl(url: string | null) {
   if (!url) return null;
@@ -49,6 +50,7 @@ interface DetailEdukasiClientProps {
 }
 
 export default function DetailEdukasiClient({ id }: DetailEdukasiClientProps) {
+  const isMobile = useIsMobile();
   const [edukasi, setEdukasi] = useState<Edukasi | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -158,23 +160,6 @@ export default function DetailEdukasiClient({ id }: DetailEdukasiClientProps) {
                 </div>
               )}
 
-              {/* PDF Preview directly in the main section if it is a PDF */}
-              {edukasi.file && edukasi.file_extension === 'pdf' && (
-                <div className="rounded-2xl border bg-card p-6 sm:p-8 shadow-sm space-y-4">
-                  <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
-                    <FileText className="text-primary h-6 w-6" />
-                    Materi PDF
-                  </h3>
-                  <div className="w-full h-[800px] overflow-hidden rounded-xl border bg-muted shadow-md">
-                    <iframe
-                      src={getRelativeUrl(edukasi.file) ?? undefined}
-                      className="w-full h-full border-0"
-                      title={`${edukasi.judul} PDF`}
-                    />
-                  </div>
-                </div>
-              )}
-
               {/* Video Embed if any */}
               {edukasi.link && (
                 <div className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
@@ -203,12 +188,54 @@ export default function DetailEdukasiClient({ id }: DetailEdukasiClientProps) {
                   </div>
                 </div>
               )}
+
+              {/* PDF Preview directly in the main section if it is a PDF */}
+              {edukasi.file && edukasi.file_extension === 'pdf' && (
+                <div className="rounded-2xl border bg-card p-6 sm:p-8 shadow-sm space-y-4">
+                  <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
+                    <FileText className="text-primary h-6 w-6" />
+                    Materi PDF
+                  </h3>
+                  {isMobile ? (
+                    <div className="rounded-xl border bg-muted/50 p-6 text-center space-y-4">
+                      <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
+                      <div className="space-y-1">
+                        <p className="font-semibold text-foreground">Pratinjau PDF tidak didukung di mobile</p>
+                        <p className="text-sm text-muted-foreground">
+                          Untuk kenyamanan membaca, silakan buka dokumen di tab baru atau unduh langsung.
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:justify-center">
+                        <Button variant="outline" asChild className="w-full sm:w-auto">
+                          <a href={edukasi.file} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                            Buka PDF <ExternalLink size={14} />
+                          </a>
+                        </Button>
+                        <Button className="w-full sm:w-auto bg-[#CF1A25] text-white hover:bg-[#CF1A25]/90" asChild>
+                          <a href={edukasi.file} download className="flex items-center justify-center gap-2">
+                            <Download size={14} />
+                            Unduh PDF
+                          </a>
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full h-[800px] overflow-hidden rounded-xl border bg-muted shadow-md">
+                      <iframe
+                        src={getRelativeUrl(edukasi.file) ?? undefined}
+                        className="w-full h-full border-0"
+                        title={`${edukasi.judul} PDF`}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Sidebar PDF Preview/Download */}
             <div className="lg:col-span-3 space-y-6">
               {edukasi.file && (
-                <div className="rounded-2xl border bg-card p-6 shadow-sm space-y-4 sticky top-24">
+                <div className="rounded-2xl border bg-card p-6 shadow-sm space-y-4 lg:sticky lg:top-24">
                   <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
                     <FileText className="text-primary h-5 w-5" />
                     Menu Dokumen
