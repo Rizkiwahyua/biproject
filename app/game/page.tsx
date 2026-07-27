@@ -113,7 +113,7 @@ export default function GamePage() {
                       Misteri
                     </span>
                   </div>
-                  <p className="text-sm font-medium text-emerald-500/80 mb-3">Qode Misteri CBP</p>
+                  <p className="text-sm font-medium text-emerald-500/80 mb-3">Challenge Rupiah 7 seconds</p>
                   <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8">
                     Pecahkan kode rahasia CBP, uji pemikiran kritis Anda, dan selesaikan berbagai misi logika Rupiah dalam petualangan teka-teki misterius ini!
                   </p>

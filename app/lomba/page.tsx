@@ -111,7 +111,7 @@ export default function LombaPage() {
                       <h2 className="text-2xl font-bold text-foreground">CR7s</h2>
                       <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-400 border border-emerald-500/20">Misteri</span>
                     </div>
-                    <p className="text-sm font-medium text-emerald-500/80 mb-3">Qode Misteri CBP</p>
+                    <p className="text-sm font-medium text-emerald-500/80 mb-3">Challenge Rupiah 7 seconds</p>
                     <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8">
                       Pecahkan kode rahasia CBP, uji pemikiran kritis Anda, dan selesaikan berbagai misi logika Rupiah dalam petualangan teka-teki misterius ini!
                     </p>
@@ -324,7 +324,7 @@ export default function LombaPage() {
                     <h2 className="text-2xl font-bold text-foreground">CR7s</h2>
                     <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-400 border border-emerald-500/20">Misteri</span>
                   </div>
-                  <p className="text-sm font-medium text-emerald-500/80 mb-3">Qode Misteri CBP</p>
+                  <p className="text-sm font-medium text-emerald-500/80 mb-3">Challenge Rupiah 7 seconds</p>
                   <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8">
                     Pecahkan kode rahasia CBP, uji pemikiran kritis Anda, dan selesaikan berbagai misi logika Rupiah dalam petualangan teka-teki misterius ini!
                   </p>
