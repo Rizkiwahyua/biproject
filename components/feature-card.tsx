@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -6,11 +7,12 @@ interface FeatureCardProps {
   title: string
   description: string
   href: string
-  icon: LucideIcon
+  icon?: LucideIcon
+  badgeText?: string
   className?: string
 }
 
-export function FeatureCard({ title, description, href, icon: Icon, className }: FeatureCardProps) {
+export function FeatureCard({ title, description, href, icon: Icon, badgeText, className }: FeatureCardProps) {
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
@@ -52,8 +54,25 @@ export function FeatureCard({ title, description, href, icon: Icon, className }:
       <div className="absolute -right-12 -top-12 h-24 w-24 rounded-full bg-primary/5 transition-all duration-500 group-hover:scale-150 group-hover:bg-primary/10" />
       
       <div className="relative">
-        <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20 text-primary">
-          <Icon className="h-8 w-8 transition-transform duration-300 group-hover:scale-110" />
+        <div className="mb-5 flex items-center gap-4">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20 text-primary p-2">
+            {badgeText ? (
+              <Image
+                src="/LSM.png"
+                alt="LSM Logo"
+                width={48}
+                height={48}
+                className="object-contain transition-transform duration-300 group-hover:scale-110"
+              />
+            ) : Icon ? (
+              <Icon className="h-8 w-8 transition-transform duration-300 group-hover:scale-110" />
+            ) : null}
+          </div>
+          {badgeText && (
+            <span className="text-2xl font-extrabold tracking-wider bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              {badgeText}
+            </span>
+          )}
         </div>
         <h3 className="mb-3 text-xl font-semibold text-card-foreground">{title}</h3>
         <p className="mb-5 flex-1 text-muted-foreground leading-relaxed">{description}</p>
@@ -65,3 +84,4 @@ export function FeatureCard({ title, description, href, icon: Icon, className }:
     </Link>
   )
 }
+

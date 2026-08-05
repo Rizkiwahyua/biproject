@@ -15,22 +15,22 @@ import { useIsMobile } from "@/components/ui/use-mobile";
 
 const features = [
   {
+    title: "Edukasi Keuangan",
+    description: "Pelajari berbagai materi tentang literasi keuangan dan pengelolaan uang yang bijak untuk kehidupan sehari-hari.",
+    badgeText: "Learning",
+    href: "/edukasi",
+  },
+  {
     title: "Kabar Terbaru & Game",
     description: "Ikuti perkembangan informasi, kegiatan, dan berita terbaru seputar CBP Rupiah dari Bank Indonesia.",
-    icon: Newspaper,
+    badgeText: "Sharing",
     href: "/berita",
   },
   {
     title: "Lomba & Kompetisi",
     description: "Ikuti berbagai lomba dan kompetisi menarik seputar literasi keuangan dengan hadiah yang menarik.",
-    icon: Trophy,
+    badgeText: "Moving",
     href: "/lomba",
-  },
-  {
-    title: "Edukasi Keuangan",
-    description: "Pelajari berbagai materi tentang literasi keuangan dan pengelolaan uang yang bijak untuk kehidupan sehari-hari.",
-    icon: BookOpen,
-    href: "/edukasi",
   },
 ];
 
@@ -360,7 +360,7 @@ export default function HomePage() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 stagger-children">
               {features.map((feature) => (
-                <FeatureCard key={feature.title} title={feature.title} description={feature.description} icon={feature.icon} href={feature.href} />
+                <FeatureCard key={feature.title} title={feature.title} description={feature.description} badgeText={feature.badgeText} href={feature.href} />
               ))}
             </div>
           </div>

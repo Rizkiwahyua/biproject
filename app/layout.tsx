@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+import { PageLoader } from '@/components/page-loader'
 
 export const metadata: Metadata = {
   title: 'Cinta, Bangga, Paham Rupiah',
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased">
+        <PageLoader />
         {children}
         <Analytics />
       </body>
