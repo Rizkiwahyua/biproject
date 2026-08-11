@@ -45,7 +45,7 @@ export function Navbar() {
         <Link href="/" className="group flex items-center gap-2 sm:gap-3 transition-opacity hover:opacity-80 shrink-0">
           <Image src="/BIlogo.png" alt="Logo BI" width={180} height={50} className="h-9 sm:h-12 w-auto object-contain" />
           <Image src="/logocbp.png" alt="Logo CBP" width={150} height={45} className="h-9 sm:h-12 w-auto object-contain" />
-          <Image src="/LSM.png" alt="Logo LSM" width={40} height={40} className="h-9 sm:h-12 w-auto object-contain" />
+          <Image src="/lsmnew.png" alt="Logo LSM" width={56} height={56} className="h-11 sm:h-15 w-auto object-contain" />
         </Link>
 
         {/* Desktop Navigation */}

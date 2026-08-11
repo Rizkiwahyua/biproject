@@ -109,13 +109,13 @@ export default function GamePage() {
                       <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-white shadow-md">
                         Kecepatan
                       </span>
-                    </div>
+                     </div>
 
-                    <div className="flex items-center gap-2 mb-2">
-                      <h2 className="text-2xl font-bold text-card-foreground group-hover:text-emerald-500 transition-colors">CR7s</h2>
-                    </div>
-                    <p className="text-sm font-semibold text-emerald-500 mb-3">Challenge Rupiah 7 Seconds</p>
-                    <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
+                     <div className="flex items-center gap-2 mb-2">
+                       <h2 className="text-2xl font-bold text-card-foreground group-hover:text-emerald-500 transition-colors">CR7s</h2>
+                     </div>
+                     <p className="text-sm font-semibold text-emerald-500 mb-3">Cinta Rupiah 7 Seconds</p>
+                     <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
                       Uji kecepatan berpikir dan pengetahuan Anda tentang Rupiah melalui berbagai tantangan seru yang harus diselesaikan dalam waktu singkat!
                     </p>
                   </div>

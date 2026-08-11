@@ -58,7 +58,7 @@ export function FeatureCard({ title, description, href, icon: Icon, badgeText, c
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20 text-primary p-2">
             {badgeText ? (
               <Image
-                src="/LSM.png"
+                src="/lsmnew.png"
                 alt="LSM Logo"
                 width={48}
                 height={48}

@@ -121,7 +121,20 @@ export default function DetailLombaClient({ id }: DetailLombaClientProps) {
               <div className="rounded-xl border bg-card p-8 shadow-sm">
                 <h2 className="mb-4 text-2xl font-semibold">Deskripsi Lomba</h2>
 
-                <p className="leading-8 text-muted-foreground">{lomba.description}</p>
+                <div
+                  className="
+                    prose
+                    prose-neutral
+                    max-w-none
+                    prose-headings:font-bold
+                    prose-img:rounded-xl
+                    leading-8
+                    text-muted-foreground
+                  "
+                  dangerouslySetInnerHTML={{
+                    __html: lomba.description || "",
+                  }}
+                />
               </div>
             </div>
 

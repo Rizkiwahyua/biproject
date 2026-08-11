@@ -50,6 +50,19 @@ export function EventCard({ id, title, description, date, location, status, thum
     e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
   };
 
+  const cleanDescription = (() => {
+    if (!description) return "";
+    const cleanText = description
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .trim();
+    return cleanText.length > 120 ? cleanText.slice(0, 120) + "..." : cleanText;
+  })();
+
   return (
     <div
       onMouseMove={handleMouseMove}
@@ -94,7 +107,7 @@ export function EventCard({ id, title, description, date, location, status, thum
         </div>
 
         <h3 className="mb-3 text-xl font-semibold text-card-foreground">{title}</h3>
-        <p className="mb-5 flex-1 text-muted-foreground leading-relaxed">{description}</p>
+        <p className="mb-5 flex-1 text-muted-foreground leading-relaxed">{cleanDescription}</p>
 
         <div className="mb-6 space-y-2.5">
           <div className="flex items-center gap-3 text-sm text-muted-foreground">

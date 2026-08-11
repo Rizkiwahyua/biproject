@@ -123,7 +123,7 @@ export default function LombaPage() {
                       <div className="flex items-center gap-2 mb-2">
                         <h2 className="text-2xl font-bold text-card-foreground group-hover:text-emerald-500 transition-colors">CR7s</h2>
                       </div>
-                      <p className="text-sm font-semibold text-emerald-500 mb-3">Challenge Rupiah 7 Seconds</p>
+                      <p className="text-sm font-semibold text-emerald-500 mb-3">Cinta Rupiah 7 Seconds</p>
                       <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
                         Uji kecepatan berpikir dan pengetahuan Anda tentang Rupiah melalui berbagai tantangan seru yang harus diselesaikan dalam waktu singkat!
                       </p>
@@ -221,11 +221,11 @@ export default function LombaPage() {
       <main className="flex-1">
         {/* Header with Background Image */}
         <section 
-          className="relative overflow-hidden bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/lomba.webp')" }}
+          className="relative overflow-hidden pb-24 pt-16 sm:pb-28 sm:pt-20 lg:pb-32 bg-cover bg-top bg-no-repeat"
+          style={{ backgroundImage: "url('/movingg.png')" }}
         >
           {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-[#02152c]/60 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-[#02152c]/30" />
 
           {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden">
@@ -236,7 +236,7 @@ export default function LombaPage() {
           {/* Grid pattern */}
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40" />
 
-          <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+          <div className="relative mx-auto max-w-7xl px-4 text-center z-10">
             <div className="text-center animate-fade-in">
               <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
                 <Trophy className="h-4 w-4 text-accent" />
@@ -370,7 +370,7 @@ export default function LombaPage() {
                     <div className="flex items-center gap-2 mb-2">
                       <h2 className="text-2xl font-bold text-card-foreground group-hover:text-emerald-500 transition-colors">CR7s</h2>
                     </div>
-                    <p className="text-sm font-semibold text-emerald-500 mb-3">Challenge Rupiah 7 Seconds</p>
+                    <p className="text-sm font-semibold text-emerald-500 mb-3">Cinta Rupiah 7 Seconds</p>
                     <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
                       Uji kecepatan berpikir dan pengetahuan Anda tentang Rupiah melalui berbagai tantangan seru yang harus diselesaikan dalam waktu singkat!
                     </p>

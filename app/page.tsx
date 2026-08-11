@@ -15,20 +15,20 @@ import { useIsMobile } from "@/components/ui/use-mobile";
 
 const features = [
   {
-    title: "Edukasi Keuangan",
-    description: "Pelajari berbagai materi tentang literasi keuangan dan pengelolaan uang yang bijak untuk kehidupan sehari-hari.",
+    title: "Edukasi Rupiah",
+    description: "Pelajari berbagai materi tentang literasi Rupiah dan pengelolaan uang yang bijak untuk kehidupan sehari-hari.",
     badgeText: "Learning",
     href: "/edukasi",
   },
   {
-    title: "Kabar Terbaru & Game",
+    title: "Kabar Terbaru",
     description: "Ikuti perkembangan informasi, kegiatan, dan berita terbaru seputar CBP Rupiah dari Bank Indonesia.",
     badgeText: "Sharing",
     href: "/berita",
   },
   {
     title: "Lomba & Kompetisi",
-    description: "Ikuti berbagai lomba dan kompetisi menarik seputar literasi keuangan dengan hadiah yang menarik.",
+    description: "Ikuti berbagai lomba dan kompetisi menarik seputar literasi Rupiah dengan hadiah yang menarik.",
     badgeText: "Moving",
     href: "/lomba",
   },
@@ -354,7 +354,7 @@ export default function HomePage() {
                 <Sparkles className="h-4 w-4" />
                 Jelajahi
               </span>
-              <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl text-balance">Mulai Perjalanan Literasi Keuangan Anda</h2>
+              <h2 className="mb-5 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl text-balance">Mulai Perjalanan Literasi Rupiah Anda</h2>
               <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">Temukan berbagai materi edukasi, sejarah mata uang, dan kesempatan untuk menguji pengetahuan Anda</p>
             </div>
 
@@ -376,9 +376,9 @@ export default function HomePage() {
 
           <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
             <div className="text-center">
-              <h2 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl text-balance animate-fade-in">Siap Meningkatkan Literasi Keuangan Anda?</h2>
+              <h2 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl text-balance animate-fade-in">Siap Meningkatkan Literasi Rupiah Anda?</h2>
               <p className="mx-auto mb-10 max-w-2xl text-lg text-white/70 animate-fade-in animation-delay-100">
-                Bergabunglah dengan jutaan masyarakat Indonesia yang telah meningkatkan pemahaman mereka tentang keuangan dan mata uang Rupiah.
+                Bergabunglah dengan jutaan masyarakat Indonesia yang telah meningkatkan pemahaman mereka tentang mata uang Rupiah dan pengelolaan uang secara bijak.
               </p>
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in animation-delay-200">
                 <Button size="lg" className="group bg-white text-[#082a52] hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5" asChild>

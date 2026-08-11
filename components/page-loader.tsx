@@ -32,8 +32,8 @@ function PageLoaderInner() {
       {/* 1. INITIAL WELCOME SPLASH LOADER (Shown once on first load) */}
       {showWelcome && (
         <div 
-          className={`fixed inset-0 z-[10000] flex items-center justify-center bg-[#02152c]/15 backdrop-blur-2xl transition-all duration-500 ease-out pointer-events-auto ${
-            panelsSliding ? "opacity-0 backdrop-blur-none pointer-events-none" : "opacity-100"
+          className={`fixed inset-0 z-[10000] flex items-center justify-center bg-white transition-all duration-500 ease-out pointer-events-auto ${
+            panelsSliding ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
         >
           {/* Glowing circular backdrop for the GIF */}
