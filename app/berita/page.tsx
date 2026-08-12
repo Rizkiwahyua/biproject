@@ -97,7 +97,7 @@ export default function BeritaPage() {
           style={{ backgroundImage: "url('/shearing.png')" }}
         >
           {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-[#02152c]/40" />
+          <div className="absolute inset-0 bg-[#02152c]/20" />
 
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-primary/20 blur-3xl animate-pulse-glow" />
@@ -113,9 +113,9 @@ export default function BeritaPage() {
               Portal Berita
             </span>
             <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl text-balance">
-              Kabar <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#00529C] bg-clip-text text-transparent">Terbaru</span>
+              Kabar <span className="bg-gradient-to-r from-sky-300 via-sky-100 to-white bg-clip-text text-transparent">Terbaru</span>
             </h1>
-            <p className="mx-auto max-w-2xl text-lg text-white/70 leading-relaxed">Ikuti perkembangan kegiatan, program edukasi, dan pengumuman resmi dari Kantor Perwakilan Bank Indonesia Lhokseumawe.</p>
+            <p className="mx-auto max-w-2xl text-lg font-semibold text-white leading-relaxed">Ikuti perkembangan kegiatan, program edukasi, dan pengumuman resmi dari Kantor Perwakilan Bank Indonesia Lhokseumawe.</p>
           </div>
 
           {/* Bottom wave */}

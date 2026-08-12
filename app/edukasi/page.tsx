@@ -161,7 +161,7 @@ function EdukasiContent() {
           style={{ backgroundImage: "url('/uang/banner.jpeg')" }}
         >
           {/* Darker Overlay to significantly improve contrast and text readability */}
-          <div className="absolute inset-0 bg-slate-950/50" />
+          <div className="absolute inset-0 bg-slate-950/20" />
 
           <div className="relative mx-auto max-w-7xl px-4 text-center z-10">
             <div className="animate-fade-in">
@@ -285,7 +285,6 @@ function EdukasiContent() {
                           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
                           <div className="relative flex flex-col items-center">
-                            <h3 className="mb-5 text-xl font-semibold text-card-foreground">Kenali Rupiah</h3>
                             <div className="relative overflow-hidden rounded-xl border bg-muted shadow-sm w-full">
                               <img 
                                 src="/3d.jpeg" 
@@ -303,7 +302,6 @@ function EdukasiContent() {
                           <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
                           <div className="relative flex flex-col items-center">
-                            <h3 className="mb-5 text-xl font-semibold text-card-foreground">Rawat Rupiah</h3>
                             <div className="relative overflow-hidden rounded-xl border bg-muted shadow-sm w-full">
                               <img 
                                 src="/5j.jpeg" 

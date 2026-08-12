@@ -225,7 +225,7 @@ export default function LombaPage() {
           style={{ backgroundImage: "url('/movingg.png')" }}
         >
           {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-[#02152c]/30" />
+          <div className="absolute inset-0 bg-[#02152c]/15" />
 
           {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden">
@@ -243,9 +243,9 @@ export default function LombaPage() {
                 Kompetisi
               </span>
               <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl text-balance">
-                Lomba & <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#00529C] bg-clip-text text-transparent">Kompetisi</span>
+                Lomba & <span className="bg-gradient-to-r from-sky-300 via-sky-100 to-white bg-clip-text text-transparent">Kompetisi</span>
               </h1>
-              <p className="mx-auto max-w-2xl text-lg text-white/70 leading-relaxed">
+              <p className="mx-auto max-w-2xl text-lg font-semibold text-white leading-relaxed">
                 Ikuti berbagai kompetisi menarik seputar literasi keuangan dan uang Rupiah. Tunjukkan kreativitas dan pengetahuan Anda untuk memenangkan hadiah menarik!
               </p>
             </div>

@@ -148,7 +148,7 @@ export default function HomePage() {
                 <div className="animate-fade-in mb-6">
                   <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
                     <Sparkles className="h-4 w-4 text-accent" />
-                    Kampanye CBP Rupiah Kantor Perwakilan Bank Indonesia Lhokseumawe
+                    Platform Digital CBP Rupiah Kantor Perwakilan Bank Indonesia Lhokseumawe
                   </span>
                 </div>
 
@@ -158,7 +158,7 @@ export default function HomePage() {
                 </h1>
 
                 {/* Description */}
-                <p className="animate-fade-in animation-delay-200 mb-10 max-w-xl text-lg text-white/70 leading-relaxed sm:text-xl">
+                <p className="animate-fade-in animation-delay-200 mb-10 max-w-xl text-lg text-white leading-relaxed sm:text-xl">
                   Tingkatkan pemahaman Anda tentang mata uang Rupiah. Bersama Bank Indonesia, mari wujudkan masyarakat yang cerdas.
                 </p>
 
