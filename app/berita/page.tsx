@@ -24,6 +24,14 @@ export default function BeritaPage() {
   const [newsData, setNewsData] = useState<Berita[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalPages = Math.ceil(newsData.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = newsData.slice(indexOfFirstItem, indexOfLastItem);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -47,6 +55,16 @@ export default function BeritaPage() {
 
     fetchData();
   }, []);
+
+  // Scroll to top of news grid when page changes
+  useEffect(() => {
+    if (currentPage > 1 || (typeof window !== "undefined" && window.scrollY > 400)) {
+      const contentSection = document.getElementById("news-content");
+      if (contentSection) {
+        contentSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [currentPage]);
 
   if (loading) {
     return (
@@ -93,8 +111,8 @@ export default function BeritaPage() {
       <main className="flex-1">
         {/* Header with Background Image */}
         <section 
-          className="relative overflow-hidden pb-24 pt-16 sm:pb-28 sm:pt-20 lg:pb-32 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/shearing.png')" }}
+          className="relative overflow-hidden pb-24 pt-16 sm:pb-28 sm:pt-20 lg:pb-32 bg-cover bg-no-repeat"
+          style={{ backgroundImage: "url('/shearing.png')", backgroundPosition: "center top" }}
         >
           {/* Dark overlay for readability */}
           <div className="absolute inset-0 bg-[#02152c]/20" />
@@ -146,11 +164,11 @@ export default function BeritaPage() {
         </section>
 
         {/* Main Content Area */}
-        <section className="bg-background py-16">
+        <section id="news-content" className="bg-background py-16">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {/* News Grid */}
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 stagger-children">
-              {newsData.map((news, index) => (
+              {currentItems.map((news, index) => (
                 <div key={news.id} className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1">
                   {/* Card Cover (Abstract Gradient Design) */}
                   <div className="relative h-44 w-full overflow-hidden">
@@ -202,6 +220,47 @@ export default function BeritaPage() {
                 </div>
               ))}
             </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="mt-12 flex items-center justify-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="rounded-xl border border-border bg-card text-foreground hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 cursor-pointer"
+                >
+                  Sebelumnya
+                </Button>
+                
+                <div className="flex items-center gap-1.5">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                    <button
+                      key={pageNumber}
+                      onClick={() => setCurrentPage(pageNumber)}
+                      className={`h-9 w-9 flex items-center justify-center rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                        currentPage === pageNumber
+                          ? "bg-primary text-white shadow-md shadow-primary/25"
+                          : "border border-border bg-card text-muted-foreground hover:border-primary/30 hover:text-primary"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  ))}
+                </div>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="rounded-xl border border-border bg-card text-foreground hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 cursor-pointer"
+                >
+                  Selanjutnya
+                </Button>
+              </div>
+            )}
           </div>
         </section>
       </main>

@@ -10,6 +10,7 @@ import { TopicCard } from "@/components/topic-card";
 import { EdukasiCard } from "@/components/edukasi-card";
 import { TimelineItem } from "@/components/timeline-item";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 
 import type { ApiCollection, Edukasi, EdukasiVideo } from "@/types/api";
 
@@ -86,6 +87,14 @@ function EdukasiContent() {
   const [apiMateri, setApiMateri] = useState<Edukasi[]>([]);
   const [loadingMateri, setLoadingMateri] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
+  const totalPages = Math.ceil(apiMateri.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = apiMateri.slice(indexOfFirstItem, indexOfLastItem);
+
   const [videos, setVideos] = useState<EdukasiVideo[]>([]);
   const [loadingVideo, setLoadingVideo] = useState(true);
 
@@ -144,12 +153,23 @@ function EdukasiContent() {
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
+    setCurrentPage(1); // Reset page on tab change
     if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
       url.searchParams.set("tab", value);
       window.history.pushState({}, "", url.toString());
     }
   };
+
+  // Scroll to top of grid when page changes
+  useEffect(() => {
+    if (currentPage > 1 || (typeof window !== "undefined" && window.scrollY > 400)) {
+      const contentSection = document.getElementById("edukasi-content");
+      if (contentSection) {
+        contentSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [currentPage]);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -206,7 +226,7 @@ function EdukasiContent() {
         </section>
 
         {/* Tabs System */}
-        <section className="bg-background relative -mt-10 z-10">
+        <section id="edukasi-content" className="bg-background relative -mt-10 z-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
               {/* Tab Selector */}
@@ -233,7 +253,7 @@ function EdukasiContent() {
                     ) : apiMateri.length === 0 ? (
                       <p className="text-muted-foreground">Belum ada data edukasi.</p>
                     ) : (
-                      apiMateri.map((materi) => (
+                      currentItems.map((materi) => (
                         <EdukasiCard
                           key={materi.id}
                           id={materi.id}
@@ -248,6 +268,47 @@ function EdukasiContent() {
                       ))
                     )}
                   </div>
+
+                  {/* Pagination Controls */}
+                  {totalPages > 1 && (
+                    <div className="mt-12 flex items-center justify-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="rounded-xl border border-border bg-card text-foreground hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 cursor-pointer"
+                      >
+                        Sebelumnya
+                      </Button>
+                      
+                      <div className="flex items-center gap-1.5">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                          <button
+                            key={pageNumber}
+                            onClick={() => setCurrentPage(pageNumber)}
+                            className={`h-9 w-9 flex items-center justify-center rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                              currentPage === pageNumber
+                                ? "bg-primary text-white shadow-md shadow-primary/25"
+                                : "border border-border bg-card text-muted-foreground hover:border-primary/30 hover:text-primary"
+                            }`}
+                          >
+                            {pageNumber}
+                          </button>
+                        ))}
+                      </div>
+
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="rounded-xl border border-border bg-card text-foreground hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 cursor-pointer"
+                      >
+                        Selanjutnya
+                      </Button>
+                    </div>
+                  )}
 
                   {/* Buttons to toggle additional info */}
                   <div className="mt-16 flex flex-wrap justify-center gap-4">

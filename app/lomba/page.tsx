@@ -20,6 +20,13 @@ const stats = [
 
 export default function LombaPage() {
   const [events, setEvents] = useState<Lomba[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalPages = Math.ceil(events.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = events.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -42,6 +49,16 @@ export default function LombaPage() {
 
     fetchData();
   }, []);
+
+  // Scroll to top of events grid when page changes
+  useEffect(() => {
+    if (currentPage > 1 || (typeof window !== "undefined" && window.scrollY > 400)) {
+      const contentSection = document.getElementById("lomba-content");
+      if (contentSection) {
+        contentSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [currentPage]);
 
   if (events.length === 0) {
     return (
@@ -279,7 +296,7 @@ export default function LombaPage() {
         </section>
 
         {/* Events Grid */}
-        <section className="bg-background">
+        <section id="lomba-content" className="bg-background">
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
             <div className="mb-10">
               <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
@@ -290,7 +307,7 @@ export default function LombaPage() {
               <p className="mt-2 text-muted-foreground">Pilih kompetisi yang sesuai dengan minat dan kemampuan Anda</p>
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 stagger-children">
-              {events.map((event) => (
+              {currentItems.map((event) => (
                 <EventCard
                   key={event.id}
                   id={event.id}
@@ -307,6 +324,47 @@ export default function LombaPage() {
                 />
               ))}
             </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="mt-12 flex items-center justify-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="rounded-xl border border-border bg-card text-foreground hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 cursor-pointer"
+                >
+                  Sebelumnya
+                </Button>
+                
+                <div className="flex items-center gap-1.5">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                    <button
+                      key={pageNumber}
+                      onClick={() => setCurrentPage(pageNumber)}
+                      className={`h-9 w-9 flex items-center justify-center rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                        currentPage === pageNumber
+                          ? "bg-primary text-white shadow-md shadow-primary/25"
+                          : "border border-border bg-card text-muted-foreground hover:border-primary/30 hover:text-primary"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  ))}
+                </div>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="rounded-xl border border-border bg-card text-foreground hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 cursor-pointer"
+                >
+                  Selanjutnya
+                </Button>
+              </div>
+            )}
           </div>
         </section>
 
