@@ -13,7 +13,8 @@ import { Button } from "@/components/ui/button";
 const API_STORAGE = process.env.NEXT_PUBLIC_STORAGE_URL || "https://cbprupiahlsm.id/admin-cbp/public/storage";
 
 const newsStats = [
-  { icon: Newspaper, value: "100+", label: "Rilis Berita" },
+  // { icon: Newspaper, value: "10+", label: "Rilis Berita" },
+  { icon: Newspaper, value: "10+", label: "Rilis Berita" },
   { icon: Gamepad2, value: "2", label: "Game Edukasi" },
   { icon: Users, value: "10K+", label: "Masyarakat Terbantu" },
   { icon: Sparkles, value: "24/7", label: "Update Informasi" },

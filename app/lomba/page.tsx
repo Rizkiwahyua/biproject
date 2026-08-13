@@ -13,8 +13,8 @@ import { EventCard } from "@/components/event-card";
 
 const stats = [
   { icon: Trophy, value: "50+", label: "Kompetisi Per Tahun" },
-  { icon: Users, value: "100K+", label: "Total Peserta" },
-  { icon: Award, value: "500+", label: "Pemenang" },
+  { icon: Users, value: "3000+", label: "Total Peserta" },
+  { icon: Award, value: "50+", label: "Pemenang" },
   { icon: Calendar, value: "12", label: "Bulan Aktif" },
 ];
 
