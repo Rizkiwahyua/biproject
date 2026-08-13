@@ -1,28 +1,27 @@
 RewriteEngine On
 
+# --- A. PRE-RENDERED STATIC PAGES (Next.js export files) ---
+# Jika path yang di-request (dengan atau tanpa trailing slash) memiliki file .html yang sesuai,
+# arahkan langsung ke file tersebut. Rule ini penting agar folder fisik tidak memicu redirect 403.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.*?)/?$ /$1.html [L]
+
+# --- B. DYNAMIC ROUTE FALLBACKS ---
 # 1. Registrasi Lomba: /lomba/<id>/registrasi -> /lomba/detail/registrasi.html
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^lomba/([^/]+)/registrasi$ /lomba/detail/registrasi.html [L]
+RewriteRule ^lomba/([^/]+)/registrasi/?$ /lomba/detail/registrasi.html [L]
 
 # 2. Detail Lomba: /lomba/<id> -> /lomba/detail.html
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^lomba/([^/]+)$ /lomba/detail.html [L]
+RewriteRule ^lomba/([^/]+)/?$ /lomba/detail.html [L]
 
 # 3. Detail Berita: /berita/<id> -> /berita/detail.html
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^berita/([^/]+)$ /berita/detail.html [L]
+RewriteRule ^berita/([^/]+)/?$ /berita/detail.html [L]
 
 # 4. Detail Edukasi: /edukasi/<id> -> /edukasi/detail.html
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^edukasi/([^/]+)$ /edukasi/detail.html [L]
+RewriteRule ^edukasi/([^/]+)/?$ /edukasi/detail.html [L]
 
-# 5. Standard Next.js route fallback (remove .html from URL)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{DOCUMENT_ROOT}/$1.html -f
-RewriteRule ^(.*)$ /$1.html [L]
 
