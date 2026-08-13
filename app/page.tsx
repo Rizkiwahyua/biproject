@@ -135,10 +135,6 @@ export default function HomePage() {
           {/* Ornamen Menyebar (Kecil) */}
           {/* Kiri Atas (di belakang teks) */}
           <div className="absolute top-[12%] left-[5%] w-36 h-36 md:w-52 md:h-52 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.22] mix-blend-screen pointer-events-none" />
-          {/* Kanan Bawah (di belakang kartu) */}
-          <div className="absolute bottom-[12%] right-[5%] w-36 h-36 md:w-52 md:h-52 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.22] mix-blend-screen pointer-events-none" />
-          {/* Tengah Bawah */}
-          <div className="absolute bottom-[20%] left-[40%] w-20 h-20 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.15] mix-blend-screen pointer-events-none hidden lg:block" />
 
           <div className="relative z-30 mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
