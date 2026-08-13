@@ -37,20 +37,23 @@ export default function GamePage() {
             }}
           />
 
+          {/* Gayoo Top Ornament */}
+          <div className="absolute top-0 left-0 right-0 h-10 sm:h-14 md:h-20 lg:h-28 xl:h-36 bg-[url(/gayoo.png)] bg-repeat-x bg-top bg-[length:auto_100%] opacity-15 pointer-events-none z-10" />
+
           {/* Large Floating Illustration - Hidden on mobile/tablet for responsiveness */}
-          <div className="absolute right-0 bottom-0 h-full hidden lg:flex items-end pr-16 opacity-40 pointer-events-none">
+          <div className="absolute right-0 bottom-0 h-full hidden lg:flex items-end pr-16 opacity-40 pointer-events-none z-20">
             <Image
               src="/animation.png"
               alt="Decor"
-              width={550}
-              height={550}
+              width={650}
+              height={650}
               className="object-contain"
               priority
             />
           </div>
 
           {/* Content */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left">
+          <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left">
             <div className="animate-fade-in mb-6 flex justify-center lg:justify-start">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs sm:text-sm font-medium text-white backdrop-blur-sm">
                 <Gamepad2 className="h-4 w-4 text-accent" />
@@ -59,7 +62,7 @@ export default function GamePage() {
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">Game Edukasi</h1>
             <p className="text-white/70 max-w-xl text-base sm:text-lg leading-relaxed">
-              Tingkatkan pemahaman Anda tentang mata uang Rupiah dan keuangan melalui permainan interaktif yang mendidik dan menyenangkan.
+              Tingkatkan pemahaman Anda tentang mata uang Rupiah dan kebudayaan aceh melalui permainan interaktif yang mendidik dan menyenangkan.
             </p>
           </div>
         </section>
@@ -116,7 +119,7 @@ export default function GamePage() {
                      </div>
                      <p className="text-sm font-semibold text-emerald-500 mb-3">Cinta Rupiah 7 Seconds</p>
                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
-                      Uji kecepatan berpikir dan pengetahuan Anda tentang Rupiah melalui berbagai tantangan seru yang harus diselesaikan dalam waktu singkat!
+                      Games kecepatan berpikir dan pengetahuan Anda tentang Rupiah melalui berbagai tantangan seru yang harus diselesaikan dalam waktu singkat!
                     </p>
                   </div>
 
@@ -180,7 +183,7 @@ export default function GamePage() {
                     </div>
                     <p className="text-sm font-semibold text-red-500 mb-3">Kuis Rupiah</p>
                     <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
-                      Uji pengetahuan, logika, dan kemampuan memecahkan misteri tentang Rupiah, pahlawan pada lembaran uang, serta budaya dan daerah Indonesia dalam petualangan kuis yang seru dan menantang!
+                      Games pengetahuan, logika, dan kemampuan memecahkan misteri tentang Rupiah, pahlawan pada lembaran uang, serta budaya dan daerah Indonesia dalam petualangan kuis yang seru dan menantang!
                     </p>
                   </div>
 

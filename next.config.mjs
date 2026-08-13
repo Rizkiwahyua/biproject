@@ -7,6 +7,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  devIndicators: {
+    appIsrStatus: false,
+  },
   async rewrites() {
     return [
       {

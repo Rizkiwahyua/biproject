@@ -131,7 +131,7 @@ export default function BeritaPage() {
               Portal Berita
             </span>
             <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl text-balance">
-              Kabar <span className="bg-gradient-to-r from-sky-300 via-sky-100 to-white bg-clip-text text-transparent">Terbaru</span>
+              Kabar Terbaru
             </h1>
             <p className="mx-auto max-w-2xl text-lg font-semibold text-white leading-relaxed">Ikuti perkembangan kegiatan, program edukasi, dan pengumuman resmi dari Kantor Perwakilan Bank Indonesia Lhokseumawe.</p>
           </div>

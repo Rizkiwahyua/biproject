@@ -130,7 +130,6 @@ export default function HomePage() {
           />
 
           {/* Ornamen Pojok (Bingkai) */}
-          <div className="absolute bottom-0 left-0 w-48 h-60 md:w-64 md:h-80 bg-[url(/pinto-aceh-corner.png)] bg-left-bottom bg-no-repeat bg-contain opacity-[0.40] mix-blend-screen pointer-events-none" />
           <div className="absolute top-0 right-0 w-48 h-60 md:w-64 md:h-80 bg-[url(/pinto-aceh-corner.png)] bg-right-top bg-no-repeat bg-contain rotate-180 opacity-[0.40] mix-blend-screen pointer-events-none" />
 
           {/* Ornamen Menyebar (Kecil) */}
@@ -141,7 +140,7 @@ export default function HomePage() {
           {/* Tengah Bawah */}
           <div className="absolute bottom-[20%] left-[40%] w-20 h-20 bg-[url(/pinto-aceh-bg.png)] bg-center bg-no-repeat bg-contain opacity-[0.15] mix-blend-screen pointer-events-none hidden lg:block" />
 
-          <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
+          <div className="relative z-30 mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
               <div className="flex flex-col justify-center">
                 {/* Badge */}
@@ -154,7 +153,7 @@ export default function HomePage() {
 
                 {/* Headline */}
                 <h1 className="animate-fade-in animation-delay-100 mb-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl text-balance">
-                  Cinta, Bangga, <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#00529C] bg-clip-text text-transparent">Paham Rupiah</span>
+                  Cinta, Bangga, Paham Rupiah
                 </h1>
 
                 {/* Description */}
@@ -254,8 +253,11 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* Gayoo Bottom Ornament */}
+          <div className="absolute bottom-0 left-0 right-0 h-14 sm:h-20 md:h-28 lg:h-36 xl:h-44 2xl:h-52 bg-[url(/gayoo.png)] bg-repeat-x bg-bottom bg-[length:auto_100%] opacity-15 pointer-events-none z-10" />
+
           {/* Bottom wave */}
-          <div className="absolute bottom-0 left-0 right-0">
+          <div className="absolute bottom-0 left-0 right-0 z-20">
             <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
               <path d="M0 100V50C240 83 480 100 720 100C960 100 1200 83 1440 50V100H0Z" className="fill-background" />
             </svg>

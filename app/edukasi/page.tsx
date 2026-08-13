@@ -199,15 +199,7 @@ function EdukasiContent() {
                 )}
               </span>
               <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl text-balance transition-all duration-300 drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
-                {activeTab === "materi" ? (
-                  <>
-                    Materi <span className="bg-gradient-to-r from-sky-300 via-sky-100 to-white bg-clip-text text-transparent">Pembelajaran</span>
-                  </>
-                ) : (
-                  <>
-                    Perjalanan <span className="bg-gradient-to-r from-sky-300 via-sky-100 to-white bg-clip-text text-transparent">Mata Uang</span> Rupiah
-                  </>
-                )}
+                {activeTab === "materi" ? "Materi Pembelajaran" : "Perjalanan Mata Uang Rupiah"}
               </h1>
               <p className="mx-auto max-w-2xl text-lg text-white font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] leading-relaxed transition-all duration-300">
                 {activeTab === "materi"

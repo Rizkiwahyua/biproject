@@ -88,9 +88,9 @@ export default function LombaPage() {
                   <Gamepad2 className="h-4 w-4 text-primary" />
                   Interaktif & Seru
                 </span>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">Game Edukasi Rupiah</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">Games Edukasi Rupiah</h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-                  Uji wawasan dan logika Anda tentang mata uang Rupiah melalui permainan interaktif yang mendidik dan menyenangkan.
+                  Games wawasan dan logika Anda tentang mata uang Rupiah melalui permainan interaktif yang mendidik dan menyenangkan.
                 </p>
               </div>
 
@@ -142,7 +142,7 @@ export default function LombaPage() {
                       </div>
                       <p className="text-sm font-semibold text-emerald-500 mb-3">Cinta Rupiah 7 Seconds</p>
                       <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
-                        Uji kecepatan berpikir dan pengetahuan Anda tentang Rupiah melalui berbagai tantangan seru yang harus diselesaikan dalam waktu singkat!
+                        Games kecepatan berpikir dan pengetahuan Anda tentang Rupiah melalui berbagai tantangan seru yang harus diselesaikan dalam waktu singkat!
                       </p>
                     </div>
 
@@ -206,7 +206,7 @@ export default function LombaPage() {
                       </div>
                       <p className="text-sm font-semibold text-red-500 mb-3">Kuis Rupiah</p>
                       <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
-                        Uji pengetahuan, logika, dan kemampuan memecahkan misteri tentang Rupiah, pahlawan pada lembaran uang, serta budaya dan daerah Indonesia dalam petualangan kuis yang seru dan menantang!
+                        Games pengetahuan, logika, dan kemampuan memecahkan misteri tentang Rupiah, pahlawan pada lembaran uang, serta budaya dan daerah Indonesia dalam petualangan kuis yang seru dan menantang!
                       </p>
                     </div>
 
@@ -260,7 +260,7 @@ export default function LombaPage() {
                 Kompetisi
               </span>
               <h1 className="mb-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl text-balance">
-                Lomba & <span className="bg-gradient-to-r from-sky-300 via-sky-100 to-white bg-clip-text text-transparent">Kompetisi</span>
+                Lomba & Kompetisi
               </h1>
               <p className="mx-auto max-w-2xl text-lg font-semibold text-white leading-relaxed">
                 Ikuti berbagai kompetisi menarik seputar literasi keuangan dan uang Rupiah. Tunjukkan kreativitas dan pengetahuan Anda untuk memenangkan hadiah menarik!
@@ -376,9 +376,9 @@ export default function LombaPage() {
                 <Gamepad2 className="h-4 w-4 text-primary" />
                 Interaktif & Seru
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">Game Edukasi Rupiah</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-3">Games Edukasi Rupiah</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-                Uji wawasan and logika Anda tentang mata uang Rupiah melalui permainan interaktif yang mendidik dan menyenangkan.
+                Games wawasan and logika Anda tentang mata uang Rupiah melalui permainan interaktif yang mendidik dan menyenangkan.
               </p>
             </div>
 
@@ -430,7 +430,7 @@ export default function LombaPage() {
                     </div>
                     <p className="text-sm font-semibold text-emerald-500 mb-3">Cinta Rupiah 7 Seconds</p>
                     <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
-                      Uji kecepatan berpikir dan pengetahuan Anda tentang Rupiah melalui berbagai tantangan seru yang harus diselesaikan dalam waktu singkat!
+                      Games kecepatan berpikir dan pengetahuan Anda tentang Rupiah melalui berbagai tantangan seru yang harus diselesaikan dalam waktu singkat!
                     </p>
                   </div>
 
@@ -494,7 +494,7 @@ export default function LombaPage() {
                     </div>
                     <p className="text-sm font-semibold text-red-500 mb-3">Kuis Rupiah</p>
                     <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
-                      Uji pengetahuan, logika, dan kemampuan memecahkan misteri tentang Rupiah, pahlawan pada lembaran uang, serta budaya dan daerah Indonesia dalam petualangan kuis yang seru dan menantang!
+                      Games pengetahuan, logika, dan kemampuan memecahkan misteri tentang Rupiah, pahlawan pada lembaran uang, serta budaya dan daerah Indonesia dalam petualangan kuis yang seru dan menantang!
                     </p>
                   </div>
 
