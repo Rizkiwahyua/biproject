@@ -14,9 +14,9 @@ const API_STORAGE = process.env.NEXT_PUBLIC_STORAGE_URL || "https://cbprupiahlsm
 
 const newsStats = [
   // { icon: Newspaper, value: "10+", label: "Rilis Berita" },
-  { icon: Newspaper, value: "10+", label: "Rilis Berita" },
+  { icon: Newspaper, value: "6+", label: "Rilis Berita" },
   { icon: Gamepad2, value: "2", label: "Game Edukasi" },
-  { icon: Users, value: "10K+", label: "Masyarakat Terbantu" },
+  { icon: Users, value: "100+", label: "Masyarakat Terbantu" },
   { icon: Sparkles, value: "24/7", label: "Update Informasi" },
 ];
 
